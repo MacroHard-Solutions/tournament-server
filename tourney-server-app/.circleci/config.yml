@@ -1,7 +1,7 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/repo/tourney-server-app
+    working_directory: ~/repo
     docker:
       - image: cimg/node:16.13.2
     steps:
