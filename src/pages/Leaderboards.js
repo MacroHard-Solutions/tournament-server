@@ -1,3 +1,4 @@
+//Community Page
 
 function Leaderboards() {
     return(
