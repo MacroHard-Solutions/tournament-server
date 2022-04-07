@@ -1,0 +1,25 @@
+.Header{
+    background: rgb(0, 123, 195);
+    display: flex;
+    align-items: baseline;
+    color: rgba(240, 248, 255, 0.95);
+    padding: 0.5em;
+}
+
+.Header h2 {
+    margin: 0;
+}
+
+.Nav{
+    flex-grow: 1;
+    list-style-type: none;
+    display: flex;
+    text-decoration: none;
+    justify-content: space-evenly;
+    float: right;
+}
+
+a{
+    text-decoration: underline;
+    color: rgba(240, 248, 255,0.95);
+}
