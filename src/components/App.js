@@ -5,7 +5,7 @@ import Leaderboards from '../pages/Leaderboards'
 import Profile from '../pages/Profile'
 import Signing from '../pages/Signing'
 import Header from '../components/Header';
-import {BrowserRouter as Router, Link,Route,Switch} from 'react-router-dom'
+import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
 
 function App() {
   return (
