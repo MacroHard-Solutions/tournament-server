@@ -1,7 +1,7 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/repo/CIRCLE_BRANCH
+    #working_directory: ~/repo/CIRCLE_BRANCH
     docker:
       - image: cimg/node:16.13.2
     steps:
