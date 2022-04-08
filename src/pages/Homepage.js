@@ -14,28 +14,34 @@ function Homepage() {
                 <div className="game">
                     <div className="chess">
                     </div>
-                    <div className="buttons">
+                    <div className="gamesub">
                         <h3 className="Title">Chess</h3>
-                        <button>play</button>
-                        <button>watch</button>
+                        <div className="buttons">
+                            <button>play</button>
+                            <button>watch</button>
+                        </div>
                     </div>
                 </div>
                 <div className="game">
                     <div className="rps">
                     </div>
-                    <div className="buttons">
+                    <div className="gamesub">
                         <h3 className="Title">Rock-Paper-Scissors</h3>
-                        <button>play</button>
-                        <button>watch</button>
+                        <div className="buttons">
+                            <button>play</button>
+                            <button>watch</button>
+                        </div>
                     </div>
                 </div>
                 <div className="game">
                     <div className="ttt">
                     </div>
-                    <div className="buttons">
+                    <div className="gamesub">
                         <h3 className="Title">Tick-Tac-Toe</h3>
-                        <button>play</button>
-                        <button>watch</button>
+                        <div className="buttons">
+                            <button>play</button>
+                            <button>watch</button>
+                        </div>
                     </div>
                 </div>
             </div>
