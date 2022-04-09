@@ -9,6 +9,13 @@
     top: 0;
 }
 
+img{
+    width: 4em;
+    height: 4em;
+    align-self: center;
+    margin-left: 1.5em;
+}
+
 .Nav{
     flex-grow: 1;
     list-style-type: none;
@@ -17,10 +24,16 @@
     justify-content: space-evenly;
     float: right;
 }
+
+ul{
+    list-style: none;
+}
+
 a {
     position: relative;
     color: rgba(240, 248, 255, 0.95);
-    font-size: larger;
+    font-size: x-large;
+    margin: 2em 0;
 }
 
 a::before {
@@ -46,6 +59,7 @@ a:hover::before {
     color: rgba(240, 248, 255, 0.95);
     margin : 0;
     cursor: pointer;
+    flex-grow: 1;
 }
 
 .Header h2::before {
@@ -65,4 +79,50 @@ a:hover::before {
 .Header h2:hover::before {
     transform-origin: left;
     transform: scaleX(1);
+}
+
+.menu-bars{
+    right: 0;
+    margin: 0.75em 2.5em;
+}
+
+.menu-bars.close{
+    right: -8rem;
+    font-size: x-large;
+}
+
+.nav-menu{
+    width: 20em;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: -100rem;
+    transition: 850ms;
+    background-color: rgb(0, 123, 195);
+}
+
+.nav-menu.active{
+    right: 0rem;
+    transition: 350ms;
+}
+
+.nav-menu-items{
+    width: 100%;
+    margin: 2rem 0;
+}
+
+.navbar-toggle{
+    width: 100%;
+    height: 3em;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+span{
+    margin-left: 1.3em;
+    font-size: larger;
+    margin: 1em;
 }
