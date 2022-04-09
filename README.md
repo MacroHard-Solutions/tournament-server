@@ -6,3 +6,6 @@ The aim of this project is to design an online platform for University students 
 
 ## Sketches
 The sketches folder is meant to store how we want the website for our tournament server to appear to the user.
+
+## CircleCI Badge
+[![CircleCI](https://circleci.com/gh/MacroHard-Solutions/tournament-server.svg?style=svg&circle-token=689cedba0802f91837c71ca9770d92f0f10b15bf)](https://app.circleci.com/pipelines/github/MacroHard-Solutions/tournament-server)
