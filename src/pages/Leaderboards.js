@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import '../styles/Leaderboards.css' 
-import { MDBDataTable } from 'mdbreact';
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
  
 function Leaderboards() {
