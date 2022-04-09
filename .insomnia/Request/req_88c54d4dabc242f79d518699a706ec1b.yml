@@ -1,0 +1,39 @@
+_id: req_88c54d4dabc242f79d518699a706ec1b
+type: Request
+parentId: wrk_142ea092a2da44bab7190763bb00d71b
+modified: 1649532968165
+created: 1649498096819
+url: http://localhost/dbphp/insertToDB.php
+name: Insert game
+description: ""
+method: POST
+body:
+  mimeType: multipart/form-data
+  params:
+    - id: pair_2ec70cff10214315b5ab6e8c1a3e5d95
+      name: insertType
+      value: game
+      description: ""
+    - id: pair_94303f0bd0e445e1ac6c2cb4b44b80bf
+      name: gameName
+      value: "{% faker 'lorem', '', '', '', '', '', '', '', '', '', 'words', '', '',
+        '', '', '', 'en' %}"
+      description: ""
+    - id: pair_886e1d524cba47278507619e7df598df
+      name: fileName
+      value: "{% faker 'system', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        'fileName', '', 'en' %}"
+      description: ""
+parameters: []
+headers:
+  - name: Content-Type
+    value: multipart/form-data
+authentication: {}
+metaSortKey: -1649498096819
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
