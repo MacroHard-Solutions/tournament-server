@@ -1,0 +1,61 @@
+.Signup {
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Signupbox {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 0.3em solid rgb(0, 123, 195);
+    padding: 2em;
+    border-radius: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+}
+
+label {
+    position: relative;
+    font-size: 16px;
+    transition: all 0.5s ease-in-out;
+}
+
+input {
+    border: 0;
+    border-bottom: 1px solid #555;
+    background: transparent;
+    width: 100%;
+    padding: 8px 0 5px 0;
+    font-size: 16px;
+    margin: 1em 0;
+}
+
+input:focus {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #e74c3c;
+}
+
+input:focus~label,
+input:valid~label {
+    font-size: 18px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+button {
+    align-self: center;
+    margin-top: 5em;
+}
+
+h2 {
+    margin: 0;
+}

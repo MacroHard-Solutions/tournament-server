@@ -1,24 +1,19 @@
 import '../styles/Header.css'
 import {Link} from 'react-router-dom'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-const Header = () => {
+const Header = () => {  
+
+    const history = useHistory();
+
+    const returnHome = () => {
+        history.push('/home');
+    }
 
     return(
         <div className="Header">
-            <h2>MacroHard: Tournament-Server</h2>
+            <h2 onClick={returnHome}>MacroHard: Tournament-Server</h2>
             <ul className='Nav'>
-            <li>
-                <Link to="/">Home</Link>
-            </li>
-            <li>
-                <Link to="/leaderboards">Community</Link>
-            </li>
-            <li>
-                <Link to="/play">Play</Link>
-            </li>
-            <li>
-                <Link to="/watch">Watch</Link>
-            </li>
             <li>
                 <Link to="/profile">Profile</Link>
             </li>

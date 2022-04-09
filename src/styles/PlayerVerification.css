@@ -1,0 +1,99 @@
+.Verification{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+}
+
+.Box{
+    border: 0.3em solid rgb(0, 123, 195);
+    padding: 2em;
+    border-radius: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.Interaction{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.Animation{
+    padding: 0;
+}
+
+.Buttons{
+    display: flex;
+    flex-direction: column;
+}
+
+a{
+    text-decoration: none;
+}
+
+button {
+    margin: 0.5em 3em;
+    align-items: center;
+    background-color: rgb(0, 123, 195);
+    border: 0;
+    border-radius: 0.5em;
+    box-sizing: border-box;
+    color: rgba(240, 248, 255, 0.95);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: -apple-system,
+        system-ui,
+        system-ui,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        "Fira Sans",
+        Ubuntu,
+        Oxygen,
+        "Oxygen Sans",
+        Cantarell,
+        "Droid Sans",
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        "Lucida Grande",
+        Helvetica,
+        Arial,
+        sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 20px;
+    min-height: 40px;
+    overflow: hidden;
+    padding: 0em;
+    width: 8em;
+    height: 2.5em;
+    ;
+    text-align: center;
+    touch-action: manipulation;
+    transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: middle;
+}
+
+button:hover,
+button:focus {
+    background-color: #16437E;
+    color: #ffffff;
+}
+
+button:active {
+    background: #09223b;
+    color: rgb(255, 255, 255, .7);
+}
+
+button:disabled {
+    cursor: not-allowed;
+    background: rgba(0, 0, 0, .08);
+    color: rgba(0, 0, 0, .3);
+}

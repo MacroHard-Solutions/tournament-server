@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-function Profile({login}) {
+function Profile({login,setLogin}) {
 
     const history = useHistory();
 
