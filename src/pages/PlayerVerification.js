@@ -17,7 +17,7 @@ function PlayerVerification() {
                 </div>
             </div>
             <div className="Animation">
-                <iframe src="https://giphy.com/embed/WxJLwDBAXDsW1fqZ3v" width="240" height="135" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                <iframe title="AI vs human" src="https://giphy.com/embed/WxJLwDBAXDsW1fqZ3v" width="240" height="135" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
             </div>
              </div>
         </div>
