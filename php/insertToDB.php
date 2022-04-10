@@ -17,7 +17,7 @@ function insertUser($db)
 		$_POST['wantsNotifications']
 	);
 
-	checkStatementFailure($stmt->execute());
+	checkStatementFailure($db, $stmt->execute());
 
 	return true;
 }
@@ -33,7 +33,7 @@ function insertAgent($db, $addressID)
 		$_POST['agentELO']
 	);
 
-	checkStatementFailure($stmt->execute());
+	checkStatementFailure($db, $stmt->execute());
 
 	// get agentID from previous insertion
 	$result = $db->query("CALL get_latest_agent_id()");
@@ -50,7 +50,6 @@ function insertAddress($db)
 	// get addressID from previous insertion
 	$result = $db->query("CALL get_latest_address_id();");
 	$newAddressID = $result->fetch_assoc()["ADDRESS_ID"];
-	print($newAddressID. " eesh");
 	$result->free();
 
 	$db->next_result();	
@@ -62,7 +61,7 @@ function insertGame($db)
 	$stmt = $db->prepare("CALL insert_game(?, ?)");
 	$stmt->bind_param('sb', $_POST['gameName'], $_POST['fileName']);
 
-	checkStatementFailure($stmt->execute());
+	checkStatementFailure($db, $stmt->execute());
 
 	// get gameID from previous insertion
 	$result = $db->query("CALL get_latest_game_id()");
@@ -73,7 +72,7 @@ function insertTournament($db)
 	$stmt = $db->prepare("CALL insert_tournament(?, ?)");
 	$stmt->bind_param('ss', $_POST['tournamentName'], $_POST['gameID']);
 
-	checkStatementFailure($stmt->execute());
+	checkStatementFailure($db, $stmt->execute());
 
 	// get agentID from previous insertion
 	$result = $db->query("CALL get_latest_tournament_id()");
@@ -84,7 +83,7 @@ function insertMatchLog($db)
 	$stmt = $db->prepare("CALL insert_match_log(?, ?)");
 	$stmt->bind_param('ss', $_POST['tournamentID'], $_POST['gameLog']);
 
-	checkStatementFailure($stmt->execute());
+	checkStatementFailure($db, $stmt->execute());
 
 	// get agentID from previous insertion
 	$result = $db->query("CALL get_latest_match_log_id()");
@@ -95,7 +94,7 @@ function insertRanking($db, $matchLogID)
 	$stmt = $db->prepare("CALL insert_ranking(?, ?, ?)");
 	$stmt->bind_param('ssi', $_POST['matchLogID'], $_POST['agentID'], $_POST['ranking']);
 
-	checkStatementFailure($stmt->execute());
+	checkStatementFailure($db, $stmt->execute());
 
 	return true;
 }
@@ -121,11 +120,13 @@ switch ($_POST["insertType"]) {
 
 		//
 		echo ("AddressID before Agent entry is " . $addressID);
-/* 
+	
 	// TODO: FIX
 	case "addressAgent":
 		$newID = insertAgent($db, 0);//$addressID);
-		break; */
+		break;
+
+		break;
 	case "matchLog":
 		// inserts match log and rankings
 		$matchLogID = insertMatchLog($db);

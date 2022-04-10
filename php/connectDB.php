@@ -4,13 +4,13 @@
 
 	 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-	$GLOBALS["ERROR"] = 900;
-	$GLOBALS["OK"] = 500;
+	$GLOBALS["ERROR"] = json_encode(900);
+	$GLOBALS["OK"] = json_encode(500);
 
 	/**
-	 *  @brief Allows the user to connect to the database
+	 *  Iniitiates a conneciton with the database
 	 *  
-	 *  @return The active database, if it exists
+	 *  @return mysqli The active database
 	 */
 	function connectToDB(){
 		// $db = new mysqli("tourney-server-database.c2ncyvtifq7i.us-east-1.rds.amazonaws.com",
@@ -25,9 +25,22 @@
 		return $db;
 	}
 
-	function checkStatementFailure($stmt){
-		if ($stmt == false)
+	/**
+	 * Checks if executing a statement was successful.
+	 * 
+	 * If not, the program needs to end
+	 * 
+	 * @param mysqli $db The database
+	 * @param bool $success Whether the execution was successful
+	 * 
+	 * @return void
+	 */
+	function checkStatementFailure($db, $success){
+		if ($success == false)
+		{
+			$db->close();
 			exit($GLOBALS["ERROR"]);
+		}
 	}
 
 	$db = connectToDB();
