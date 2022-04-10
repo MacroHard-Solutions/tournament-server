@@ -110,7 +110,10 @@ function insertRanking($db, $matchLogID)
 
 $db = connectToDB();
 
-switch ($_POST["insertType"]) {
+function insertToTable($insertType, ){
+
+}
+switch ($_GET["insertType"]) {
 	case "user":
 		// insert user
 		$result = insertUser($db);

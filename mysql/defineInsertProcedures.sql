@@ -3,9 +3,6 @@
 DROP FUNCTION IF EXISTS encrypt_data;
 DROP FUNCTION IF EXISTS decrypt_data;
 
-
-DROP PROCEDURE IF EXISTS set_new_id;
-DROP PROCEDURE IF EXISTS retrieve_new_id;
 DROP PROCEDURE IF EXISTS insert_user;
 DROP PROCEDURE IF EXISTS insert_agent;
 DROP PROCEDURE IF EXISTS insert_agent_address;
@@ -41,12 +38,12 @@ END //
 -- insert into tables
 -- 
 
-CREATE PROCEDURE insert_user(IN userID varchar(45), IN fName VARCHAR(45), IN lName VARCHAR(45), IN userName varchar(45), IN userEmail VARCHAR(45), IN userPass VARCHAR(100), IN isAdmin TINYINT, IN wantsNotification tinyint)
+CREATE PROCEDURE insert_user(IN userID varchar(45), IN fName VARCHAR(45), IN lName VARCHAR(45), IN userName varchar(45), IN userEmail VARCHAR(45), IN userPass VARCHAR(100), IN isAdmin TINYINT, IN wantsNotifications tinyint)
 COMMENT 'TODO: Will need to find a fix for encrypting passwords...'
 MODIFIES SQL DATA
 BEGIN
   INSERT INTO `USER`(USER_ID, USER_FNAME, USER_LNAME, USERNAME, USER_EMAIL, USER_PASSWD, USER_IS_ADMIN, USER_NOTIFICATIONS)
-  VALUES (userID, fName, lName, userName, userEmail, userPass, isAdmin, wantsNotification);
+  VALUES (userID, fName, lName, userName, userEmail, userPass, isAdmin, wantsNotifications);
 END //
 
 CREATE PROCEDURE insert_agent(IN userID VARCHAR(45), IN addressID VARCHAR(45), IN tournamentID VARCHAR(45), IN eloRating FLOAT)
@@ -56,14 +53,14 @@ BEGIN
   VALUES (UUID(), userID, addressID, tournamentID, eloRating);
 END //
 
-CREATE PROCEDURE insert_agent_address(IN addressID VARCHAR(45), IN addressIP VARCHAR(15), IN portNum INT)
+CREATE PROCEDURE insert_agent_address(IN addressIP VARCHAR(15), IN portNum INT)
 MODIFIES SQL DATA
 BEGIN
   INSERT INTO `ADDRESS`(ADDRESS_ID, ADDRESS_IP, ADDRESS_PORT)
   VALUES (UUID(), addressIP, portNum);
 END //
 
-CREATE PROCEDURE insert_tournament(IN tournamentName VARCHAR(100), IN gmaeID VARCHAR(45))
+CREATE PROCEDURE insert_tournament(IN tournamentName VARCHAR(100), IN gameID VARCHAR(45))
 MODIFIES SQL DATA
 BEGIN
   INSERT INTO `TOURNAMENT`(TOURNAMENT_ID, TOURNAMENT_NAME, GAME_ID)

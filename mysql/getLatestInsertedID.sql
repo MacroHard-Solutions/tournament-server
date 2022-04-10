@@ -12,11 +12,11 @@ DELIMITER //
 
 CREATE PROCEDURE get_latest_id(IN getStmt text, IN fieldID varchar(45))
 BEGIN
-  -- SET @getID = CONCAT('SELECT ? FROM ', getStmt);
+  SET @stmt = getStmt;
   SET @offsetVal = LAST_INSERT_ID();
   SET @limitCount = 1;
   
-  PREPARE limitStmt FROM getStmt;
+  PREPARE limitStmt FROM @stmt;
   EXECUTE limitStmt USING @offsetVal, @limitCount;
   DEALLOCATE PREPARE limitStmt;
 END //
