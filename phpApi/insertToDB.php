@@ -113,7 +113,7 @@ $db = connectToDB();
 function insertToTable($insertType, ){
 
 }
-switch ($_GET["insertType"]) {
+switch ($_POST["insertType"]) {
 	case "user":
 		// insert user
 		$result = insertUser($db);
@@ -152,8 +152,9 @@ switch ($_GET["insertType"]) {
 if (isset($newID))
 	echo ("New ID for data entry is " . $newID);
 else if ($result)
-	echo ($GLOBALS["OK"]);
+	echo ($GLOBALS["SUCCESS"]);
 else
 	echo ($GLOBALS["ERROR"]);
 
+$db->close();
 ?>

@@ -4,8 +4,11 @@
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$GLOBALS["ERROR"] = json_encode(900);
-$GLOBALS["OK"] = json_encode(500);
+$GLOBALS["ERROR"] = json_encode("ERROR");
+$GLOBALS["OK"] = json_encode("OK");
+$GLOBALS["SUCCESS"] = json_encode("SUCCESS");
+$GLOBALS["YES"] = json_encode("YES");
+$GLOBALS["NO"] = json_encode("NO");
 
 /**
  *  Iniitiates a conneciton with the database

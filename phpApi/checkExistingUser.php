@@ -24,18 +24,20 @@ require __DIR__ . "/connectDB.php"; // The database connection is required
  */
 function loginCheck($db)
 {
-  $stmt = $db->prepare("CALL login_user(?, ?, ?)");
+  $stmt = $db->prepare("CALL login_user_check(?, ?, ?)");
   $stmt->bind_param("sss", $_POST['userName_Email'], $_POST['userName_Email'], $_POST['userPass']);
 
   checkStatementFailure($db, $stmt->execute());
 
   $result = $stmt->get_result();
 
-  if ($stmt->num_rows == 0)
-    $jsonResult = $GLOBALS["ERROR"];
+  if ($result->num_rows == 0)
+    $jsonResult = $GLOBALS["NO"];
   else {
     $jsonResult = json_encode($result->fetch_assoc());
   }
+
+  $result->free();
 
   return $jsonResult;
 }
@@ -61,9 +63,13 @@ function checkExistingUser($db)
   $result = $stmt->get_result();
 
   if ($result->num_rows > 0)
-    return ($GLOBALS["ERROR"]);
+    $output = $GLOBALS["NO"];
   else
-    return ($GLOBALS["OK"]);
+    $output = $GLOBALS["OK"];
+
+  $result->free();
+
+  return $output;
 }
 
 $db = connectToDB($db);
