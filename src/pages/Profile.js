@@ -11,8 +11,16 @@ function Profile({userid,setUserid}) {
         }
     }, [history,userid]);
 
+    const logOut = () => {
+        setUserid(null);
+        history.push('/home')
+    }
+
     return(
-        <h1>Profile for: {userid}</h1>
+        <>
+            <h1>Profile for: {userid}</h1>
+            <button onClick={logOut}>Log out</button>
+        </>
     )
 }
 
