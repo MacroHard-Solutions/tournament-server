@@ -15,11 +15,44 @@
     scroll-behavior: smooth;
 }
 
+.imageholder{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+div.imageholder:hover div.chess{
+    opacity: 0.6;
+}
+
+div.imageholder:hover div.rps{
+    opacity: 0.6;
+}
+
+div.imageholder:hover div.ttt{
+    opacity: 0.6;
+}
+
+.buttonn{
+    width: 100px;
+    height: 40px;
+}
+
+div.imageholder:hover button.buttonn {
+    display: block;
+}
+
+div.imageholder button.buttonn{
+    top:50%;
+    left:50%;
+    display:none;
+}
+
 .game{
-    border: solid black 0.1em;
     height: fit-content;
-    border-radius: 0.5em;
     padding: 0.1em;
+    width: fit-content;
 }
 
 .chess{
@@ -27,6 +60,9 @@
     width: 20em;
     height: 10em;
     background-size: cover;
+    border-radius: 1em;
+    justify-content: center;
+    align-items: center;
 }
 
 .rps{
@@ -34,6 +70,7 @@
     width: 20em;
     height: 10em;
     background-size: cover;
+    border-radius: 1em;
 }
 
 .ttt{
@@ -41,11 +78,19 @@
     width: 20em;
     height: 10em;
     background-size: cover;
+    border-radius: 1em;
 }
 
-.buttons{
-    display: flex;
+
+
+.tilebuttons{
     justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+}
+
+.Title{
+    font-family: sans-serif;
 }
 
 button{
@@ -97,6 +142,7 @@ button{
     -webkit-user-select: none;
     vertical-align: middle;
 }
+
 
 button:hover,
 button:focus {

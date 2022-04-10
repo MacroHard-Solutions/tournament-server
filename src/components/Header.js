@@ -5,7 +5,7 @@ import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import { useState } from 'react';
 import {SidebarData} from './SidebarData';
-import logo from '../imgs/whitelogo.jpg'
+import logo from '../imgs/blacklogo.jpg'
 
 const Header = () => {  
 
@@ -24,7 +24,13 @@ const Header = () => {
     return(
         <div className="Header">
             <img src={logo} alt="MacroHard" />
-            <h2 onClick={returnHome}>acroHard: Tournament-Server</h2>
+            <h2 onClick={returnHome}>acroHard Tournament Server</h2>
+            <Link to="/signin">
+                <button className='signbuttons'>Sign in</button>
+            </Link>
+            <Link to="/signup">
+                <button className='signbuttons'>Sign up</button>
+            </Link>
             <Link to='#' className='menu-bars'>
                 <FaIcons.FaBars onClick={showSidebar}/>
             </Link>
@@ -50,5 +56,4 @@ const Header = () => {
         </div>
     )
 }
-
 export default Header;

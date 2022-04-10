@@ -14,6 +14,7 @@ img{
     height: 4em;
     align-self: center;
     margin-left: 1.5em;
+    border-radius: 45%;
 }
 
 .Nav{
@@ -25,6 +26,13 @@ img{
     float: right;
 }
 
+.signbuttons{
+    font-family: monospace;
+    color: black;
+    background: rgb(0, 123, 195);
+    font-size: x-large;
+}
+
 ul{
     list-style: none;
 }
@@ -32,6 +40,7 @@ ul{
 a {
     position: relative;
     color: rgba(240, 248, 255, 0.95);
+    color: black;
     font-size: x-large;
     margin: 2em 0;
 }
@@ -56,10 +65,13 @@ a:hover::before {
 }
 
 .Header h2 {
-    color: rgba(240, 248, 255, 0.95);
+    color: rgba(0, 0, 0, 0.95);
     margin : 0;
     cursor: pointer;
     flex-grow: 1;
+    font-style: italic;
+    font-weight: 900;
+    
 }
 
 .Header h2::before {

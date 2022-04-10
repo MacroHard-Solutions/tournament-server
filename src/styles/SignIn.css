@@ -12,6 +12,7 @@
     justify-content: space-around;
     border: 0.3em solid rgb(0, 123, 195);
     padding: 2em;
+    margin-top: 10%;
     border-radius: 0.5em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
