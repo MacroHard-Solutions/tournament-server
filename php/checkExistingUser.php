@@ -15,14 +15,9 @@ require __DIR__ . "/connectDB.php"; // The database connection is required
  * 
  * In the $_POST array, the following attributes are retrieved:
  * 
- * userName - The username 
- * 
- * userEmail - The user's email
- * 
- * userPass - The user's entered password
+ * userName, userEmail, userPass
  * 
  * @param mysqli $db The database
- * 
  * @return mixed ErrorCode - Indicates that invalid details were entered
  * 
  *      JSONObject - The of row corresponding to the valid user entry

@@ -1,7 +1,16 @@
 <?php
 require __DIR__ . "/connectDB.php";
-// require __DIR__ . "/getTableID.php";
 
+/**
+ * Inserts user-defined attributes.
+ * 
+ * In the POST array, the following attributes are retrieved:
+ * 
+ * userID , fName, lName, userName, userEmail, userPass, isAdmin, wantsNotificaitons
+ * 
+ * @param mysqli $db The active database
+ * @return bool Indicates that the insert was successful
+ */
 function insertUser($db)
 {
 	$stmt = $db->prepare("CALL insert_user(?, ?, ?, ?, ?, ?, ?, ?)");
@@ -44,7 +53,7 @@ function insertAddress($db)
 	$stmt = $db->prepare("CALL insert_agent_address( ?, ?)");
 	$stmt->bind_param('si', $_POST['addressIP'], $_POST['portNum']);
 
-	checkStatementFailure($stmt->execute());
+	checkStatementFailure($db, $stmt->execute());
 	$stmt->store_result();
 
 	// get addressID from previous insertion
