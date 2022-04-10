@@ -3,16 +3,16 @@ require __DIR__."/connectDB.php";
 
 function loginCheck($db){
   $stmt = $db->prepare("CALL login_user(?, ?, ?)");
-  $stmt->bind_param("ssb", $_POST['userName'], $_POST['userEmail'], $_POST['userPass']);
+  $stmt->bind_param("sss", $_POST['userName'], $_POST['userEmail'], $_POST['userPass']);
 
   checkStatementFailure($stmt->execute());
 
   $result = $stmt->get_result();
 
-  if ($result->num_rows == 0)
-    return($GLOBALS["ERROR"]);
+  if ($stmt->num_rows == 0)
+    return $GLOBALS["ERROR"];
   else
-    return($result->fetch_assoc());
+    return $result->fetch_assoc();
 }
 
 function checkExistingUser($db){
@@ -23,7 +23,7 @@ function checkExistingUser($db){
 
   $result = $stmt->get_result();
 
-  if ($result->num_rows >= 0)
+  if ($result->num_rows > 0)
     return($GLOBALS["ERROR"]);
   else
     return($GLOBALS["OK"]);
@@ -43,4 +43,6 @@ switch ($_POST["userCheck"]){
 }
 
   echo($result);
+
+  $db->close();
 ?>
