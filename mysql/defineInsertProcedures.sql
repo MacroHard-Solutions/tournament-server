@@ -3,6 +3,7 @@
 DROP FUNCTION IF EXISTS encrypt_data;
 DROP FUNCTION IF EXISTS decrypt_data;
 
+DROP PROCEDURE IF EXISTS retrieve_row_entry;
 DROP PROCEDURE IF EXISTS insert_user;
 DROP PROCEDURE IF EXISTS insert_agent;
 DROP PROCEDURE IF EXISTS insert_agent_address;
@@ -32,7 +33,17 @@ BEGIN
   RETURN @decrypt_str;
 END //
 
+--
+-- Retrieve the rows from the tables
+-- 
+CREATE PROCEDURE retrieve_row_entry(IN tableName VARCHAR(45), IN fieldName VARCHAR(45), IN fieldValue VARCHAR(45))
+BEGIN
+  SET @stmt = CONCAT("SELECT * FROM ", tableName, " WHERE ", fieldName, " = ", fieldValue);
 
+  PREPARE queryID FROM @stmt;
+  EXECUTE queryID;
+  DEALLOCATE PREPARE queryID;
+END //
 
 --
 -- insert into tables
@@ -51,6 +62,8 @@ MODIFIES SQL DATA
 BEGIN
   INSERT INTO `AGENT`(AGENT_ID, USER_ID, ADDRESS_ID, TOURNAMENT_ID, AGENT_ELO)
   VALUES (UUID(), userID, addressID, tournamentID, eloRating);
+
+  CALL retrieve_row_entry("AGENT", "ADDRESS_ID", CONCAT("'",addressID,"'"));
 END //
 
 CREATE PROCEDURE insert_agent_address(IN addressIP VARCHAR(15), IN portNum INT)
@@ -58,6 +71,8 @@ MODIFIES SQL DATA
 BEGIN
   INSERT INTO `ADDRESS`(ADDRESS_ID, ADDRESS_IP, ADDRESS_PORT)
   VALUES (UUID(), addressIP, portNum);
+
+  CALL retrieve_row_entry("AGENT", "ADDRESS_IP", CONCAT("'",addressIP,"'"));
 END //
 
 CREATE PROCEDURE insert_tournament(IN tournamentName VARCHAR(100), IN gameID VARCHAR(45))
@@ -65,6 +80,8 @@ MODIFIES SQL DATA
 BEGIN
   INSERT INTO `TOURNAMENT`(TOURNAMENT_ID, TOURNAMENT_NAME, GAME_ID)
   VALUES (UUID(), tournamentName, gameID);
+
+  CALL retrieve_row_entry("AGENT", "TOURNAMENT_NAME", CONCAT("'",tournamentName,"'"));
 END //
 
 CREATE PROCEDURE insert_game(IN gameName VARCHAR(100), IN fileName VARCHAR(100))
@@ -72,6 +89,8 @@ MODIFIES SQL DATA
 BEGIN
   INSERT INTO `GAME`(GAME_ID, GAME_NAME, FILE_NAME)
   VALUES (UUID(), gameName, fileName);
+
+  CALL retrieve_row_entry("AGENT", "GAME_NAME", CONCAT("'",gameName,"'"));
 END //
 
 CREATE PROCEDURE insert_ranking(IN matchLogID VARCHAR(45), IN agentID VARCHAR(45), IN ranking INT)
@@ -81,11 +100,13 @@ BEGIN
   VALUES (matchLogID, agentID, ranking);
 END //
 
-CREATE PROCEDURE insert_match_log(IN tournamentID VARCHAR(45), IN gameLog BLOB)
+CREATE PROCEDURE insert_match_log(IN tournamentID VARCHAR(45), IN MATCH_LOG_TIME TIMESTAMP, IN gameLog BLOB)
 MODIFIES SQL DATA
 BEGIN
-  INSERT INTO `MATCH_LOG`(MATCH_LOG_ID, TOURNAMENT_ID, GAME_LOG)
-  VALUES (UUID(), tournamentID, gameLog);
+  INSERT INTO `MATCH_LOG`(MATCH_LOG_ID, TOURNAMENT_ID, MATCH_LOG_TIME, GAME_LOG)
+  VALUES (UUID(), tournamentID, matchLogTime, gameLog);
+
+  CALL retrieve_row_entry("MATCH_LOG", "MATCH_LOG_TIME", CONCAT("'",matchLogTime,"'"));
 END //
 
 DELIMITER ;

@@ -89,8 +89,8 @@ function insertTournament($db)
 }
 function insertMatchLog($db)
 {
-	$stmt = $db->prepare("CALL insert_match_log(?, ?)");
-	$stmt->bind_param('ss', $_POST['tournamentID'], $_POST['gameLog']);
+	$stmt = $db->prepare("CALL insert_match_log(?, ?, ?)");
+	$stmt->bind_param('sss', $_POST['tournamentID'], $_POST['matchLogTime'], $_POST['gameLog']);
 
 	checkStatementFailure($db, $stmt->execute());
 
@@ -157,4 +157,3 @@ else
 	echo ($GLOBALS["ERROR"]);
 
 $db->close();
-?>
