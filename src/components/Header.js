@@ -7,7 +7,7 @@ import { useState } from 'react';
 import {SidebarData} from './SidebarData';
 import logo from '../imgs/blacklogo.jpg'
 
-const Header = () => {  
+const Header = () => {
 
     const [sidebar,setSidebar] = useState(false);
 
@@ -25,12 +25,6 @@ const Header = () => {
         <div className="Header">
             <img src={logo} alt="MacroHard" />
             <h2 onClick={returnHome}>acroHard Tournament Server</h2>
-            <Link to="/signin">
-                <button className='signbuttons'>Sign in</button>
-            </Link>
-            <Link to="/signup">
-                <button className='signbuttons'>Sign up</button>
-            </Link>
             <Link to='#' className='menu-bars'>
                 <FaIcons.FaBars onClick={showSidebar}/>
             </Link>

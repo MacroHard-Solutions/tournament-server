@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-function Profile({login,setLogin}) {
+function Profile({userid,setUserid}) {
 
     const history = useHistory();
 
     useEffect(() => {
-        if(!login){
+        if(!userid){
             history.push('/playerverification')
         }
-    }, [history,login]);
+    }, [history,userid]);
 
     return(
-        <h1>Profile</h1>
+        <h1>Profile for: {userid}</h1>
     )
 }
 

@@ -13,7 +13,7 @@ import {Helmet} from 'react-helmet';
 
 function App() {
   
-  const [login,setLogin] = useState(false);
+  const [userid,setUserid] = useState(null);
   
   return (
     <Router>
@@ -32,13 +32,15 @@ function App() {
         <Route path='/home' component={Homepage} exact/>
         <Route path='/leaderboards' component={Leaderboards}/>
         <Route path='/profile'>
-          <Profile login={login} setLogin={setLogin}/>
+          <Profile userid={userid} setUserid={setUserid}/>
         </Route>
         <Route path='/playerverification' component={PlayerVerification}/>
         <Route path='/signin'>
-          <SignIn login={login} setLogin={setLogin}/>  
+          <SignIn userid={userid} setUserid={setUserid}/>  
         </Route>
-        <Route path='/signup' component={SignUp}/>
+        <Route path='/signup'>
+          <SignUp userid={userid} setUserid={setUserid}/>
+        </Route>
         <Route component={Notfound}/>
       </Switch>
       </div>
