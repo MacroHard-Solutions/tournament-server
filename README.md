@@ -13,3 +13,6 @@ The documentation folder contains sketches on how we want the website for our to
 
 ## Scrum Backlog
 https://coda.io/d/Tourney-Server_dO5GqxrB5ps/Backlog_su2bn
+
+## Code-Cov Badge
+[![codecov](https://codecov.io/gh/MacroHard-Solutions/tournament-server/branch/code-cov/graph/badge.svg?token=X67KO80SL5)](https://codecov.io/gh/MacroHard-Solutions/tournament-server)
