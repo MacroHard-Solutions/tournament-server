@@ -9,3 +9,7 @@ The documentation folder contains sketches on how we want the website for our to
 
 ## CircleCI Badge
 [![CircleCI](https://circleci.com/gh/MacroHard-Solutions/tournament-server.svg?style=svg&circle-token=689cedba0802f91837c71ca9770d92f0f10b15bf)](https://app.circleci.com/pipelines/github/MacroHard-Solutions/tournament-server)
+
+
+## Scrum Backlog
+https://coda.io/d/Tourney-Server_dO5GqxrB5ps/Backlog_su2bn
