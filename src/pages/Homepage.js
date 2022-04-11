@@ -1,12 +1,23 @@
 import { useEffect } from "react";
 import '../styles/Homepage.css';
+import {useHistory} from 'react-router-dom';
 import {FaRegEye, FaPlay} from 'react-icons/fa';
 
 function Homepage() {
 
+    const history = useHistory();
+
     useEffect(() => {
         window.scroll(0,0)
     },[])
+
+    const pushPlay = () => {
+        history.push('/play');
+    }
+
+    const pushWatch = () => {
+        history.push('/watch');
+    }
 
     return(
         <div className="Home">
@@ -21,8 +32,8 @@ function Homepage() {
                                     <FaPlay size="2em"/>
                                     <FaRegEye size="2em"/>
                                 </div>
-                                <button className="buttonn">Play</button>
-                                <button className="buttonn">Watch</button>
+                                <button className="buttonn" onClick={pushPlay}>Play</button>
+                                <button className="buttonn" onClick={pushWatch}>Watch</button>
                             </div>
                         </div>
                     </div>
@@ -36,8 +47,8 @@ function Homepage() {
                                     <FaPlay size="2em"/>
                                     <FaRegEye size="2em"/>
                                 </div>
-                                <button className="buttonn">Play</button>
-                                <button className="buttonn">Watch</button>
+                                <button className="buttonn" onClick={pushPlay}>Play</button>
+                                <button className="buttonn" onClick={pushWatch}>Watch</button>
                             </div>
                         </div>
                     </div>
@@ -51,8 +62,8 @@ function Homepage() {
                                     <FaPlay size="2em"/>
                                     <FaRegEye size="2em"/>
                                 </div>
-                                <button className="buttonn">Play</button>
-                                <button className="buttonn">Watch</button>
+                                <button className="buttonn" onClick={pushPlay}>Play</button>
+                                <button className="buttonn" onClick={pushWatch}>Watch</button>
                             </div>
                         </div>
                     </div>
