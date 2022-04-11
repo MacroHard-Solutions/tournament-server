@@ -22,6 +22,13 @@
     justify-content: center;
 }
 
+.iconbuttons{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+}
+
 div.imageholder:hover div.chess{
     opacity: 0.6;
 }
@@ -34,9 +41,20 @@ div.imageholder:hover div.ttt{
     opacity: 0.6;
 }
 
+.tileicon{
+    margin-top: 20%;
+    display: flex;
+    flex-direction: row;
+}
+
 .buttonn{
     width: 100px;
     height: 40px;
+    margin-top: 20%;
+}
+
+div.imageholder:hover .tileicon{
+    display: none;
 }
 
 div.imageholder:hover button.buttonn {
@@ -80,7 +98,6 @@ div.imageholder button.buttonn{
     background-size: cover;
     border-radius: 1em;
 }
-
 
 
 .tilebuttons{
