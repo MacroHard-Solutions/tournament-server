@@ -1,4 +1,3 @@
-
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
@@ -14,11 +13,11 @@ $GLOBALS["YES"] = json_encode("YES");
 $GLOBALS["NO"] = json_encode("NO");
 
 /**
- *  Iniitiates a conneciton with the database
- *  
- *  @return mysqli The active database
+ * Initiates a connectino to the database
+ *
+ * @return mysqli
  */
-function connectToDB()
+function connectToDB(): mysqli
 {
 	$db = new mysqli(
 		"tourney-server-database.c2ncyvtifq7i.us-east-1.rds.amazonaws.com",
@@ -50,7 +49,7 @@ function connectToDB()
  * 
  * @return void
  */
-function checkStatementFailure($db, $success)
+function checkStatementFailure(mysqli $db, bool $success)
 {
 	if ($success == false) {
 		$db->close();
@@ -60,6 +59,4 @@ function checkStatementFailure($db, $success)
 
 $db = connectToDB();
 
-//  printf("Success... %s\n\n", $db->host_info);
-
-?>
+phpinfo();
