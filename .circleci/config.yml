@@ -1,5 +1,1 @@
 version: 2.1
-general:
-  branches:
-    ignore:
-     - database
