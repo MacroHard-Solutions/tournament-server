@@ -188,15 +188,14 @@ USE `tourney_server` ;
 USE `tourney_server`;
 DROP procedure IF EXISTS `tourney_server`.`check_existing_user`;
 
-DELIMITER $$
 USE `tourney_server`$$
 CREATE DEFINER=`admin`@`%` PROCEDURE `check_existing_user`(IN userName varchar(45))
-COMMENT 'Checks if a user exists given the username'
+    COMMENT 'Checks if a user exists given the username'
 BEGIN
 
   SET @uName = userName;
 
-  PREPARE existingUserCheck FROM 'SELECT * FROM `USER` WHERE USERNAME = ?';
+  PREPARE existingUserCheck FROM 'SELECT COUNT(*) AS USER_COUNT FROM `USER` WHERE USERNAME = ?';
 
   EXECUTE existingUserCheck USING @uName;
 
@@ -409,14 +408,14 @@ DROP procedure IF EXISTS `tourney_server`.`insert_user`;
 
 DELIMITER $$
 USE `tourney_server`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `insert_user`(IN userID varchar(45), IN fName VARCHAR(45), IN lName VARCHAR(45), IN userName varchar(45), IN userEmail VARCHAR(45), IN userPass VARCHAR(100), IN isAdmin TINYINT, IN wantsNotifications tinyint)
+CREATE DEFINER=`admin`@`%` PROCEDURE `insert_user`(IN userID varchar(45), IN fName VARCHAR(45), IN lName VARCHAR(45), IN username varchar(45), IN userEmail VARCHAR(45), IN userPass VARCHAR(100), IN isAdmin TINYINT, IN wantsNotifications tinyint)
     MODIFIES SQL DATA
     COMMENT 'Creates a new user with its associated values'
 BEGIN
 
   INSERT INTO `USER`(USER_ID, USER_FNAME, USER_LNAME, USERNAME, USER_EMAIL, USER_PASSWD, USER_IS_ADMIN, USER_NOTIFICATIONS)
 
-  VALUES (userID, fName, lName, userName, userEmail, userPass, isAdmin, wantsNotifications);
+  VALUES (userID, fName, lName, username, userEmail, userPass, isAdmin, wantsNotifications);
 
 END$$
 
