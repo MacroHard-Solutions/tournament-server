@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export async function signUp(dataObj)
-{//will retun SUCCESS if user is created
+{//will return SUCCESS if user is created
     let flag = false;
     //add data
     const form = new FormData();

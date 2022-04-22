@@ -1,18 +1,5 @@
-.Home{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1em;
-}
-
-.Popgames{
-    width: 100vw;
-    height: 100vh;
-    padding: 2em;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    scroll-behavior: smooth;
+.Title{
+    font-family: sans-serif;
 }
 
 .imageholder{
@@ -22,10 +9,40 @@
     justify-content: center;
 }
 
-.game{
-    height: fit-content;
-    padding: 0.1em;
-    width: fit-content;
+div.imageholder:hover div.images{
+    opacity: 0.6;
+}
+
+div.imageholder:hover .tileicon{
+    display: none;
+}
+
+div.imageholder:hover button.buttonn {
+    display: block;
+}
+
+div.imageholder button.buttonn{
+    top:50%;
+    left:50%;
+    display:none;
+}
+
+.buttonn{
+    width: 100px;
+    height: 40px;
+    margin-top: 20%;
+}
+
+.tileicon{
+    margin-top: 20%;
+    display: flex;
+    flex-direction: row;
+}
+
+.tilebuttons{
+    justify-content: space-around;
+    display: flex;
+    flex-direction: row;
 }
 
 button{
@@ -94,10 +111,4 @@ button:disabled {
     cursor: not-allowed;
     background: rgba(0, 0, 0, .08);
     color: rgba(0, 0, 0, .3);
-}
-
-.gamesub {
-    display: flex; 
-    flex-flow: column;
-    align-items: center;
 }

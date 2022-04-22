@@ -5,7 +5,6 @@ import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import { useState } from 'react';
 import {SidebarData} from './SidebarData';
-import logo from '../imgs/blacklogo.jpg'
 
 const Header = () => {
 
@@ -20,6 +19,8 @@ const Header = () => {
     const showSidebar = () => {
         setSidebar(!sidebar);
     }
+
+    var logo = '/imgs/blacklogo.jpg';
 
     return(
         <div className="Header">
