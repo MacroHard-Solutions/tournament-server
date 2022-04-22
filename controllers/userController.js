@@ -1,37 +1,20 @@
-const res = require('express/lib/response');
 const db = require('../util/db');
 
-// receives data for inserting a new user
-// need to check for existing user
-// the check should return a user if it exists
-
-const CHECK_USER = 'CALL check_existing_user(?);';
-// const
-
-async function fetchUser(username) {
-  console.log(
-    '----------------------------Username Check------------------------------------'
-  );
-
-  return;
-
-  console.log(
-    '----------------------------------------------------------------'
-  );
-}
-
 exports.checkUsername = async (req, res) => {
-  console.log('username is ' + req.body.username);
+  const CHECK_IF_USERNAME_EXISTS = `CALL check_existing_user("${req.body.username}");`;
 
   await db
-    .execute(`CALL check_existing_user(${req.body.username});`)
+    .execute(CHECK_IF_USERNAME_EXISTS)
     .then(([rows, fields]) => {
       if (rows[0][0]['USER_COUNT'] === 0)
-        res.status(202).json({status: 'OK', message: 'You may use this username' });
-      else
         res
-          .status(409)
-          .json({status: 'NOT OK', message: 'There is an existing user with this username' });
+          .status(202)
+          .json({ status: 'OK', message: 'You may use this username' });
+      else
+        res.status(409).json({
+          status: 'NOT OK',
+          message: 'There is an existing user with this username',
+        });
     })
     .catch((err) => {
       console.log(err);
@@ -43,7 +26,10 @@ exports.checkUsername = async (req, res) => {
 };
 
 exports.getAllUsers = async (req, res) => {
-  await db.execute('SELECT * FROM `USER`;')
+  const RETRIEVE_USERS = 'SELECT * FROM `USER`;';
+
+  await db
+    .execute(RETRIEVE_USERS)
     .then(([rows, fields]) => {
       console.log(rows);
       res.end();
@@ -57,17 +43,20 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.insertUser = async (req, res) => {
-  await db.execute(
-    `CALL insert_user ("${req.body.userID}", "${req.body.fName}", "${
-      req.body.lName
-    }", 
-       "${req.body.username}", "${req.body.userEmail}", "${req.body.userPass}", ${
-      req.body.isAdmin === 'true' ? 1 : 0
-    }, ${req.body.wantsNotifications === 'true' ? 1 : 0})`
-  )
+  const INSERT_USER = `CALL insert_user ("${req.body.userID}", "${
+    req.body.fName
+  }", "${req.body.lName}", 
+     "${req.body.username}", "${req.body.userEmail}", "${req.body.userPass}", ${
+    req.body.isAdmin === 'true' ? 1 : 0
+  }, ${req.body.wantsNotifications === 'true' ? 1 : 0})`;
+
+  await db
+    .execute(INSERT_USER)
     .then((result) => {
+      console.log(result);
+
       res.status(201).json({
-        status: 'Inserted',
+        status: 'Successful',
         message: 'The user has been successfully inserted',
       });
     })
@@ -80,6 +69,29 @@ exports.insertUser = async (req, res) => {
     });
 };
 
-exports.getUser = async (req, res)=> {
-  await db.execute()
-}
+exports.getUser = async (req, res) => {
+  const RETRIEVE_USER = `CALL get_user("${req.body.username_email}", "${req.body.username_email}", "${req.body.passwd}");`;
+
+  await db
+    .execute(RETRIEVE_USER)
+    .then(([rows, fields]) => {
+      console.log(rows[0]);
+      if (rows[0].length > 0)
+        res.status(200).json({
+          status: 'Success',
+          message: 'User retrieved',
+          user: rows[0][0],
+        });
+      else
+        res
+          .status(404)
+          .json({ status: 'Not Found', message: 'User not found' });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        status: 'Failed',
+        message: 'Unable to check database',
+      });
+    });
+};

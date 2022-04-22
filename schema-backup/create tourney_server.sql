@@ -445,9 +445,6 @@ BEGIN
    EXECUTE loginCheck USING @uName, @uPass, @uEmail, @uPass;
 
    DEALLOCATE PREPARE loginCheck;
-   
-   CALL retrieve_row_entry("`USER`", "USERNAME", CONCAT("'",userName,"'"));
-
 END$$
 
 DELIMITER ;
