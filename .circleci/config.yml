@@ -7,5 +7,4 @@ workflows:
       - heroku/deploy-via-git:
           filters: 
             branches: 
-              only: 
-               database
+              only: database
