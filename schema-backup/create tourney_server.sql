@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `tourney_server`.`GAME` (
   `GAME_ID` VARCHAR(45) NOT NULL COMMENT 'The UUID of the game',
   `GAME_NAME` VARCHAR(100) NOT NULL,
   `FILE_NAME` VARCHAR(100) NOT NULL COMMENT 'Location of the game file to be processed, stored in the games directory',
-  `GAME_ICON` VARCHAR(45) NOT NULL COMMENT 'The URI of the game\'s icon',
+  `GAME_ICON` VARCHAR(100) NOT NULL COMMENT 'The URI of the game\'s icon',
   PRIMARY KEY (`GAME_ID`),
   UNIQUE INDEX `GAME_ID_UNIQUE` (`GAME_ID` ASC) VISIBLE,
   UNIQUE INDEX `GAME_NAME_UNIQUE` (`GAME_NAME` ASC) VISIBLE,
@@ -309,16 +309,13 @@ DROP procedure IF EXISTS `tourney_server`.`insert_game`;
 
 DELIMITER $$
 USE `tourney_server`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `insert_game`(IN gameName VARCHAR(100), IN fileName VARCHAR(100))
+CREATE DEFINER=`admin`@`%` PROCEDURE `insert_game`(IN gameName VARCHAR(100), IN fileName VARCHAR(100), IN gameIcon VARCHAR(100))
     MODIFIES SQL DATA
-COMMENT 'Creates a new game entry with its gameName and associated path to the fileName'
+    COMMENT 'Creates a new game entry with its gameName and associated path to the fileName'
 BEGIN
 
-  INSERT INTO `GAME`(GAME_ID, GAME_NAME, FILE_NAME)
-
-  VALUES (UUID(), gameName, fileName);
-
-
+  INSERT INTO `GAME`(GAME_ID, GAME_NAME, FILE_NAME, GAME_ICON)
+  VALUES (UUID(), gameName, fileName, gameIcon);
 
   CALL retrieve_row_entry("GAME", "GAME_NAME", CONCAT("'",gameName,"'"));
 

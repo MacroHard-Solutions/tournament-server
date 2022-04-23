@@ -1,10 +1,11 @@
 const express = require('express'); // Framework for node
 const morgan = require('morgan'); // HTTP request logger
-const slugify = require('slugify'); //
+
+const slugify = require('slugify'); // NOTE: This is random...
 
 const homeRouter = require('./routes/homeRouter');
 const userRouter = require('./routes/userRouter');
-const gameRouter = require('./routes/gameRouters');
+const gameRouter = require('./routes/gameRouter');
 
 const app = express();
 ////////////////////////////////

@@ -2,7 +2,8 @@ const db = require('../util/db');
 const dbErrorLogger = require('../util/dbErrorLogger');
 
 exports.checkUsername = async (req, res) => {
-  const CHECK_IF_USERNAME_EXISTS = `CALL check_existing_user("${req.body.username}");`;
+  const clientInput = req.body;
+  const CHECK_IF_USERNAME_EXISTS = `CALL check_existing_user("${clientInput.username}");`;
 
   await db
     .execute(CHECK_IF_USERNAME_EXISTS)
@@ -33,7 +34,7 @@ exports.getAllUsers = async (req, res) => {
     .execute(RETRIEVE_USERS)
     .then(([rows, fields]) => {
       res.status(200).json({
-        status: 'OK',
+        status: 'success',
         message: 'List of registered users has been retrieved',
         usersList: rows,
       });
@@ -44,12 +45,15 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.insertUser = async (req, res) => {
-  const INSERT_USER = `CALL insert_user ("${req.body.userID}", "${
-    req.body.fName
-  }", "${req.body.lName}", 
-     "${req.body.username}", "${req.body.userEmail}", "${req.body.userPass}", ${
-    req.body.isAdmin === 'true' ? 1 : 0
-  }, ${req.body.wantsNotifications === 'true' ? 1 : 0})`;
+  const clientInput = req.body;
+  const INSERT_USER = `CALL insert_user ("${clientInput.userID}", "${
+    clientInput.fName
+  }", "${clientInput.lName}", 
+     "${clientInput.username}", "${clientInput.userEmail}", "${
+    clientInput.userPass
+  }", ${clientInput.isAdmin === 'true' ? 1 : 0}, ${
+    clientInput.wantsNotifications === 'true' ? 1 : 0
+  })`;
 
   await db
     .execute(INSERT_USER)
@@ -57,7 +61,7 @@ exports.insertUser = async (req, res) => {
       console.log(result);
 
       res.status(201).json({
-        status: 'Successful',
+        status: 'success',
         message: 'The user has been successfully inserted',
       });
     })
@@ -71,16 +75,17 @@ exports.insertUser = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  const RETRIEVE_USER = `CALL get_user("${req.body.username_email}", "${req.body.username_email}", "${req.body.passwd}");`;
+  const clientInput = req.body;
+  const RETRIEVE_USER = `CALL get_user("${clientInput.username_email}", "${clientInput.username_email}", "${clientInput.passwd}");`;
 
   await db
     .execute(RETRIEVE_USER)
     .then(([rows, fields]) => {
       console.log(rows[0]);
-      
+
       if (rows[0].length > 0)
         res.status(200).json({
-          status: 'Success',
+          status: 'success',
           message: 'User retrieved',
           user: rows[0][0],
         });
@@ -99,5 +104,6 @@ exports.getUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
+  const clientInput = req.body;
   // TODO: This
 };
