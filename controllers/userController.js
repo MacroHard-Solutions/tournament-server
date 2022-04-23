@@ -31,8 +31,11 @@ exports.getAllUsers = async (req, res) => {
   await db
     .execute(RETRIEVE_USERS)
     .then(([rows, fields]) => {
-      console.log(rows);
-      res.end();
+      res.status(200).json({
+        status: 'OK',
+        message: 'List of registered users has been retrieved',
+        usersList: rows,
+      });
     })
     .catch((err) => {
       console.log(err);
