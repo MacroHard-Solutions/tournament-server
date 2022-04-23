@@ -683,7 +683,8 @@ Please send any  data requested as a json object, using the same attributes as t
   &quot;message&quot;: &quot;You may use this username&quot;
 }</code></pre><p id="c6d59bc8-fc58-4667-9bb5-92b884029bc8" class="">
 </p><p id="557f9d43-4b6d-4f6e-8496-5aafd19f8e19" class="">
-</p></div><h3 id="d711682e-e8a8-462c-9303-27a96310ce23" class=""><details open=""><summary>User login —&gt; Checks user credentials
+</p></div><h3 id="5d0a4603-d5b9-4aca-9262-6e59ad19da24" class=""><details open=""><summary>User signup —&gt; Adds user to database
+<code>201</code> means the object is created</summary></details></h3><h3 id="d711682e-e8a8-462c-9303-27a96310ce23" class=""><details open=""><summary>User login —&gt; Checks user credentials
 <code>200</code> returns the object in <code>user</code> header if it is valid
 <code>404</code> indicates the user is not on the database</summary></details></h3><div class="indented"><p id="14d3ca03-1889-4f14-abd2-8458b47547d5" class="">
 </p><pre id="c34d5c2f-becb-46c4-9ead-c674d9c94848" class="code"><code>curl --request POST \
@@ -709,7 +710,7 @@ Please send any  data requested as a json object, using the same attributes as t
 }</code></pre><p id="f5bca26e-26f8-430e-8736-aae6f34f6cd8" class="">
 </p></div><h3 id="bcce4a61-b70a-4188-97b3-e45e82da1ce5" class=""><details open=""><summary>(Not complete yet) Get all users —&gt; Returns an array of user objects
 <code>200</code> returns the JSON array of user objects</summary></details></h3><div class="indented"><pre id="35eddeb3-6900-4891-9465-ced2dcfeec4e" class="code"><code>curl --request GET \
-  --url http://localhost:8080/api/v2/user</code></pre><p id="929637f7-0d15-4840-a1bc-4cd2a0c76a46" class="">
+  --url https://tournament-server.herokuapp.com/api/v2/user</code></pre><p id="929637f7-0d15-4840-a1bc-4cd2a0c76a46" class="">
 </p><p id="674c103d-099c-4b69-9a03-622bc37d0a2d" class="">Example Response</p><pre id="b68f6388-18a5-475c-ab7d-6514b57cc7cb" class="code"><code>{
   &quot;status&quot;: &quot;OK&quot;,
   &quot;message&quot;: &quot;List of registered users has been retrieved&quot;,
@@ -753,6 +754,59 @@ Please send any  data requested as a json object, using the same attributes as t
       &quot;USER_PASSWD&quot;: &quot;1x471rpuji&quot;,
       &quot;USER_IS_ADMIN&quot;: 0,
       &quot;USER_NOTIFICATIONS&quot;: 0
+    }
+  ]
+}</code></pre></div><hr id="51559e52-b318-4b74-a5cc-0c7d42d424fe"/><p id="8c4d4c9e-944f-47cf-b812-3774f3ada7cc" class="">
+</p><h3 id="9d4eaca1-8f9c-4a82-9a27-a819d6d11cc0" class="">Game table functions</h3><p id="23304a8e-8036-437c-87c8-b989499fa480" class="">Root link </p><figure id="c4fd9cd8-9797-4abe-9464-6613b98c6c0b"><a href="https://tournament-server.herokuapp.com/api/v2/game" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://tournament-server.herokuapp.com/api/v2/game</div></div></a></figure><p id="8383bfc3-1cec-4050-8e4a-3f090abd1dfd" class="">
+</p><p id="1d78783c-5710-4051-b77b-29c4523f59ac" class="">
+</p><h3 id="418004d3-71f7-4448-98c3-44cbfece12f7" class=""><details open=""><summary>Add game —&gt; Adds a new Game to the table
+<code>201</code> means the new object is created</summary></details></h3><div class="indented"><p id="fcdafa5b-9e8b-402c-b1a7-b2e68da33ecc" class="">
+</p><pre id="e2eea670-e86e-45a4-ba20-e8b857ad51ed" class="code"><code>curl --request POST \
+  --url https://tournament-server.herokuapp.com/api/v2/game/ \
+  --header &#x27;Content-Type: application/json&#x27; \
+  --data &#x27;{
+  &quot;gameName&quot; : &quot;voluptatum-quaerat-officiis&quot;,
+  &quot;fileName&quot; : &quot;https://audie.info&quot;,
+  &quot;gameIcon&quot; : &quot;http://lorempixel.com/640/480/abstract&quot;
+}&#x27;</code></pre><p id="4272bd4f-5d8d-44a6-a92b-a4f7f53032fd" class="">
+</p><p id="8967b3fd-4f9d-4bb3-9cd0-c7b39fa1dc33" class="">Example response</p><pre id="535a1df0-8bac-4fb9-b587-69399ba0d73f" class="code"><code>{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;message&quot;: &quot;Game added successfully&quot;,
+  &quot;newGame&quot;: [
+    {
+      &quot;GAME_ID&quot;: &quot;37f11817-c32a-11ec-a02e-0ab3cd6d5505&quot;,
+      &quot;GAME_NAME&quot;: &quot;sint-laudantium-impedit&quot;,
+      &quot;FILE_NAME&quot;: &quot;http://gail.name&quot;,
+      &quot;GAME_ICON&quot;: &quot;http://lorempixel.com/640/480/abstract&quot;
+    }
+  ]
+}</code></pre><p id="505c63a1-2dc7-4020-880d-586a35dc9909" class="">
+</p></div><p id="7906253c-88a9-45ac-92f1-8b5c9355701b" class="">
+</p><h3 id="8d8009a0-0af5-435b-9b9f-86d558fb4589" class=""><details open=""><summary>Get all games —&gt; Returns all games as a JSON array of objects
+<code>200</code> means successfully retrieved</summary></details></h3><div class="indented"><p id="91124011-1893-48ac-b81e-8986d983097d" class="">
+</p><pre id="2f0391b1-c81c-4aec-833f-153e7a8ae575" class="code"><code>curl --request GET \
+  --url https://tournament-server.herokuapp.com/api/v2/game</code></pre><p id="d7da8caa-8ff7-46f6-b658-8a68e70dd6cf" class="">
+</p><p id="aa84ba2f-13d6-4f45-a454-9a59a5aad762" class="">Example response</p><pre id="fe75de84-13e5-4d50-b132-4d28d0903e69" class="code"><code>{
+  &quot;status&quot;: &quot;OK&quot;,
+  &quot;message&quot;: &quot;Games retrieved successfully&quot;,
+  &quot;gamseList&quot;: [
+    {
+      &quot;GAME_ID&quot;: &quot;34a38247-c32a-11ec-a02e-0ab3cd6d5505&quot;,
+      &quot;GAME_NAME&quot;: &quot;tempora-repudiandae-quis&quot;,
+      &quot;FILE_NAME&quot;: &quot;http://sylvan.com&quot;,
+      &quot;GAME_ICON&quot;: &quot;http://lorempixel.com/640/480/abstract&quot;
+    },
+    {
+      &quot;GAME_ID&quot;: &quot;37f11817-c32a-11ec-a02e-0ab3cd6d5505&quot;,
+      &quot;GAME_NAME&quot;: &quot;sint-laudantium-impedit&quot;,
+      &quot;FILE_NAME&quot;: &quot;http://gail.name&quot;,
+      &quot;GAME_ICON&quot;: &quot;http://lorempixel.com/640/480/abstract&quot;
+    },
+    {
+      &quot;GAME_ID&quot;: &quot;efc862da-c326-11ec-a02e-0ab3cd6d5505&quot;,
+      &quot;GAME_NAME&quot;: &quot;voluptatum-quaerat-officiis&quot;,
+      &quot;FILE_NAME&quot;: &quot;https://audie.info&quot;,
+      &quot;GAME_ICON&quot;: &quot;http://lorempixel.com/640/480/abstract&quot;
     }
   ]
 }</code></pre></div></div></article></body></html>

@@ -53,6 +53,7 @@ app.use((req, res, next) => {
 ////////////////////////////////
 
 app.use('/', homeRouter);
+app.use('/api/v2/', homeRouter);
 
 app.use('/api/v2/user', userRouter);
 app.use('/api/v2/game', gameRouter);
