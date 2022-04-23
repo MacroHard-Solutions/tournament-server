@@ -77,6 +77,7 @@ exports.getUser = async (req, res) => {
     .execute(RETRIEVE_USER)
     .then(([rows, fields]) => {
       console.log(rows[0]);
+      
       if (rows[0].length > 0)
         res.status(200).json({
           status: 'Success',

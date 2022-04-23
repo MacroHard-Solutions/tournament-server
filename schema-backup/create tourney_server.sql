@@ -38,7 +38,8 @@ DROP TABLE IF EXISTS `tourney_server`.`GAME` ;
 CREATE TABLE IF NOT EXISTS `tourney_server`.`GAME` (
   `GAME_ID` VARCHAR(45) NOT NULL COMMENT 'The UUID of the game',
   `GAME_NAME` VARCHAR(100) NOT NULL,
-  `FILE_NAME` VARCHAR(100) NOT NULL COMMENT 'Location of the game file, stored in the games directory',
+  `FILE_NAME` VARCHAR(100) NOT NULL COMMENT 'Location of the game file to be processed, stored in the games directory',
+  `GAME_ICON` VARCHAR(45) NOT NULL COMMENT 'The URI of the game\'s icon',
   PRIMARY KEY (`GAME_ID`),
   UNIQUE INDEX `GAME_ID_UNIQUE` (`GAME_ID` ASC) VISIBLE,
   UNIQUE INDEX `GAME_NAME_UNIQUE` (`GAME_NAME` ASC) VISIBLE,
