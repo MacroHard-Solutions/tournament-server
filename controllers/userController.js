@@ -1,4 +1,5 @@
 const db = require('../util/db');
+const dbErrorLogger = require('../util/dbErrorLogger');
 
 exports.checkUsername = async (req, res) => {
   const CHECK_IF_USERNAME_EXISTS = `CALL check_existing_user("${req.body.username}");`;
@@ -17,11 +18,11 @@ exports.checkUsername = async (req, res) => {
         });
     })
     .catch((err) => {
-      console.log(err);
-      res.status(502).json({
-        status: 'Failed',
-        message: "Error when checking for the username's existence",
-      });
+      dbErrorLogger.logError(
+        res,
+        err,
+        "Error when checking for the username's existence"
+      );
     });
 };
 
@@ -38,10 +39,7 @@ exports.getAllUsers = async (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
-      res
-        .status(502)
-        .json({ status: 'Failed', message: 'Unable to retrieve users' });
+      dbErrorLogger.logError(res, err, 'Unable to retrieve users');
     });
 };
 
@@ -64,11 +62,11 @@ exports.insertUser = async (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        status: 'Failed',
-        message: 'Unable to add new user to database',
-      });
+      dbErrorLogger.logError(
+        res,
+        err,
+        'Unable to add new user to the database'
+      );
     });
 };
 
@@ -91,10 +89,14 @@ exports.getUser = async (req, res) => {
           .json({ status: 'Not Found', message: 'User not found' });
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        status: 'Failed',
-        message: 'Unable to check database',
-      });
+      dbErrorLogger.logError(
+        res,
+        err,
+        'Unable to retrieve user from the database'
+      );
     });
+};
+
+exports.updateUser = async (req, res) => {
+  // TODO: This
 };

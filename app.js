@@ -2,8 +2,9 @@ const express = require('express'); // Framework for node
 const morgan = require('morgan'); // HTTP request logger
 const slugify = require('slugify'); //
 
-const userRouter = require('./routes/userRouter');
 const homeRouter = require('./routes/homeRouter');
+const userRouter = require('./routes/userRouter');
+const gameRouter = require('./routes/gameRouters');
 
 const app = express();
 ////////////////////////////////
@@ -29,5 +30,6 @@ app.use((req, res, next) => {
 app.use('/', homeRouter);
 
 app.use('/api/v2/user', userRouter);
+app.use('/api/v2/game', gameRouter);
 
 module.exports = app;

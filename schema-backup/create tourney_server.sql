@@ -490,12 +490,15 @@ CREATE DEFINER=`admin`@`%` PROCEDURE `update_query`(IN tblName VARCHAR(45), IN s
 COMMENT 'Performs an update to a particular set of values'
 BEGIN
 
-  SET @stmt = CONCAT("UPDATE ", tblName, " SET ", setValues, " WHERE ", whereCondition);
-
+  SET @tName = tblName;
+  SET @sValues = setValues;
+  SET @wClause = whereCondition;
+    
+  SET @stmt = CONCAT("UPDATE ? SET ? WHERE ?;");
   
-
-  CALL execute_stmt();
-
+  PREPARE updateStmt FROM @stmt;
+  EXECUTE updateStmt USING @tName, @sValues, @wClause;
+  DEALLOCATE PREPARE updateStmt;
   
 
 END$$
