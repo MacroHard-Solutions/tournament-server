@@ -3,6 +3,7 @@ const morgan = require('morgan'); // HTTP request logger
 const slugify = require('slugify'); //
 
 const userRouter = require('./routes/userRouter');
+const homeRouter = require('./routes/homeRouter');
 
 const app = express();
 ////////////////////////////////
@@ -24,6 +25,8 @@ app.use((req, res, next) => {
 ////////////////////////////////
 /// Routes
 ////////////////////////////////
+
+app.use('/', homeRouter);
 
 app.use('/api/v2/user', userRouter);
 
