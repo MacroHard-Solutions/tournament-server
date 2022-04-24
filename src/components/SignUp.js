@@ -65,6 +65,8 @@ function SignUp({userid,setUserid}) {
         };
 
         axios.request(options).then(function (response) {
+            //error here 
+            //always recieves status === OK even when already existing usernames are used
             console.log(response.data);
         }).catch(function (error) {
             console.error(error);
