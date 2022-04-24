@@ -24,4 +24,8 @@ workflows:
               only:
                 - database
       
-      - say-hello
+      - say-hello:
+          filters:
+            branches:
+              only:
+                dev
