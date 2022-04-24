@@ -58,3 +58,7 @@ button{
 h2{
     margin:0;
 }
+
+.loginprompt{
+    color: rgb(214, 0, 0);
+}

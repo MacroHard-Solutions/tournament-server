@@ -1,24 +1,24 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-function Profile({userid,setUserid}) {
+function Profile({userObj,setuserObj}) {
 
     const history = useHistory();
 
     useEffect(() => {
-        if(!userid){
+        if(!userObj){
             history.push('/playerverification')
         }
-    }, [history,userid]);
+    }, [history,userObj]);
 
     const logOut = () => {
-        setUserid(null);
+        setuserObj(null);
         history.push('/home')
     }
 
     return(
         <>
-            <h1>Profile for: {userid}</h1>
+            <h1>Profile for: {JSON.stringify(userObj)}</h1>
             <button onClick={logOut}>Log out</button>
         </>
     )
