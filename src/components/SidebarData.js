@@ -20,4 +20,10 @@ export const SidebarData = [
         icon: <AiIcons.AiFillQuestionCircle/>,
         cName: 'nav-text'
     },
+    {
+        title: 'Agent Management',
+        path: '/amc',
+        icon: <AiIcons.AiFillCode/>,
+        cname: 'nav-text'
+    }
 ]

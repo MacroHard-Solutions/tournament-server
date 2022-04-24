@@ -9,13 +9,38 @@ import SignUp from '../components/SignUp';
 import PlayerVerification from '../pages/PlayerVerification';
 import Play from '../pages/Play';
 import Watch from '../pages/Watch';
+import AMC from '../pages/AMC';
+import Gamepage from '../pages/Gamepage';
 import {BrowserRouter as Router,Route,Switch} from 'react-router-dom'
 import { useState } from 'react';
 import {Helmet} from 'react-helmet';
 
+/*
+  App Structure:
+          
+        Homepage(showing collection of games) -> ChallengePage -> {AMC if needed}
+                                              |-> GamesPage -> WatchPage
+
+        
+  App -
+             |->Agent Management Console(AMC) -> New Agent tab
+             |
+             |-> About
+             |        
+        menu                              |->GamesPage(Filters -> props)
+                    |->Profile ->agents-> ChallengePage(filters -> props)
+                    |          |-> userInfo
+                    |
+             |Profile->Sigining -> SignIn OR SignUp
+             |
+             |
+             | ->Leaderboards
+*/
+
+
 function App() {
   
-  const [userid,setUserid] = useState(null);
+  const [userObj,setuserObj] = useState(null);
   
   return (
     <Router>
@@ -30,22 +55,24 @@ function App() {
       </div>
       <div className='main'>
       <Switch>
-        <Route path='/' component={Homepage} exact/>
-        <Route path='/home' component={Homepage} exact/>
-        <Route path='/play' component={Play}/>
-        <Route path='/watch' component={Watch}/>
-        <Route path='/leaderboards' component={Leaderboards}/>
+        <Route path='/' component={Homepage} exact/>{/*Homepage whereby users will be shown GameTiles representing all games*/}
+        <Route path='/home' component={Homepage} exact/>{/**/}
+        <Route path='/play' component={Play}/>{/*Challenge page whereby users can see available opponent agents, and challenge them*/}
+        <Route path='/watch' component={Watch}/>{/*Watch page where the user can watch an historical game*/}
+        <Route path='/leaderboards' component={Leaderboards}/>{/*Community page wherteby users can see the leaderboards per game */}
         <Route path='/profile'>
-          <Profile userid={userid} setUserid={setUserid}/>
+          <Profile userObj={userObj} setuserObj={setuserObj}/>{/*Profile page where a user can see their social details as well as their rvailable agents*/}
         </Route>
-        <Route path='/playerverification' component={PlayerVerification}/>
+        <Route path='/playerverification' component={PlayerVerification}/>{/*Page for user to decide between SignIN & SignUp*/}
         <Route path='/signin'>
-          <SignIn userid={userid} setUserid={setUserid}/>  
+          <SignIn userObj={userObj} setuserObj={setuserObj}/>  {/*SignIn page*/}
         </Route>
         <Route path='/signup'>
-          <SignUp userid={userid} setUserid={setUserid}/>
+          <SignUp userObj={userObj} setuserObj={setuserObj}/>{/*SignUp page*/}
         </Route>
-        <Route component={Notfound}/>
+        <Route path='/amc' component={AMC}/>
+        <Route path='/gamepage' component={Gamepage}/>
+        <Route component={Notfound}/>{/*default route for a 404 page not found error*/}
       </Switch>
       </div>
     </Router>
