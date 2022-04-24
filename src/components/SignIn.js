@@ -3,6 +3,12 @@ import { useHistory } from 'react-router-dom';
 import '../styles/SignIn.css';
 import Loading from '../components/Loading';
 import { useAxios } from '../hooks/useAxios';
+import hash from '../components/hash';
+
+/*
+    TODO List:
+    Enable sha256 for encypting password
+*/
 
 function SignIn({userObj,setuserObj}) {
 
@@ -10,6 +16,7 @@ function SignIn({userObj,setuserObj}) {
     const [password,setPassword] = useState('');
     const [loginattempt,setLoginattempt] = useState(false);
     const [errorPrompt,setErrorprompt] = useState(false);
+    const [errorCaption,setErrorcaption] = useState('Loading...');
 
     const history = useHistory();
 
@@ -30,7 +37,6 @@ function SignIn({userObj,setuserObj}) {
     const getData = () => {
         fetch();
         if(response){
-            console.log(response);
             if(response.status === "Not Found"){
                 setErrorprompt(true);
                 console.log('not found');
@@ -46,6 +52,7 @@ function SignIn({userObj,setuserObj}) {
         else if(error){
             console.log(error);
             setErrorprompt(true);
+            setErrorcaption('User Not Found; Username and/or Email invalid');
         }
 
         setLoginattempt(false);
@@ -65,6 +72,8 @@ function SignIn({userObj,setuserObj}) {
             if(username && password){
                 console.log('fetching...');
                 getData();
+                //test encyption
+                hash('foo').then((hex) => console.log(hex));
             }else{
                 setLoginattempt(false);
                 setUsername('');
@@ -79,13 +88,14 @@ function SignIn({userObj,setuserObj}) {
        <div className='Signin'>
             <div className="Signinbox">
             <h2>Sign In</h2>
-            {errorPrompt && <span className='loginprompt'>User Not Found; Username and/or Password Incorrect</span>}
+            {errorPrompt && <span className='loginprompt'>{errorCaption}</span>}
             {loading && <Loading caption='Loading...'/>}
             <form>
                 <div className="input-container">
                     <input 
                     type="text" 
                     required
+                    autofocus
                     value = {username}
                     onChange ={e => setUsername(e.target.value)}
                     autoFocus

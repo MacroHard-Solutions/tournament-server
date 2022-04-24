@@ -4,11 +4,11 @@
     z-index: 2;
     border-radius: 0.5em;
     margin-left: -half_of_the_div;
-    left: 30%;
     position: fixed;
     bottom: 0;
-    left: right;
-    top: 80;
+    left: 0;
+    right: 0;
+    top: 0;
 }
 
 .centered {
@@ -75,6 +75,6 @@
 
 .caption{
     position: relative;
-    top: 3em;
+    top: 10em;
     font-size: x-large;
 }
