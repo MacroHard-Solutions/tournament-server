@@ -54,7 +54,7 @@ form {
 
 button {
     align-self: center;
-    margin-top: 5em;
+    margin-top: 2em !important;
 }
 
 h2 {

@@ -10,6 +10,7 @@ import axios from 'axios';
     TODO List:
         Enable sha256 for password encryption
         validate data fields
+        fix requests
 */
 
 function SignUp({userid,setUserid}) {
@@ -56,22 +57,8 @@ function SignUp({userid,setUserid}) {
     }
 
     //checkUser 
-    const checkUser = () => {
-        const options = {
-            method: 'GET',
-            url: 'https://tournament-server.herokuapp.com/api/v2/user/signupCheck',
-            headers: {'Content-Type': 'application/json'},
-            data: {username : "Wooden419"}
-        };
-
-        axios.request(options).then(function (response) {
-            //error here 
-            //always recieves status === OK even when already existing usernames are used
-            console.log(response.data);
-        }).catch(function (error) {
-            console.error(error);
-        });
-
+    const checkUser = async () => {
+        //TODO
         setSignupattempt(false);
     }
 
