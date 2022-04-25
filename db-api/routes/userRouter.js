@@ -6,7 +6,7 @@ const router = express.Router();
 
 // router.param('username', userController.checkUsername);
 
-router.route('/signupCheck').get(userController.checkUsername);
+router.route('/signupCheck').post(userController.checkUsername);
 router.route('/').get(userController.getAllUsers);
 router.route('/').post(userController.insertUser);
 router.route('/login').post(userController.getUser);

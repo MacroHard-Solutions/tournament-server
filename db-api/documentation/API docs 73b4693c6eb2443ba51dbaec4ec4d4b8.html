@@ -671,11 +671,11 @@ blockquote {
 Please send any  data requested as a json object, using the same attributes as the one provided</li></ul><hr id="e2021686-fe8a-420e-b34c-0f64bd34e4d9"/><h2 id="74d3331e-3fb9-4160-a9df-b49a28529860" class="">User table functions</h2><p id="32d08ad4-0ec4-4e49-b59e-18421eeb8be2" class="">
 </p><p id="4c549b58-e042-4971-b3bd-f43ba36e0162" class="">Root link </p><figure id="ee9cbf53-2e5d-4d27-bff6-3322d09272e6"><a href="https://tournament-server.herokuapp.com/api/v2/user/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://tournament-server.herokuapp.com/api/v2/user/</div></div></a></figure><h3 id="3a199b3e-b652-4b9c-8b76-9fc18588386a" class=""><details open=""><summary>Signup check on username —&gt; Checks if the username doesn’t already exist
 <code>202</code> means it is acceptable
-<code>409</code> means there is an existing user with the username</summary></details></h3><div class="indented"><pre id="74060978-b674-4c64-85dc-22004604478a" class="code"><code>curl --request GET \
+<code>409</code> means there is an existing user with the username</summary></details></h3><div class="indented"><pre id="74060978-b674-4c64-85dc-22004604478a" class="code"><code>curl --request POST \
   --url https://tournament-server.herokuapp.com/api/v2/user/signupCheck \
   --header &#x27;Content-Type: application/json&#x27; \
   --data &#x27;{
-  &quot;username&quot;: &quot;moose918&quot;
+  &quot;username&quot;: &quot;Wooden419&quot;
 }&#x27;
 </code></pre><p id="08161a01-7274-47b1-a0a5-e738fc6cd38b" class="">
 </p><p id="945751e6-982e-4089-be9d-4e00cd468641" class="">Example response</p><pre id="bebe272b-effe-4a26-961a-bedcf1b42678" class="code"><code>{
@@ -684,7 +684,24 @@ Please send any  data requested as a json object, using the same attributes as t
 }</code></pre><p id="c6d59bc8-fc58-4667-9bb5-92b884029bc8" class="">
 </p><p id="557f9d43-4b6d-4f6e-8496-5aafd19f8e19" class="">
 </p></div><h3 id="5d0a4603-d5b9-4aca-9262-6e59ad19da24" class=""><details open=""><summary>User signup —&gt; Adds user to database
-<code>201</code> means the object is created</summary></details></h3><h3 id="d711682e-e8a8-462c-9303-27a96310ce23" class=""><details open=""><summary>User login —&gt; Checks user credentials
+<code>201</code> means the object is created</summary></details></h3><div class="indented"><p id="d2e58156-ba64-48a4-9b1e-200ae2590034" class="">
+</p><pre id="dd98cbbf-a17a-4aa8-b536-6142bb92ad7e" class="code"><code>curl --request POST \
+  --url https://tournament-server.herokuapp.com/api/v2/user \
+  --header &#x27;Content-Type: application/json&#x27; \
+  --data &#x27;{
+  &quot;userID&quot;: &quot;40421666-8d29-4225-8f9a-09ce6ed0f902&quot;,
+  &quot;fName&quot;: &quot;Katelynn&quot;,
+  &quot;lName&quot;: &quot;Yost&quot;,
+  &quot;username&quot;: &quot;multi-byte97&quot;,
+  &quot;userEmail&quot;: &quot;Ismael.Walsh@example.org&quot;,
+  &quot;userPass&quot;: &quot;gr2nlb08zr&quot;,
+  &quot;isAdmin&quot;: &quot;false&quot;,
+  &quot;wantsNotifications&quot;: &quot;false&quot;
+}&#x27;</code></pre><p id="4f712c35-e642-457c-b2fb-c2cd52062582" class="">
+</p><p id="b5960235-0607-4a22-9ed4-e9cccfc6e2ef" class="">Example response</p><pre id="6eb2939e-9b2b-458d-8512-2606207f45a5" class="code"><code>{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;message&quot;: &quot;The user has been successfully inserted&quot;
+}</code></pre></div><h3 id="d711682e-e8a8-462c-9303-27a96310ce23" class=""><details open=""><summary>User login —&gt; Checks user credentials
 <code>200</code> returns the object in <code>user</code> header if it is valid
 <code>404</code> indicates the user is not on the database</summary></details></h3><div class="indented"><p id="14d3ca03-1889-4f14-abd2-8458b47547d5" class="">
 </p><pre id="c34d5c2f-becb-46c4-9ead-c674d9c94848" class="code"><code>curl --request POST \
