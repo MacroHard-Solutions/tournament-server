@@ -15,4 +15,12 @@ const dbPool = db.createPool({
   password: '44gRmEvP9xLhR6d',
 });
 
+// const dbPool = db.createPool({
+//   host: 'localhost',
+//   port: 3306,
+//   user: 'root',
+//   database: 'tourney_server',
+//   password: '',
+// });
+
 module.exports = dbPool.promise();
