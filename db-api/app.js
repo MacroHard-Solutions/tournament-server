@@ -2,8 +2,6 @@ const express = require('express'); // Framework for node
 const morgan = require('morgan'); // HTTP request logger
 const cors = require('cors'); // CORS middleware
 
-const slugify = require('slugify'); // NOTE: This is random...
-
 const homeRouter = require('./routes/homeRouter');
 const userRouter = require('./routes/userRouter');
 const gameRouter = require('./routes/gameRouter');
@@ -54,12 +52,12 @@ app.use((req, res, next) => {
 ////////////////////////////////
 /// Routes
 ////////////////////////////////
-
 app.use('/', homeRouter);
 app.use('/api/v2/', homeRouter);
 
 app.use('/api/v2/user', userRouter);
-app.use('/api/v2/game', gameRouter);
 app.use('/api/v2/agent', agentRouter);
+app.use('/api/v2/game', gameRouter);
+app.use('/api/v2/tournament', tournamentRouter);
 
 module.exports = app;
