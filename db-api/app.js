@@ -4,8 +4,9 @@ const cors = require('cors'); // CORS middleware
 
 const homeRouter = require('./routes/homeRouter');
 const userRouter = require('./routes/userRouter');
-const gameRouter = require('./routes/gameRouter');
 const agentRouter = require('./routes/agentRouter');
+const gameRouter = require('./routes/gameRouter');
+const tournamentRouter = require('./routes/tournamentRouter');
 
 const app = express();
 ////////////////////////////////
