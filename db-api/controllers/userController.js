@@ -19,7 +19,7 @@ exports.checkUsername = async (req, res) => {
         });
     })
     .catch((err) => {
-      dbErrorLogger.logError(
+      dbErrorLogger(
         res,
         err,
         "Error when checking for the username's existence"
@@ -40,7 +40,7 @@ exports.getAllUsers = async (req, res) => {
       });
     })
     .catch((err) => {
-      dbErrorLogger.logError(res, err, 'Unable to retrieve users');
+      dbErrorLogger(res, err, 'Unable to retrieve users');
     });
 };
 
@@ -51,8 +51,8 @@ exports.insertUser = async (req, res) => {
   }", "${clientInput.lName}", 
      "${clientInput.username}", "${clientInput.userEmail}", "${
     clientInput.userPass
-  }", ${clientInput.isAdmin === 'true' ? 1 : 0}, ${
-    clientInput.wantsNotifications === 'true' ? 1 : 0
+  }", ${(clientInput.isAdmin === 'true' || clientInput.isAdmin) ? 1 : 0}, ${
+    (clientInput.wantsNotifications === 'true' || clientInput.wantsNotifications) ? 1 : 0
   })`;
 
   await db
@@ -66,7 +66,7 @@ exports.insertUser = async (req, res) => {
       });
     })
     .catch((err) => {
-      dbErrorLogger.logError(
+      dbErrorLogger(
         res,
         err,
         'Unable to add new user to the database'
@@ -95,7 +95,7 @@ exports.getUser = async (req, res) => {
           .json({ status: 'Not Found', message: 'User not found' });
     })
     .catch((err) => {
-      dbErrorLogger.logError(
+      dbErrorLogger(
         res,
         err,
         'Unable to retrieve user from the database'

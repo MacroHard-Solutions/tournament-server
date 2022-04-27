@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `tourney_server`.`USER` (
   `USER_PASSWD` VARCHAR(256) NOT NULL COMMENT 'The user\'s password, stored as an SHA-256 hash',
   `USER_IS_ADMIN` TINYINT NOT NULL DEFAULT 0 COMMENT 'Whether the user is a player or administrator',
   `USER_NOTIFICATIONS` TINYINT NOT NULL DEFAULT 0 COMMENT 'Whether the user would like to recieve notifications',
+  `USER_DP` VARCHAR(100) NULL COMMENT 'User\'s display picture URL',
   PRIMARY KEY (`USER_ID`),
   UNIQUE INDEX `USER_ID_UNIQUE` (`USER_ID` ASC) VISIBLE,
   UNIQUE INDEX `USERNAME_UNIQUE` (`USERNAME` ASC) VISIBLE)

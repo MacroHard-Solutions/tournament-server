@@ -14,7 +14,7 @@ exports.getAllGames = async (req, res) => {
       });
     })
     .catch((err) => {
-      dbErrorLogger.logError(
+      dbErrorLogger(
         res,
         err,
         'Unable to retrieve all games from the database'
@@ -36,7 +36,7 @@ exports.addNewGame = async (req, res) => {
       });
     })
     .catch((err) => {
-      dbErrorLogger.logError(
+      dbErrorLogger(
         res,
         err,
         'Unable to insert and/or retire the game'

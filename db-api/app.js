@@ -7,6 +7,7 @@ const slugify = require('slugify'); // NOTE: This is random...
 const homeRouter = require('./routes/homeRouter');
 const userRouter = require('./routes/userRouter');
 const gameRouter = require('./routes/gameRouter');
+const agentRouter = require('./routes/agentRouter');
 
 const app = express();
 ////////////////////////////////
@@ -59,5 +60,6 @@ app.use('/api/v2/', homeRouter);
 
 app.use('/api/v2/user', userRouter);
 app.use('/api/v2/game', gameRouter);
+app.use('/api/v2/agent', agentRouter);
 
 module.exports = app;
