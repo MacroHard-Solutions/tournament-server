@@ -190,7 +190,10 @@ USE `tourney_server` ;
 USE `tourney_server`;
 DROP procedure IF EXISTS `tourney_server`.`check_existing_user`;
 
-USE `tourney_server`$$
+USE `tourney_server`;
+
+DELIMITER $$
+
 CREATE DEFINER=`admin`@`%` PROCEDURE `check_existing_user`(IN userName varchar(45))
     COMMENT 'Checks if a user exists given the username'
 BEGIN
@@ -207,28 +210,6 @@ END$$
 
 DELIMITER ;
 
--- -----------------------------------------------------
--- procedure delete_query
--- -----------------------------------------------------
-
-USE `tourney_server`;
-DROP procedure IF EXISTS `tourney_server`.`delete_query`;
-
-DELIMITER $$
-USE `tourney_server`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `delete_query`(IN tblName VARCHAR(45), IN whereCondition TEXT)
-    MODIFIES SQL DATA
-BEGIN
-
-  SET @stmt = CONCAT("DELETE FROM ", tblName, " WHERE ", whereCondition);
-
-  
-
-  CALL execute_stmt();
-
-END$$
-
-DELIMITER ;
 
 -- -----------------------------------------------------
 -- procedure execute_stmt
