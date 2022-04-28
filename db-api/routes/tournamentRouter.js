@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.route('/').get(tournamentController.getTournaments);
 router.route('/add').post(tournamentController.insertTournament);
+router.route('/').delete(tournamentController.deleteTournament);
 // router.route('/').delete(tournamentController.deleteTournament);
 
 module.exports = router;

@@ -33,4 +33,4 @@ exports.insertTournament = async (req, res) => {
       dbErrorLogger(res, err, 'Unable to add the tournament');
     });
 };
-exports.deleteAgent = async (req, res) => {};
+exports.deleteTournament = async (req, res) => {};
