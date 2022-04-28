@@ -2,19 +2,20 @@ const db = require('../util/db');
 const dbErrorLogger = require('../util/dbErrorLogger');
 
 exports.getTournaments = async (req, res) => {
-  const GET_ALL_TOURNAMENTS = 'SELECT * FROM `TOURNAMENTS`';
+  const GET_ALL_TOURNAMENTS = 'SELECT * FROM `TOURNAMENT`';
 
-  await db.execute(GET_ALL_TOURNAMENTS)
-  .then(([rows, fields]) => {
-    res.status(201).json({
-      status: 'success',
-      message: 'Retrieved tournaments successfully',
-      newGame: rows,
+  await db
+    .execute(GET_ALL_TOURNAMENTS)
+    .then(([rows, fields]) => {
+      res.status(201).json({
+        status: 'success',
+        message: 'Retrieved tournaments successfully',
+        newGame: rows,
+      });
+    })
+    .catch((err) => {
+      dbErrorLogger(res, err, 'Unable to add the tournament');
     });
-  })
-  .catch((err) => {
-    dbErrorLogger(res, err, 'Unable to add the tournament');
-  });
 };
 exports.insertTournament = async (req, res) => {
   const clientInput = req.body;
