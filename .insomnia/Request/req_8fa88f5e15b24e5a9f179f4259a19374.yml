@@ -1,0 +1,28 @@
+_id: req_8fa88f5e15b24e5a9f179f4259a19374
+type: Request
+parentId: fld_e6158d5b909c4cb784611b0f1467ff79
+modified: 1651072472206
+created: 1650546834380
+url: "{{ _.base_url }}/user/signupCheck"
+name: Check existing username
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "username": "Wooden419"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1650714840647
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

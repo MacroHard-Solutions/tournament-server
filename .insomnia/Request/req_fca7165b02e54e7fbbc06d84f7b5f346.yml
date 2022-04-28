@@ -1,0 +1,21 @@
+_id: req_fca7165b02e54e7fbbc06d84f7b5f346
+type: Request
+parentId: wrk_142ea092a2da44bab7190763bb00d71b
+modified: 1651146083515
+created: 1650695979616
+url: http://localhost:8000/
+name: Home Dir
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1651066648586
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

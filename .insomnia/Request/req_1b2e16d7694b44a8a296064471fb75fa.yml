@@ -1,66 +1,31 @@
 _id: req_1b2e16d7694b44a8a296064471fb75fa
 type: Request
-parentId: wrk_142ea092a2da44bab7190763bb00d71b
-modified: 1649532182206
+parentId: fld_e6158d5b909c4cb784611b0f1467ff79
+modified: 1651072436325
 created: 1649475911882
-url: http://localhost/dbphp/insertToDB.php
-name: Insert user
+url: "{{ _.base_url }}/user"
+name: User Signup
 description: ""
 method: POST
 body:
-  mimeType: multipart/form-data
-  params:
-    - id: pair_d92150abf5094bfea057ff7aeab89190
-      name: insertType
-      value: user
-      description: ""
-    - id: pair_c727ba4cd7214ffeaac4deefb1664868
-      name: userID
-      value: "{% uuid 'v4' %}"
-      description: ""
-    - id: pair_b4e568aeed1f47ee9bad440d32890375
-      name: fName
-      value: "{% faker 'name', '', '', '', '', '', '', '', '', '', '', 'firstName',
-        '', '', '', '', 'en' %}"
-      description: ""
-    - id: pair_16562385478642feb3180acf7c47feec
-      name: lName
-      value: "{% faker 'name', '', '', '', '', '', '', '', '', '', '', 'lastName', '',
-        '', '', '', 'en' %}"
-      description: ""
-    - id: pair_7caf3713d8a84263a9002a524e5f2c34
-      name: userName
-      value: "{% faker 'internet', '', '', '', '', '', '', '', '', 'userName', 'slug',
-        '', '', '', '', '', 'en' %}"
-      description: ""
-      type: text
-      multiline: false
-    - id: pair_375fbf54d2a449cfa927ed713d0a0f39
-      name: userEmail
-      value: "{% faker 'internet', '', '', '', '', '', '', '', '', 'email', '', '',
-        '', '', '', '', 'en' %}"
-      description: ""
-    - id: pair_07dfece9536f4f88927ea23279c6163a
-      name: userPass
-      value: "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '',
-        'alphaNumeric', '', '20', 'en' %}"
-      description: ""
-    - id: pair_1bcb7e68410e4dacbef51b9fcbe880a6
-      name: isAdmin
-      value: "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '',
-        'boolean', '', '', 'en' %}"
-      description: ""
-    - id: pair_9e32d67e037840c484134024b4d86855
-      name: wantsNotifications
-      value: "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '',
-        'boolean', '', '', 'en' %}"
-      description: ""
+  mimeType: application/json
+  text: >-
+    {
+      "userID": "{% uuid 'v4' %}",
+      "fName": "{% faker 'name', '', '', '', '', '', '', '', '', '', '', 'firstName', '', '', '', '', 'en' %}",
+      "lName": "{% faker 'name', '', '', '', '', '', '', '', '', '', '', 'lastName', '', '', '', '', 'en' %}",
+      "username": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'word', '', '1', 'en' %}{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'number', '', '999', 'en' %}",
+      "userEmail": "{% faker 'internet', '', '', '', '', '', '', '', '', 'exampleEmail', '', '', '', '', '', '', 'en' %}",
+      "userPass": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'alphaNumeric', '', '10', 'en' %}",
+      "isAdmin": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'boolean', '', '', 'en' %}",
+      "wantsNotifications": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'boolean', '', '', 'en' %}"
+    }
 parameters: []
 headers:
   - name: Content-Type
-    value: multipart/form-data
+    value: application/json
 authentication: {}
-metaSortKey: -1649475911882
+metaSortKey: -1650714840747
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

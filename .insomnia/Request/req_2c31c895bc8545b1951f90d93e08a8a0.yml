@@ -1,0 +1,29 @@
+_id: req_2c31c895bc8545b1951f90d93e08a8a0
+type: Request
+parentId: fld_e6158d5b909c4cb784611b0f1467ff79
+modified: 1651072466929
+created: 1649540364867
+url: "{{ _.base_url }}/user/login"
+name: User Login
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "username_email" : "Wooden419",
+      "passwd" : "injo6dwrpz"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1650714840697
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

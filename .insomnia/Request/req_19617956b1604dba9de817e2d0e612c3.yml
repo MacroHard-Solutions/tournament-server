@@ -1,0 +1,31 @@
+_id: req_19617956b1604dba9de817e2d0e612c3
+type: Request
+parentId: fld_3146dfdffd13491b88b98180d3c9a5c4
+modified: 1651146109687
+created: 1651066655929
+url: "{{ _.base_url }}/agent/add/"
+name: Insert Agent
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: >-
+    {
+      "userID": "0f378e72-f91b-49c0-ac0a-06ac71608696",
+       "tournamentID" : "f289ff14-c62e-11ec-a02e-0ab3cd6d5505",
+      "ipAddress": "{% faker 'internet', '', '', '', '', '', '', '', '', 'ip', '', '', '', '', '', '', 'en' %}",
+      "portNum": {% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'number', '', '9999', 'en' %}
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1651066655929
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

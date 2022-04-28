@@ -1,11 +1,27 @@
 _id: env_24d57053f203439fad82a4aa5292c413
 type: Environment
 parentId: env_7262148c77e611b381bdc882288f5737d7041e08
-modified: 1649533493269
+modified: 1651146617319
 created: 1649464530673
-name: New Environment
-data: {}
-dataPropertyOrder: {}
-color: null
+name: api
+data:
+  base_url: http://localhost:8000/api/v2
+  userIDs:
+    - 0f378e72-f91b-49c0-ac0a-06ac71608696
+    - 40421666-8d89-4265-8f9a-09ce6ed05902
+    - 75761c74-5bef-4a15-9adc-6423684db560
+    - aecc1330-c63c-11ec-9680-df3898ed43b7
+    - b631e629-c89d-45c5-8e2f-ff489a1273f8
+  gameIDs:
+    - 34a38247-c32a-11ec-a02e-0ab3cd6d5505
+    - 37f11817-c32a-11ec-a02e-0ab3cd6d5505
+    - 9034dd2a-c62e-11ec-a02e-0ab3cd6d5505
+    - efc862da-c326-11ec-a02e-0ab3cd6d5505
+dataPropertyOrder:
+  "&":
+    - base_url
+    - userIDs
+    - gameIDs
+color: "#7c0c92"
 isPrivate: false
 metaSortKey: 1649464530673

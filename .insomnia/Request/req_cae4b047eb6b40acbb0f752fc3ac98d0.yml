@@ -1,0 +1,29 @@
+_id: req_cae4b047eb6b40acbb0f752fc3ac98d0
+type: Request
+parentId: fld_d482340336ae4903acb2657e021f1955
+modified: 1651146147999
+created: 1651066414280
+url: "{{ _.base_url }}/tournament/add"
+name: Insert Tournament
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: >-
+    {
+      "tournamentName": "{% faker 'lorem', '', '', '', '', '', '', '', '', '', 'words', '', '', '', '', '3', 'en' %}",
+      "gameID": "9034dd2a-c62e-11ec-a02e-0ab3cd6d5505"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1651066414280
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

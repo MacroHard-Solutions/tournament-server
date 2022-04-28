@@ -1,35 +1,26 @@
 _id: req_88c54d4dabc242f79d518699a706ec1b
 type: Request
-parentId: wrk_142ea092a2da44bab7190763bb00d71b
-modified: 1649532968165
+parentId: fld_48a9d3648d5246fa82a01998e655d9d7
+modified: 1651147017200
 created: 1649498096819
-url: http://localhost/dbphp/insertToDB.php
-name: Insert game
+url: "{{ _.base_url }}/game/"
+name: Add new Game
 description: ""
 method: POST
 body:
-  mimeType: multipart/form-data
-  params:
-    - id: pair_2ec70cff10214315b5ab6e8c1a3e5d95
-      name: insertType
-      value: game
-      description: ""
-    - id: pair_94303f0bd0e445e1ac6c2cb4b44b80bf
-      name: gameName
-      value: "{% faker 'lorem', '', '', '', '', '', '', '', '', '', 'words', '', '',
-        '', '', '', 'en' %}"
-      description: ""
-    - id: pair_886e1d524cba47278507619e7df598df
-      name: fileName
-      value: "{% faker 'system', '', '', '', '', '', '', '', '', '', '', '', '', '',
-        'fileName', '', 'en' %}"
-      description: ""
+  mimeType: application/json
+  text: >-
+    {
+      "gameName" : "{% faker 'lorem', '', '', '', '', '', '', '', '', '', 'slug', '', '', '', '', '', 'en' %}",
+      "fileName" : "{% faker 'internet', '', '', '', '', '', '', '', '', 'url', '', '', '', '', 'directoryPath', '', 'en' %}",
+      "gameIcon" : "{% faker 'image', '', '', '', '', '', '', '', '', '', '', '', '', '', 'fileName', '', 'en' %}"
+    }
 parameters: []
 headers:
   - name: Content-Type
-    value: multipart/form-data
+    value: application/json
 authentication: {}
-metaSortKey: -1649498096819
+metaSortKey: -1650734476834
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

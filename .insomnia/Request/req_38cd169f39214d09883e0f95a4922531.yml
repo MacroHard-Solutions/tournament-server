@@ -1,0 +1,21 @@
+_id: req_38cd169f39214d09883e0f95a4922531
+type: Request
+parentId: fld_d482340336ae4903acb2657e021f1955
+modified: 1651068442077
+created: 1651068428873
+url: "{{ _.base_url }}/tournament"
+name: Get all torunaments
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1651068428873
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
