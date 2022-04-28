@@ -2,6 +2,19 @@ const db = require('../util/db');
 const dbErrorLogger = require('../util/dbErrorLogger');
 // const keyMapping = require('../util/renameEntityKey');
 
+exports.checkLogin = async (req, res, next) => {
+  clientInput = req.body;
+
+  if (!clientInput.username_email || clientInput.username_email === '') {
+    return res.status(400).json({
+      status: 'failed',
+      message: 'Missing username/email required',
+      fName: clientInput.username_email,
+    });
+  }
+
+  next();
+};
 exports.checkBody = async (req, res, next) => {
   clientInput = req.body;
 
