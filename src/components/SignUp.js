@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import '../styles/SignUp.css'
-import {v4 as uuidv4} from 'uuid';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { useAxios } from '../hooks/useAxios';
-import Loading from '../components/Loading';
-import axios from 'axios';
+/* eslint-disable react/react-in-jsx-scope */
+import { useState, useEffect } from "react";
+import "../styles/SignUp.css";
+import { v4 as uuidv4 } from "uuid";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useAxios } from "../hooks/useAxios";
+import Loading from "../components/Loading";
+import axios from "axios";
 
 /*
     TODO List:
@@ -13,147 +14,233 @@ import axios from 'axios';
         fix requests
 */
 
-function SignUp({userid,setUserid}) {
-
+function SignUp({ userObj, setuserObj }) {
     //state for data entries
-    const [email,setEmail] = useState('');
-    const [username,setUsername] = useState('');
-    const [password1,setPassword1] = useState('');
-    const [password2,setPassword2] = useState('');
-    const [fname,setFname] = useState('');
-    const [lname,setLname] = useState('');
-    const [signupattempt,setSignupattempt] = useState(false);//state of submission button being clicked
-    const [errorPrompt,setErrorprompt] = useState(false); //handle error prompt state
-    const [errorCaption,setErrorcaption] = useState('Loading...');
-    const [checkLoading,setCheckloading] = useState(false);
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password1, setPassword1] = useState("");
+    const [password2, setPassword2] = useState("");
+    const [fname, setFname] = useState("");
+    const [lname, setLname] = useState("");
+    const [signupattempt, setSignupattempt] = useState(false); //state of submission button being clicked
+    const [errorPrompt, setErrorprompt] = useState(false); //handle error prompt state
+    const [errorCaption, setErrorcaption] = useState("Loading...");
+    const [checkLoading, setCheckloading] = useState(false);
 
     //Axios hook to handle requesting to create the user
-    const {response,loading,error,fetch} = useAxios({
-        method: 'GET',
-        url: '/user/signupCheck',
+    const { response, loading, error, fetch } = useAxios({
+        method: "POST",
+        url: "user",
         headers: {
-            'Content-Tyoe': 'application/json'
+            "Content-Type": "application/json",
         },
         data: {
             "fName": fname,
             "lName": lname,
-            "user_id" : uuidv4(),
             "username": username,
             "userEmail": email,
             "userPass": password1,
             "isAdmin": false,
             "wantsNotifications": false
-        }
+        },
     });
 
     const history = useHistory();
 
+    //checkUser
+    const checkUser = async () => {
+        const options = {
+            method: 'POST',
+            url: 'https://tournament-server.herokuapp.com/api/v2/user/signupCheck',
+            headers: { 'Content-Type': 'application/json' },
+            data: { 'username': username }
+        };
+
+        axios.request(options).then(function (response) {
+            if (response.status === 202) {
+                //send request to create user
+                fetch();// make request
+                console.log('trying to create user');
+                createUser();
+            }
+        }).catch(function (error) {
+            if (error.response.status === 409) {
+                //show username is taken
+                setUsername("");
+                setErrorcaption("Username Already Exists");
+                setErrorprompt(true);
+            }
+        });
+
+        setCheckloading(false);
+        setSignupattempt(false);
+    };
+
     //createUser
-    const createUser = () => {
-        fetch();
+    const createUser = async () => {
+        //handle server response
+        console.log(response);
+        console.log(error);
+        if (response) {
+            if (response.status === "success") {
+                console.log('User Created');
+                //
+                setuserObj(response.newUser);
+                history.push('/profile');
+            }
+            else {
+                setErrorcaption('Error: System unable to create new User...');
+                setErrorprompt(true);
+            }
+        }
+        else if (error) {
+            console.log(error);//FIXME unable to create User
+            setErrorcaption('Error: System unable to create new User...');
+            setErrorprompt(true);
+        }
 
         setSignupattempt(false);
         setErrorprompt(false);
+    };
+
+
+    //functions to vaidate data fields
+    const emailValidation = () => {
+        let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!regEmail.test(email)) {
+            setErrorcaption('Invalid Email Address');
+            setErrorprompt(true);
+            setEmail("");
+            return (false);
+        } else {
+            return (true);
+        }
     }
 
-    //checkUser 
-    const checkUser = async () => {
-        //TODO
-        setSignupattempt(false);
+    const namesValidation = () => {
+        if (!fname) {
+            setErrorcaption('Invalid First Name');
+            setErrorprompt(true);
+            return (false);
+        }
+        if (!lname) {
+            setErrorcaption('Invalid Last Name');
+            setErrorprompt(true);
+            return (false);
+        }
+        if (!username) {
+            setErrorcaption('Invalid Username');
+            setErrorprompt(true);
+            return (false);
+        }
+        return (true);
+    }
+
+    const passwordValidation = () => {
+        if (!password1 || !password2) {
+            setErrorcaption('Invalid Password');
+            setErrorprompt(true);
+            return (false);
+        }
+        if (password1 !== password2) {
+            setErrorcaption('Passwords Do Not Match');
+            setPassword1("");
+            setPassword2("");
+            setErrorprompt(true);
+            return (false);
+        }
+        return (true);
     }
 
     //HOOK TO DETECT WHEN THE USER TRIES TO LOGIN
     useEffect(() => {
-        if(signupattempt){
-            //validate fields
-            checkUser();
+        if (signupattempt) {
+            //TODO Validate fields
+            const valid = passwordValidation() && emailValidation() && namesValidation();
+            if (valid) {
+                setCheckloading(true);
+                checkUser();
+            }
         }
-    },[signupattempt])
+        //eslint-disable-next-line
+    }, [signupattempt]);
 
-    //useEffect hook for when the user needs to be prompted for details
-    useEffect(() => {
-        if(errorPrompt){
-            setUsername('');
-            setFname('');
-            setLname('');
-            setEmail('');
-            setPassword1('');
-            setPassword2('');
-        }
-    },[errorPrompt])
-    return(
-        <div className='Signup'>
+    //body
+    return (
+        <div className="Signup">
             <div className="Signupbox">
-            {loading && <Loading caption='Processing...'/>}
-            {checkLoading && <Loading caption='Checking User Validity...'/>}
-            <h2>Sign Up</h2>
-            <span>Please Fill All Fields Below:</span>
-            {errorPrompt && <span className='loginprompt'>{errorCaption}</span>}
-            <form>
-                <div className="input-container">
-                    <input 
-                    type="text" 
-                    required
-                    autoFocus
-                    value = {fname}
-                    onChange = {e => setFname(e.target.value)}
-                    />
-                    <label>First Name:</label>
-                </div>
-                <div className="input-container">
-                    <input 
-                    type="text" 
-                    required
-                    value = {lname}
-                    onChange = {e => setLname(e.target.value)}
-                    />
-                    <label>Last Name:</label>
-                </div>
-                <div className="input-container">
-                    <input 
-                    type="text" 
-                    required
-                    value = {email}
-                    onChange = {e => setEmail(e.target.value)}
-                    />
-                    <label>Email:</label>
-                </div>
-                <div className="input-container">
-                    <input 
-                    type="text" 
-                    required
-                    value = {username}
-                    onChange = {e => setUsername(e.target.value)}
-                    />
-                    <label>Username:</label>
-                </div>
-                <div className="input-container">
-                    <input 
-                    type="password" 
-                    required
-                    value = {password1}
-                    onChange = {e => setPassword1(e.target.value)}
-                    />
-                    <label>Enter Password:</label>
-                </div>
-                <div className="input-container">
-                    <input 
-                    type="password" 
-                    required
-                    value = {password2}
-                    onChange = {e => setPassword2(e.target.value)}
-                    />
-                    <label>Confirm Password:</label>
-                </div>
-                <button 
-                    onClick = {e => {
-                        e.preventDefault();
-                        setSignupattempt(true);
-                    }}
-                >Submit</button>
-            </form>
+                {loading && <Loading caption="Initializing User Creation..." />}
+                {checkLoading && <Loading caption="Checking User Validity..." />}
+                <h2>Sign Up</h2>
+                <span>Please Fill All Fields Below:</span>
+                {errorPrompt && <span className="loginprompt">{errorCaption}</span>}
+                <form>
+                    <div className="input-container">
+                        <input
+                            type="text"
+                            required
+                            autoFocus
+                            value={fname}
+                            onChange={(e) => setFname(e.target.value)}
+                        />
+                        <label>First Name:</label>
+                    </div>
+                    <div className="input-container">
+                        <input
+                            type="text"
+                            required
+                            value={lname}
+                            onChange={(e) => setLname(e.target.value)}
+                        />
+                        <label>Last Name:</label>
+                    </div>
+                    <div className="input-container">
+                        <input
+                            type="text"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <label>Email:</label>
+                    </div>
+                    <div className="input-container">
+                        <input
+                            type="text"
+                            required
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <label>Username:</label>
+                    </div>
+                    <div className="input-container">
+                        <input
+                            type="password"
+                            required
+                            value={password1}
+                            onChange={(e) => setPassword1(e.target.value)}
+                        />
+                        <label>Enter Password:</label>
+                    </div>
+                    <div className="input-container">
+                        <input
+                            type="password"
+                            required
+                            value={password2}
+                            onChange={(e) => setPassword2(e.target.value)}
+                        />
+                        <label>Confirm Password:</label>
+                    </div>
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setSignupattempt(true);
+                        }}
+                    >
+                        Submit
+                    </button>
+                </form>
+            </div>
         </div>
-       </div>
     );
 }
 
