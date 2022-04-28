@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(userController.checkBody, userController.getAllUsers)
+  .get(userController.getAllUsers)
   .post(userController.checkBody, userController.insertUser);
 
 router.route('/signupCheck').post(userController.checkUsername);

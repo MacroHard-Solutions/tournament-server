@@ -61,7 +61,7 @@ exports.getAllUsers = async (req, res) => {
   await db
     .execute(RETRIEVE_USERS)
     .then(([rows, fields]) => {
-      keyMapping(rows);
+      // keyMapping(rows);
 
       return res.status(200).json({
         status: 'success',
