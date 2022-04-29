@@ -27,24 +27,6 @@ function SignUp({ userObj, setuserObj }) {
     const [errorCaption, setErrorcaption] = useState("Loading...");
     const [checkLoading, setCheckloading] = useState(false);
 
-    //Axios hook to handle requesting to create the user
-    const { response, loading, error, fetch } = useAxios({
-        method: "POST",
-        url: "user",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        data: {
-            "fName": fname,
-            "lName": lname,
-            "username": username,
-            "userEmail": email,
-            "userPass": password1,
-            "isAdmin": false,
-            "wantsNotifications": false
-        },
-    });
-
     const history = useHistory();
 
     //checkUser
@@ -59,7 +41,6 @@ function SignUp({ userObj, setuserObj }) {
         axios.request(options).then(function (response) {
             if (response.status === 202) {
                 //send request to create user
-                fetch();// make request
                 console.log('trying to create user');
                 createUser();
             }
@@ -78,29 +59,7 @@ function SignUp({ userObj, setuserObj }) {
 
     //createUser
     const createUser = async () => {
-        //handle server response
-        console.log(response);
-        console.log(error);
-        if (response) {
-            if (response.status === "success") {
-                console.log('User Created');
-                //
-                setuserObj(response.newUser);
-                history.push('/profile');
-            }
-            else {
-                setErrorcaption('Error: System unable to create new User...');
-                setErrorprompt(true);
-            }
-        }
-        else if (error) {
-            console.log(error);//FIXME unable to create User
-            setErrorcaption('Error: System unable to create new User...');
-            setErrorprompt(true);
-        }
 
-        setSignupattempt(false);
-        setErrorprompt(false);
     };
 
 
@@ -169,7 +128,7 @@ function SignUp({ userObj, setuserObj }) {
     return (
         <div className="Signup">
             <div className="Signupbox">
-                {loading && <Loading caption="Initializing User Creation..." />}
+                {/*loading && <Loading caption="Initializing User Creation..." >*/}
                 {checkLoading && <Loading caption="Checking User Validity..." />}
                 <h2>Sign Up</h2>
                 <span>Please Fill All Fields Below:</span>

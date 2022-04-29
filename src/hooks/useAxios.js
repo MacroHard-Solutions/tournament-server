@@ -1,41 +1,51 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
 
-axios.defaults.baseURL = 'https://tournament-server.herokuapp.com/api/v2/';
+const useAxios = (configObj) => {
+  const {
+    axiosInstance,
+    method,
+    url,
+    requestConfig = {}
+  } = configObj;
 
-/**
- fixed :
-  - no need to JSON.stringify to then immediatly do a JSON.parse
-  - don't use export defaults, because default imports are hard to search for
-  - axios already support generic request in one parameter, no need to call specialized ones
-**/
-export const useAxios = (axiosParams) => {
-  const [response, setResponse] = useState(undefined);
+  const [response, setResponse] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(true);
 
-  const fetch = () => setReload(!reload);
-
-  const fetchData = async (params) => {
-    try {
-      setLoading(true);
-      const result = await axios.request(params);
-      setResponse(result.data);
-      //temporary to test loading screen
-      await new Promise(r => setTimeout(r, 2000));
-    } catch (err) {
-      console.log(err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const refetch = () => setReload(!reload);
 
   useEffect(() => {
-    fetchData(axiosParams);
-    //eslint-disable-next-line
-  }, [reload]); // execute once only
+    //let isMounted = true;
+    const controller = new AbortController();
 
-  return { response, error, loading, fetch };
-};
+    const fetchData = async () => {
+      try {
+        const res = await axiosInstance[method.toLowerCase()](url, {
+          ...requestConfig,
+          signal: controller.signal
+        });
+        setResponse(res.data);
+        //loading screen
+        await new Promise(r => setTimeout(r, 2000));
+      } catch (err) {
+        console.log(err.message);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    // call the function
+    fetchData();
+
+    // useEffect cleanup function
+    return () => controller.abort();
+
+    // eslint-disable-next-line
+  }, [reload]);
+
+  return [response, error, loading, refetch];
+}
+
+export default useAxios
