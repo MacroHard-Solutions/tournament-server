@@ -25,7 +25,7 @@ exports.getAllGames = async (req, res) => {
 };
 
 exports.addNewGame = async (req, res) => {
-  const clientInput = req.body;
+  const clientInput = req.body.data;
   const INSERT_GAME = `CALL insert_game("${clientInput.gameName}", "${clientInput.fileName}", "${clientInput.gameIcon}");`;
 
   await db
@@ -48,6 +48,6 @@ exports.fetchGAme = async (req, res) => {
 }; // TODO: implement
 
 exports.updateGame = async (req, res) => {
-  const clientInput = req.body;
+  const clientInput = req.body.data;
   res.end(); // TODO: implement
 };

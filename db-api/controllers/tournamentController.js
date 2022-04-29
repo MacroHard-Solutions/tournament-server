@@ -24,7 +24,7 @@ exports.getTournaments = async (req, res) => {
     });
 };
 exports.insertTournament = async (req, res) => {
-  const clientInput = req.body;
+  const clientInput = req.body.data;
   const INSERT_TOURNAMENT = `CALL insert_tournament("${clientInput.tournamentName}", "${clientInput.gameID}")`;
 
   db.execute(INSERT_TOURNAMENT)

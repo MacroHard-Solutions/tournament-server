@@ -2,7 +2,7 @@ const db = require('../util/db');
 const resultHandler = require('../util/resultHandler');
 
 exports.checkLogin = async (req, res, next) => {
-  clientInput = req.body;
+  clientInput = req.body.data;
 
   if (!clientInput.username_email || clientInput.username_email === '') {
     return resultHandler.returnError(
@@ -18,7 +18,7 @@ exports.checkLogin = async (req, res, next) => {
 
 // Debugging for frontend
 exports.checkReqBody = async (req, res, next) => {
-  clientInput = req.body;
+  clientInput = req.body.data;
 
   if (!clientInput.fName || clientInput.fName == '') {
     return resultHandler.returnError(res, 400, err, 'Missing fName required');
@@ -28,7 +28,7 @@ exports.checkReqBody = async (req, res, next) => {
 };
 
 exports.checkUsername = async (req, res) => {
-  const clientInput = req.body;
+  const clientInput = req.body.data;
   const CHECK_IF_USERNAME_EXISTS = `CALL check_existing_user("${clientInput.username}");`;
 
   await db
@@ -82,7 +82,7 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.insertUser = async (req, res) => {
-  const clientInput = req.body;
+  const clientInput = req.body.data;
   const INSERT_USER = `CALL insert_user ("${clientInput.fName}", "${
     clientInput.lName
   }", 
@@ -121,7 +121,7 @@ exports.insertUser = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  const clientInput = req.body;
+  const clientInput = req.body.data;
   const RETRIEVE_USER = `CALL get_user("${clientInput.username_email}", "${clientInput.username_email}", "${clientInput.passwd}");`;
 
   await db
@@ -141,6 +141,6 @@ exports.getUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  const clientInput = req.body;
+  const clientInput = req.body.data;
   // TODO: This
 };
