@@ -101,7 +101,7 @@ exports.insertUser = async (req, res) => {
   await db
     .execute(INSERT_USER)
     .then(([rows, fields]) => {
-      console.log(rows[0]);
+      // console.log(rows[0]);
 
       return resultHandler.returnSuccess(
         res,

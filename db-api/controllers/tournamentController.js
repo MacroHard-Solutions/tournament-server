@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const dbErrorLogger = require('../util/resultHandler');
+const resultHandler = require('../util/resultHandler');
 
 exports.getTournaments = async (req, res) => {
   const GET_ALL_TOURNAMENTS = 'SELECT * FROM `TOURNAMENT`';
@@ -7,14 +7,20 @@ exports.getTournaments = async (req, res) => {
   await db
     .execute(GET_ALL_TOURNAMENTS)
     .then(([rows, fields]) => {
-      res.status(201).json({
-        status: 'success',
-        message: 'Retrieved tournaments successfully',
-        newGame: rows,
-      });
+      return resultHandler.returnSuccess(
+        res,
+        201,
+        'Retrieved torunaments successfully',
+        rows
+      );
     })
     .catch((err) => {
-      dbErrorLogger(res, err, 'Unable to add the tournament');
+      return resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to add the tournament'
+      );
     });
 };
 exports.insertTournament = async (req, res) => {
@@ -23,14 +29,22 @@ exports.insertTournament = async (req, res) => {
 
   db.execute(INSERT_TOURNAMENT)
     .then(([rows, fields]) => {
-      res.status(201).json({
-        status: 'success',
-        message: 'Tournament added successfully',
-        newGame: rows[0],
-      });
+      return resultHandler.returnSuccess(
+        res,
+        201,
+        'Tournament added successfully',
+        rows[0]
+      );
     })
     .catch((err) => {
-      dbErrorLogger(res, err, 'Unable to add the tournament');
+      return resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to add the tournament'
+      );
     });
 };
-exports.deleteTournament = async (req, res) => {};
+exports.deleteTournament = async (req, res) => {
+  // TODO: this
+};

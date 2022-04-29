@@ -26,7 +26,7 @@ exports.getUserAgents = async (req, res) => {
         res,
         200,
         "The user's agent(s) have been retrieved",
-        rows
+        rows[0]
       );
     })
     .catch((err) => {

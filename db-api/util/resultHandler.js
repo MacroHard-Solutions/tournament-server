@@ -8,7 +8,7 @@ exports.returnSuccess = (res, statusCode, message, rows) => {
     .json({ status: 'success', message: message, resultData: rows });
 };
 exports.returnError = (res, statusCode, err, msg) => {
-  console.log(err);
+  // console.log(err);
 
   return res.status(statusCode).json({
     status: 'failed',
