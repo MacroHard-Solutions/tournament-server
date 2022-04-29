@@ -1,7 +1,7 @@
 const keyMapping = require('./renameEntityKey');
 
 exports.returnSuccess = (res, statusCode, message, rows) => {
-  if (rows !== null) keyMapping(rows);
+  // if (rows !== null) keyMapping(rows);
 
   return res
     .status(statusCode)

@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const dbErrorLogger = require('../util/resultHandler');
+const resultHandler = require('../util/resultHandler');
 
 exports.getAllGames = async (req, res) => {
   const RETRIEVE_ALL_GAMES = 'SELECT * FROM `GAME`';
@@ -7,14 +7,20 @@ exports.getAllGames = async (req, res) => {
   await db
     .execute(RETRIEVE_ALL_GAMES)
     .then(([rows, fields]) => {
-      res.status(200).json({
-        status: 'OK',
-        message: 'Games retrieved successfully',
-        gamseList: rows,
-      });
+      return resultHandler.returnSuccess(
+        res,
+        200,
+        'Games retrieved successfully',
+        rows
+      );
     })
     .catch((err) => {
-      dbErrorLogger(res, err, 'Unable to retrieve all games from the database');
+      return resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to retrieve all games from the database'
+      );
     });
 };
 
@@ -25,14 +31,15 @@ exports.addNewGame = async (req, res) => {
   await db
     .execute(INSERT_GAME)
     .then(([rows, fields]) => {
-      res.status(201).json({
-        status: 'success',
-        message: 'Game added successfully',
-        newGame: rows[0],
-      });
+      return resultHandler.returnSuccess(
+        res,
+        201,
+        'Game added successfully',
+        rows[0]
+      );
     })
     .catch((err) => {
-      dbErrorLogger(res, err, 'Unable to insert and/or retire the game');
+      resultHandler(res, err, 'Unable to insert and/or retire the game');
     });
 };
 

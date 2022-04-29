@@ -15,7 +15,9 @@ exports.checkLogin = async (req, res, next) => {
 
   next();
 };
-exports.checkBody = async (req, res, next) => {
+
+// Debugging for frontend
+exports.checkReqBody = async (req, res, next) => {
   clientInput = req.body;
 
   if (!clientInput.fName || clientInput.fName == '') {
@@ -62,7 +64,7 @@ exports.getAllUsers = async (req, res) => {
   await db
     .execute(RETRIEVE_USERS)
     .then(([rows, fields]) => {
-      resultHandler.returnSuccess(
+      return resultHandler.returnSuccess(
         res,
         200,
         'The users have been successfully retrieved',
@@ -70,7 +72,12 @@ exports.getAllUsers = async (req, res) => {
       );
     })
     .catch((err) => {
-      resultHandler.returnError(res, 502, err, 'Unable to retrieve users');
+      return resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to retrieve users'
+      );
     });
 };
 
@@ -125,7 +132,7 @@ exports.getUser = async (req, res) => {
       else return resultHandler.returnError(res, 404, 'User not found');
     })
     .catch((err) => {
-      resultHandler.returnError(
+      return resultHandler.returnError(
         res,
         err,
         'Unable to retrieve user from the database'

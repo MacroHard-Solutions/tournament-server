@@ -9,11 +9,10 @@ const router = express.Router();
 router
   .route('/')
   .get(userController.getAllUsers)
-  .post(userController.checkBody, userController.insertUser);
+  .post(userController.checkReqBody, userController.insertUser);
 
 router.route('/signupCheck').post(userController.checkUsername);
 router.route('/login').post(userController.checkLogin, userController.getUser);
 router.route('/update').patch(userController.updateUser); // FIXME: this
-// router.route('/:username').get(userController.fetchUser);
 
 module.exports = router;
