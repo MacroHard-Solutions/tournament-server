@@ -1,16 +1,16 @@
 const db = require('../util/db');
-const dbErrorLogger = require('../util/dbErrorLogger');
-// const keyMapping = require('../util/renameEntityKey');
+const resultHandler = require('../util/resultHandler');
 
 exports.checkLogin = async (req, res, next) => {
   clientInput = req.body;
 
   if (!clientInput.username_email || clientInput.username_email === '') {
-    return res.status(400).json({
-      status: 'failed',
-      message: 'Missing username/email required',
-      fName: clientInput.username_email,
-    });
+    return resultHandler.returnError(
+      res,
+      400,
+      err,
+      'Missing username/email required'
+    );
   }
 
   next();
@@ -19,11 +19,7 @@ exports.checkBody = async (req, res, next) => {
   clientInput = req.body;
 
   if (!clientInput.fName || clientInput.fName == '') {
-    return res.status(400).json({
-      status: 'failed',
-      message: 'Missing fName required',
-      fName: clientInput.fName,
-    });
+    return resultHandler.returnError(res, 400, err, 'Missing fName required');
   }
 
   next();
@@ -37,17 +33,22 @@ exports.checkUsername = async (req, res) => {
     .execute(CHECK_IF_USERNAME_EXISTS)
     .then(([rows, fields]) => {
       if (rows[0][0]['USER_COUNT'] === 0)
-        return res
-          .status(202)
-          .json({ status: 'OK', message: 'You may use this username' });
+        return resultHandler.returnSuccess(
+          res,
+          202,
+          'You may use this username',
+          null
+        );
       else
-        return res.status(409).json({
-          status: 'NOT OK',
-          message: 'There is an existing user with this username',
-        });
+        return resultHandler.returnError(
+          res,
+          400,
+          null,
+          'There is an existing user with this username'
+        );
     })
     .catch((err) => {
-      dbErrorLogger(
+      return resultHandler.returnError(
         res,
         err,
         "Error when checking for the username's existence"
@@ -61,16 +62,15 @@ exports.getAllUsers = async (req, res) => {
   await db
     .execute(RETRIEVE_USERS)
     .then(([rows, fields]) => {
-      // keyMapping(rows);
-
-      return res.status(200).json({
-        status: 'success',
-        message: 'List of registered users has been retrieved',
-        usersList: rows,
-      });
+      resultHandler.returnSuccess(
+        res,
+        200,
+        'The users have been successfully retrieved',
+        rows
+      );
     })
     .catch((err) => {
-      dbErrorLogger(res, err, 'Unable to retrieve users');
+      resultHandler.returnError(res, 502, err, 'Unable to retrieve users');
     });
 };
 
@@ -96,14 +96,20 @@ exports.insertUser = async (req, res) => {
     .then(([rows, fields]) => {
       console.log(rows[0]);
 
-      return res.status(201).json({
-        status: 'success',
-        message: 'The user has been successfully inserted',
-        newUser: rows[0][0],
-      });
+      return resultHandler.returnSuccess(
+        res,
+        201,
+        'The user has been stored successfully',
+        rows[0]
+      );
     })
     .catch((err) => {
-      dbErrorLogger(res, err, 'Unable to add new user to the database');
+      return resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to add new user to the database'
+      );
     });
 };
 
@@ -115,18 +121,15 @@ exports.getUser = async (req, res) => {
     .execute(RETRIEVE_USER)
     .then(([rows, fields]) => {
       if (rows[0].length > 0)
-        return res.status(200).json({
-          status: 'success',
-          message: 'User retrieved',
-          user: rows[0][0],
-        });
-      else
-        return res
-          .status(404)
-          .json({ status: 'Not Found', message: 'User not found' });
+        return resultHandler.returnSuccess(res, 200, 'User retrieved', rows[0]);
+      else return resultHandler.returnError(res, 404, 'User not found');
     })
     .catch((err) => {
-      dbErrorLogger(res, err, 'Unable to retrieve user from the database');
+      resultHandler.returnError(
+        res,
+        err,
+        'Unable to retrieve user from the database'
+      );
     });
 };
 

@@ -19,8 +19,10 @@ const keyMapping = new Map([
 
   ['AGENT_ID', 'agentID'],
   ['AGENT_ELO', 'agentELO'],
+  ['AGENT_STATUS', 'agentStatus'],
 
   ['MATCH_LOG_ID', 'matchLogID'],
+  ['MATCH_LOG_DATA', 'matchLogData'],
   ['MATCH_LOG_TIME', 'timeStamp'],
 
   ['ADDRESS_ID', 'addressID'],
@@ -28,26 +30,16 @@ const keyMapping = new Map([
   ['ADDRESS_PORT', 'portNum'],
 ]);
 
-exports.renameMultipleRows = async (rows) => {};
+module.exports = async (resultSet) => {
+  console.log(resultSet);
 
-modules.exports = async (rows) => {
-  resultSet = rows[0];
-  console.log(rows);
+  resultSet.forEach((rowObject) => {
+    let clientKey;
 
-  for (let row in rows) {
-    console.log(row);
-    console.log(row === 'USER_ID');
-
-    for (let key in row) {
-      console.log(key);
+    for (let dbKey in rowObject) {
+      clientKey = keyMapping.get(dbKey);
+      rowObject[clientKey] = rowObject[dbKey];
+      delete rowObject[dbKey];
     }
-  }
-  if (old_key !== new_key) {
-    Object.defineProperty(
-      o,
-      new_key,
-      Object.getOwnPropertyDescriptor(o, old_key)
-    );
-    delete o[old_key];
-  }
+  });
 };

@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const dbErrorLogger = require('../util/dbErrorLogger');
+const resultHandler = require('../util/resultHandler');
 
 const insertAgentAddress = async (ipAddress, portNum) => {
   return new Promise((resolve, reject) => {
@@ -24,14 +24,20 @@ exports.getUserAgents = async (req, res) => {
     .then(([rows, fields]) => {
       console.log(rows);
 
-      res.status(200).json({
-        status: 'success',
-        message: "The user's agent(s) have been retrieved",
-        agentsList: rows,
-      });
+      resultHandler.returnSuccess(
+        res,
+        200,
+        "The user's agent(s) have been retrieved",
+        rows
+      );
+      // res.status(200).json({
+      //   status: 'success',
+      //   message: ,
+      //   agentsList: rows,
+      // });
     })
     .catch((err) => {
-      dbErrorLogger(res, err, "Unable to retrieve the user's agents");
+      resultHandler(res, err, "Unable to retrieve the user's agents");
     });
 };
 
@@ -48,7 +54,7 @@ exports.insertAgent = async (req, res) => {
     console.log(newAddress);
     res.json({ newADD: newAddress });
   } catch (err) {
-    dbErrorLogger(res, err, 'Unable to add agent address to the database');
+    resultHandler(res, err, 'Unable to add agent address to the database');
   }
 
   // await db
@@ -80,7 +86,7 @@ exports.deleteAgent = async (req, res) => {
         message: 'The agent has been removed successfully',
       })
       .catch((err) => {
-        dbErrorLogger(res, err, 'Unable to remove the agent');
+        resultHandler(res, err, 'Unable to remove the agent');
       });
   });
 };

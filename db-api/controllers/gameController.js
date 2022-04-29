@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const dbErrorLogger = require('../util/dbErrorLogger');
+const dbErrorLogger = require('../util/resultHandler');
 
 exports.getAllGames = async (req, res) => {
   const RETRIEVE_ALL_GAMES = 'SELECT * FROM `GAME`';
