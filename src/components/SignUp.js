@@ -53,7 +53,7 @@ function SignUp({ userObj, setuserObj }) {
                 createUser();
             }
         }).catch(function (error) {
-            if (error.response.status == 400) {
+            if (error.response.status === "400") {
                 //show username is taken
                 setUsername("");
                 setErrorcaption("Username Already Exists");
