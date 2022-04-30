@@ -99,7 +99,7 @@ function SignIn({ userObj, setuserObj }) {
             <div className="Signinbox">
                 <h2>Sign In</h2>
                 {errorPrompt && <span className='loginprompt'>{errorCaption}</span>}
-                {loading && <Loading caption='Loading...' />}
+                {loading && <Loading caption='Loading User Credentials...' />}
                 <form>
                     <div className="input-container">
                         <input
