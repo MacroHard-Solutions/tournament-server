@@ -5,13 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useAxios } from "../hooks/useAxios";
 import Loading from "../components/Loading";
-import axios from "axios";
+import axios from "../apis/TourneyServerAPI";
+import useAxiosFunction from "../hooks/useAxiosFunction";
 
 /*
-    TODO List:
-        Enable sha256 for password encryption
-        validate data fields
-        fix requests
+    Task List:
+        TODO nable sha256 for password encryption
+        TODO fix requests
 */
 
 function SignUp({ userObj, setuserObj }) {
@@ -27,6 +27,9 @@ function SignUp({ userObj, setuserObj }) {
     const [errorCaption, setErrorcaption] = useState("Loading...");
     const [checkLoading, setCheckloading] = useState(false);
 
+    //hook to use axios to make requests to backend
+    const [response, error, loading, axiosFetch] = useAxiosFunction();
+
     const history = useHistory();
 
     //checkUser
@@ -35,17 +38,23 @@ function SignUp({ userObj, setuserObj }) {
             method: 'POST',
             url: 'https://tournament-server.herokuapp.com/api/v2/user/signupCheck',
             headers: { 'Content-Type': 'application/json' },
-            data: { 'username': username }
+            data: {
+                data: {
+                    'username': username
+                },
+                signal: {}
+            }
         };
-
-        axios.request(options).then(function (response) {
-            if (response.status === 202) {
-                //send request to create user
+        setCheckloading(true);
+        await axios.request(options).then(function (response) {
+            if (response.data.status === "success") {
+                setCheckloading(false);
                 console.log('trying to create user');
+                //send request to create user
                 createUser();
             }
         }).catch(function (error) {
-            if (error.response.status === 409) {
+            if (error.response.status == 400) {
                 //show username is taken
                 setUsername("");
                 setErrorcaption("Username Already Exists");
@@ -59,9 +68,50 @@ function SignUp({ userObj, setuserObj }) {
 
     //createUser
     const createUser = async () => {
-
+        axiosFetch({
+            axiosInstance: axios,
+            method: 'POST',
+            url: '/user',
+            requestConfig: {
+                data: {
+                    "userID": uuidv4(),
+                    "fName": fname,
+                    "lName": lname,
+                    "username": username,
+                    "userEmail": email,
+                    "userPass": password1,
+                    "isAdmin": false,
+                    "wantsNotifications": false
+                }
+            }
+        });
+        setSignupattempt(false);
     };
 
+    //useEffect to handle errors
+    useEffect(() => {
+        if (error) {
+            setErrorprompt(true);
+            setErrorcaption('Unable to create User...Please Try Again');
+            console.log('User Not Created');
+            console.log(error);
+        }
+    }, [error])
+
+    //useeffect for when response changes
+    useEffect(() => {
+        const result = Array.isArray(response);
+        if (response && !result) {
+            console.log('User Found');
+            if (response.status === "success") {
+                setuserObj(response.resultData[0]);
+                history.push('profile');
+                //TODO clear comment
+                console.log(response.resultData[0]);
+            }
+        }
+        //eslint-disable-next-line
+    }, [response]);
 
     //functions to vaidate data fields
     const emailValidation = () => {
@@ -128,7 +178,7 @@ function SignUp({ userObj, setuserObj }) {
     return (
         <div className="Signup">
             <div className="Signupbox">
-                {/*loading && <Loading caption="Initializing User Creation..." >*/}
+                {loading && <Loading caption="Initializing User Creation..." />}
                 {checkLoading && <Loading caption="Checking User Validity..." />}
                 <h2>Sign Up</h2>
                 <span>Please Fill All Fields Below:</span>

@@ -8,8 +8,8 @@ import axios from '../apis/TourneyServerAPI';
 import useAxiosFunction from "../hooks/useAxiosFunction";
 
 /*
-    TODO List:
-    Enable sha256 for encypting password
+    Task List:
+    TODO Enable sha256 for encypting password
 */
 
 function SignIn({ userObj, setuserObj }) {
