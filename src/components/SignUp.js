@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import "../styles/SignUp.css";
 import { v4 as uuidv4 } from "uuid";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { useAxios } from "../hooks/useAxios";
 import Loading from "../components/Loading";
 import axios from "../apis/TourneyServerAPI";
 import useAxiosFunction from "../hooks/useAxiosFunction";

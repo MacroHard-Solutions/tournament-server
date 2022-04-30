@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "../styles/SignIn.css";
 import Loading from "../components/Loading";
-import hash from "../components/hash";
+//import hash from "../components/hash";
 import axios from '../apis/TourneyServerAPI';
 import useAxiosFunction from "../hooks/useAxiosFunction";
 
