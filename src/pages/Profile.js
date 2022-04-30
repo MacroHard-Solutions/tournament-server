@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import '../styles/Profile.css';
+import React from 'react';
 
 
 //TODO: Team MT work on user Info Section (discuss specifics with katlego) 
@@ -23,7 +24,7 @@ function Profile({ userObj, setuserObj }) {
     return (
         <div className='profile'>
             <div className='profileBox'>
-                {/*TODO Team MT Only work in this div*/}
+                {/*TODO: Team MT Only work in this div*/}
                 <h1>User Info Section</h1>
                 <h3>Profile for: {JSON.stringify(userObj)}</h3>
                 <button onClick={logOut}>Log out</button>

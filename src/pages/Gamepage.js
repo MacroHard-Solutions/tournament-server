@@ -1,6 +1,7 @@
+import React from 'react';
 
-function Gamepage(){
-    return(
+function Gamepage() {
+    return (
         <>
             <h1>Gamepage</h1>
         </>

@@ -1,4 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "../styles/SignIn.css";

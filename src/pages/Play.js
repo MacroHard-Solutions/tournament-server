@@ -1,7 +1,8 @@
+import React from 'react';
 
 function Play() {
 
-    return(
+    return (
         <h1>Play Game</h1>
     );
 }

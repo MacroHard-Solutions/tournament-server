@@ -1,4 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 import { useState, useEffect } from "react";
 import "../styles/SignUp.css";
 import { v4 as uuidv4 } from "uuid";
@@ -114,6 +114,7 @@ function SignUp({ userObj, setuserObj }) {
 
     //functions to vaidate data fields
     const emailValidation = () => {
+        //eslint-disable-next-line
         let regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!regEmail.test(email)) {
             setErrorcaption('Invalid Email Address');

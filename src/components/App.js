@@ -14,6 +14,7 @@ import Gamepage from '../pages/Gamepage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
+import React from 'react';
 
 /*
   App Structure:

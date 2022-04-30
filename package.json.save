@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "netlify-cli": "^8.14.1"
-  }
+    "eslint": "^8.14.0",
+    "eslint-plugin-react": "^7.29.4",
+    "netlify-cli": "^8.14
 }

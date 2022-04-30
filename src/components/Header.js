@@ -1,14 +1,15 @@
 import '../styles/Header.css'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import { useState } from 'react';
-import {SidebarData} from './SidebarData';
+import { SidebarData } from './SidebarData';
+import React from 'react';
 
 const Header = () => {
 
-    const [sidebar,setSidebar] = useState(false);
+    const [sidebar, setSidebar] = useState(false);
 
     const history = useHistory();
 
@@ -22,22 +23,22 @@ const Header = () => {
 
     var logo = '/imgs/blacklogo.jpg';
 
-    return(
+    return (
         <div className="Header">
             <img src={logo} alt="MacroHard" />
             <h2 onClick={returnHome}>acroHard Tournament Server</h2>
             <Link to='#' className='menu-bars'>
-                <FaIcons.FaBars onClick={showSidebar}/>
+                <FaIcons.FaBars onClick={showSidebar} />
             </Link>
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
                 <ul className='nav-menu-items' onClick={showSidebar}>
                     <li className="navbar-toggle">
                         <Link to='#' className='menu-bars close'>
-                            <AiIcons.AiOutlineClose/>
+                            <AiIcons.AiOutlineClose />
                         </Link>
                     </li>
-                    {SidebarData.map((item,index) => {
-                        return(
+                    {SidebarData.map((item, index) => {
+                        return (
                             <li key={index} className={item.cname}>
                                 <Link to={item.path}>
                                     {item.icon}

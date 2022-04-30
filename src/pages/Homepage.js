@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect } from "react";
 import '../styles/Homepage.css';
 import GameTile from '../components/GameTile';
@@ -5,22 +6,22 @@ import GameTile from '../components/GameTile';
 function Homepage() {
 
     useEffect(() => {
-        window.scroll(0,0)
-    },[])
+        window.scroll(0, 0)
+    }, [])
 
-    
-    return(
+
+    return (
         <div className="Home">
             <h1>Popular Games</h1>
             <div className="Popgames">
                 <div className="game">
-                    <GameTile title="Chess"/>
+                    <GameTile title="Chess" />
                 </div>
                 <div className="game">
-                    <GameTile title="Rock-Paper-Scissors"/>
+                    <GameTile title="Rock-Paper-Scissors" />
                 </div>
                 <div className="game">
-                    <GameTile title="Tick-Tac-Toe"/>
+                    <GameTile title="Tick-Tac-Toe" />
                 </div>
             </div>
         </div>

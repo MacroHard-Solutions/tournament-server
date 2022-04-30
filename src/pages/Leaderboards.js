@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import '../styles/Leaderboards.css' 
+import '../styles/Leaderboards.css'
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdbreact';
- 
-function Leaderboards() {
-    
-    useEffect(() => {
-        window.scroll(0,0)
-    },[])
+import React from 'react';
 
-     const data = {
+function Leaderboards() {
+
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
+
+  const data = {
     columns: [
       {
         label: 'Name',
@@ -123,51 +124,51 @@ function Leaderboards() {
     ]
   };
 
-    return(
-        <div className="CommunityHome">
-            <h1>Leaderboards:</h1>
-            <div className="Poptables">
-                <div className="tablecontent">
-                    <div className="buttons2">
-                        <h3 className="Title">Chess</h3>
-                        <button>play</button>
-                        <button>watch</button>
-                    </div>
-                    <div>  
-                        <MDBTable scrollY>
-                            <MDBTableHead columns={data.columns} />
-                            <MDBTableBody rows={data.rows} />
-                            </MDBTable>
-                    </div>  
-                </div>
-                <div className="tablecontent">
-                    <div className="buttons2">
-                        <h3 className="Title">Rock-Paper-Scissors</h3>
-                        <button>play</button>
-                        <button>watch</button>
-                    </div>
-                    <div>  
-                        <MDBTable scrollY>
-                            <MDBTableHead columns={data.columns} />
-                            <MDBTableBody rows={data.rows} />
-                            </MDBTable>
-                    </div> 
-                </div>
-                <div className="tablecontent">
-                    <div className="buttons2">
-                        <h3 className="Title">Tick-Tac-Toe</h3>
-                        <button>play</button>
-                        <button>watch</button>
-                    </div>
-                    <div>  
-                        <MDBTable scrollY>
-                            <MDBTableHead columns={data.columns} />
-                            <MDBTableBody rows={data.rows} />
-                            </MDBTable>
-                    </div> 
-                </div>
-            </div>
+  return (
+    <div className="CommunityHome">
+      <h1>Leaderboards:</h1>
+      <div className="Poptables">
+        <div className="tablecontent">
+          <div className="buttons2">
+            <h3 className="Title">Chess</h3>
+            <button>play</button>
+            <button>watch</button>
+          </div>
+          <div>
+            <MDBTable scrollY>
+              <MDBTableHead columns={data.columns} />
+              <MDBTableBody rows={data.rows} />
+            </MDBTable>
+          </div>
         </div>
-    )
+        <div className="tablecontent">
+          <div className="buttons2">
+            <h3 className="Title">Rock-Paper-Scissors</h3>
+            <button>play</button>
+            <button>watch</button>
+          </div>
+          <div>
+            <MDBTable scrollY>
+              <MDBTableHead columns={data.columns} />
+              <MDBTableBody rows={data.rows} />
+            </MDBTable>
+          </div>
+        </div>
+        <div className="tablecontent">
+          <div className="buttons2">
+            <h3 className="Title">Tick-Tac-Toe</h3>
+            <button>play</button>
+            <button>watch</button>
+          </div>
+          <div>
+            <MDBTable scrollY>
+              <MDBTableHead columns={data.columns} />
+              <MDBTableBody rows={data.rows} />
+            </MDBTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 export default Leaderboards;

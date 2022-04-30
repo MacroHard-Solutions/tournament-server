@@ -1,6 +1,7 @@
+import React from 'react';
 
-function AMC () {
-    return(
+function AMC() {
+    return (
         <>
             <h1>AMC</h1>
         </>

@@ -1,3 +1,4 @@
+import React from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 
@@ -5,25 +6,25 @@ export const SidebarData = [
     {
         title: 'Profile',
         path: '/profile',
-        icon: <FaIcons.FaUserCog/>,
+        icon: <FaIcons.FaUserCog />,
         cName: 'nav-text'
     },
     {
         title: 'Community',
         path: '/leaderboards',
-        icon: <FaIcons.FaUniversity/>,
+        icon: <FaIcons.FaUniversity />,
         cName: 'nav-text'
     },
     {
         title: 'About',
         path: '/home',
-        icon: <AiIcons.AiFillQuestionCircle/>,
+        icon: <AiIcons.AiFillQuestionCircle />,
         cName: 'nav-text'
     },
     {
         title: 'Agent Management',
         path: '/amc',
-        icon: <AiIcons.AiFillCode/>,
+        icon: <AiIcons.AiFillCode />,
         cname: 'nav-text'
     }
 ]

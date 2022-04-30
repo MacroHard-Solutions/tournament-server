@@ -1,6 +1,7 @@
+import React from 'react';
 
 function Watch() {
-    return(
+    return (
         <h1>Watch Game</h1>
     )
 }
