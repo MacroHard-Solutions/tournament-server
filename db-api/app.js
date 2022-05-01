@@ -7,6 +7,7 @@ const userRouter = require('./routes/userRouter');
 const agentRouter = require('./routes/agentRouter');
 const gameRouter = require('./routes/gameRouter');
 const tournamentRouter = require('./routes/tournamentRouter');
+const matchRouter = require('./routes/matchRouter');
 
 const app = express();
 ////////////////////////////////
@@ -37,5 +38,6 @@ app.use('/api/v2/user', userRouter);
 app.use('/api/v2/agent', agentRouter);
 app.use('/api/v2/game', gameRouter);
 app.use('/api/v2/tournament', tournamentRouter);
+app.use('/api/v2/match', matchRouter);
 
 module.exports = app;
