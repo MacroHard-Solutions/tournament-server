@@ -30,11 +30,11 @@ div.imageholder button.buttonn{
 .buttonn{
     width: 100px;
     height: 40px;
-    margin-top: 20%;
+    margin-top: 50%;
 }
 
 .tileicon{
-    margin-top: 20%;
+    margin-top: 10%;
     display: flex;
     flex-direction: row;
 }
@@ -43,6 +43,7 @@ div.imageholder button.buttonn{
     justify-content: space-around;
     display: flex;
     flex-direction: row;
+    margin-top: 10%;
 }
 
 button{
@@ -112,3 +113,4 @@ button:disabled {
     background: rgba(0, 0, 0, .08);
     color: rgba(0, 0, 0, .3);
 }
+

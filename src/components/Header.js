@@ -21,12 +21,15 @@ const Header = () => {
         setSidebar(!sidebar);
     }
 
-    var logo = '/imgs/blacklogo.jpg';
+    var logo = '/imgs/block_logo_azure_white.jpg';
+    
 
     return (
         <div className="Header">
-            <img src={logo} alt="MacroHard" />
-            <h2 onClick={returnHome}>acroHard Tournament Server</h2>
+            <img className="img1" src={logo} alt="MacroHard"/>
+            <img className="img2" onClick={returnHome} src={'/imgs/macro_only3.jpg'} alt="MacroHard" />
+            <img className="img3" onClick={returnHome} src={'/imgs/ttitle_only.jpg'} alt="MacroHard" />
+            <h2 onClick={returnHome}></h2>
             <Link to='#' className='menu-bars'>
                 <FaIcons.FaBars onClick={showSidebar} />
             </Link>

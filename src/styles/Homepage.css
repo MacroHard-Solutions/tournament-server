@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1em;
+    background: fixed;
+    flex: 1;
 }
 
 .Popgames{
@@ -24,8 +25,10 @@
 
 .game{
     height: fit-content;
-    padding: 0.1em;
+    padding: 1em;
     width: fit-content;
+    border-radius: 0.5em;
+    
 }
 
 button{

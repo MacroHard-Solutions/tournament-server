@@ -14,6 +14,40 @@
     max-width: 65vw;
     height: 85vh;
     overflow: scroll;
+    background: white;
+    padding: 1em;
+}
+
+.usernameDP{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 1%;
+    margin-top: 2.5%;
+}
+
+.usernameBox{
+    background-color: beige;
+    display: flex;
+    flex-direction: column;
+    margin-left: 4%;
+    padding: 2em;
+    align-items: center;
+    border-radius: 2em;
+}
+
+.statBox{
+    display: flex;
+    flex-direction: row;
+    margin-left: 1%;
+    margin-top: 5%;
+}
+
+.statfieldBox{
+}
+
+.statinfoBox{
+    margin-left: 6%;
 }
 
 .profileAgentsBox {
@@ -22,6 +56,8 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
     width: 25vw;
+    background: white;
     height: 85vh;
     overflow: scroll;
+    padding: 1em;
 }

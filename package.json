@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
     "mdbreact": "^4.6.1",
+    "particles-bg": "^2.5.5",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-fakers": "^1.0.3-rc1",
