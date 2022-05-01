@@ -1,4 +1,4 @@
-.Header{
+.Header {
     background: rgb(14, 68, 136);
     display: flex;
     align-items: baseline;
@@ -9,7 +9,7 @@
     z-index: 5;
 }
 
-.img1{
+.img1 {
     width: 3em;
     height: 3em;
     align-self: center;
@@ -17,7 +17,7 @@
     cursor: pointer;
 }
 
-.img2{
+.img2 {
     width: 4em;
     height: 4em;
     align-self: center;
@@ -27,7 +27,7 @@
 
 }
 
-.img3{
+.img3 {
     width: 7.5em;
     height: 2.25em;
     align-self: center;
@@ -39,7 +39,7 @@
 
 
 
-.Nav{
+.Nav {
     flex-grow: 1;
     list-style-type: none;
     display: flex;
@@ -48,14 +48,14 @@
     float: right;
 }
 
-.signbuttons{
+.signbuttons {
     font-family: monospace;
     color: black;
     background: rgb(0, 123, 195);
     font-size: x-large;
 }
 
-ul{
+ul {
     list-style: none;
 }
 
@@ -88,12 +88,12 @@ a:hover::before {
 
 .Header h2 {
     color: rgba(0, 0, 0, 0.95);
-    margin : 0;
+    margin: 0;
     cursor: pointer;
     flex-grow: 1;
     font-style: italic;
     font-weight: 900;
-    
+
 }
 
 .Header h2::before {
@@ -115,19 +115,19 @@ a:hover::before {
     transform: scaleX(1);
 }
 
-.menu-bars{
+.menu-bars {
     right: 0;
     margin: 0.75em 2.5em;
-    color:white;
+    color: white;
 }
 
-.menu-bars.close{
+.menu-bars.close {
     right: -8rem;
     font-size: x-large;
     color: white;
 }
 
-.nav-menu{
+.nav-menu {
     width: 20em;
     height: 100vh;
     display: flex;
@@ -139,17 +139,17 @@ a:hover::before {
     background-color: rgb(14, 68, 136);
 }
 
-.nav-menu.active{
+.nav-menu.active {
     right: 0rem;
     transition: 350ms;
 }
 
-.nav-menu-items{
+.nav-menu-items {
     width: 100%;
     margin: 2rem 0;
 }
 
-.navbar-toggle{
+.navbar-toggle {
     width: 100%;
     height: 3em;
     display: flex;
@@ -157,8 +157,9 @@ a:hover::before {
     align-items: center;
 }
 
-span{
+span {
     margin-left: 1.3em;
     font-size: larger;
     margin: 1em;
+    color: rgb(254, 255, 254);
 }
