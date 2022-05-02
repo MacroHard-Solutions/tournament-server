@@ -884,10 +884,32 @@ paths:
             schema:
               type: object
               properties:
-                username:
-                  type: string
-                  example: Kixn
+                data: 
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      example: Kixn
+                signal:
+                  type: object
       responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: Success
+                  message:
+                    type: string
+                    example: You may use this username
+                  resultData:
+                    type: string
+                    example: 
+
         '400':
           description: Bad request
       summary: Check duplicate username

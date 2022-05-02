@@ -58,6 +58,9 @@ web_modules/
 # Optional npm cache directory
 .npm
 
+# Non node related packages
+*.py
+
 # Optional eslint cache
 .eslintcache
 
