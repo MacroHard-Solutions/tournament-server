@@ -1,0 +1,290 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "LoopBack Application",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "http://localhost:8000/": {
+      "get": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "http://localhost:8000/"
+        },
+        "operationId": "get-http:--localhost:8000",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "List http: localhost:8000s",
+        "tags": [
+          "Miscellaneous"
+        ]
+      },
+      "parameters": [],
+      "post": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "http://localhost:8000/"
+        },
+        "operationId": "post-http:--localhost:8000",
+        "parameters": [],
+        "responses": {},
+        "summary": "Create http: localhost:8000",
+        "tags": [
+          "Miscellaneous"
+        ]
+      }
+    },
+    "https://tournament-server.herokuapp.com/api/v2/agent": {
+      "parameters": [],
+      "put": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/agent"
+        },
+        "operationId": "put-https:--tournament-server.herokuapp.com-api-v2-agent",
+        "parameters": [],
+        "responses": {},
+        "summary": "Update tournament-server.herokuapp.com v2s",
+        "tags": [
+          "Miscellaneous"
+        ]
+      }
+    },
+    "https://tournament-server.herokuapp.com/api/v2/agent/": {
+      "delete": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/agent/"
+        },
+        "operationId": "delete-https:--tournament-server.herokuapp.com-api-v2-agent",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Item deleted"
+          }
+        },
+        "summary": "Delete api agents",
+        "tags": [
+          "Miscellaneous"
+        ]
+      },
+      "parameters": [],
+      "post": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/agent/"
+        },
+        "operationId": "post-https:--tournament-server.herokuapp.com-api-v2-agent",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Item created"
+          }
+        },
+        "summary": "Create api agent",
+        "tags": [
+          "Miscellaneous"
+        ]
+      }
+    },
+    "https://tournament-server.herokuapp.com/api/v2/game": {
+      "get": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/game"
+        },
+        "operationId": "get-https:--tournament-server.herokuapp.com-api-v2-game",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "List tournament-server.herokuapp.com v2s",
+        "tags": [
+          "Miscellaneous"
+        ]
+      },
+      "parameters": []
+    },
+    "https://tournament-server.herokuapp.com/api/v2/game/": {
+      "parameters": [],
+      "put": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/game/"
+        },
+        "operationId": "put-https:--tournament-server.herokuapp.com-api-v2-game",
+        "parameters": [],
+        "responses": {},
+        "summary": "Update api games",
+        "tags": [
+          "Miscellaneous"
+        ]
+      }
+    },
+    "https://tournament-server.herokuapp.com/api/v2/match/": {
+      "parameters": [],
+      "post": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/match/"
+        },
+        "operationId": "post-https:--tournament-server.herokuapp.com-api-v2-match",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Item created"
+          }
+        },
+        "summary": "Create api match",
+        "tags": [
+          "Miscellaneous"
+        ]
+      },
+      "put": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/match/"
+        },
+        "operationId": "put-https:--tournament-server.herokuapp.com-api-v2-match",
+        "parameters": [],
+        "responses": {},
+        "summary": "Update api matches",
+        "tags": [
+          "Miscellaneous"
+        ]
+      }
+    },
+    "https://tournament-server.herokuapp.com/api/v2/tournament": {
+      "get": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/tournament"
+        },
+        "operationId": "get-https:--tournament-server.herokuapp.com-api-v2-tournament",
+        "parameters": [],
+        "responses": {},
+        "summary": "List tournament-server.herokuapp.com v2s",
+        "tags": [
+          "Miscellaneous"
+        ]
+      },
+      "parameters": []
+    },
+    "https://tournament-server.herokuapp.com/api/v2/tournament/add": {
+      "parameters": [],
+      "post": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/tournament/add"
+        },
+        "operationId": "post-https:--tournament-server.herokuapp.com-api-v2-tournament-add",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Item created"
+          }
+        },
+        "summary": "Create api tournament",
+        "tags": [
+          "Miscellaneous"
+        ]
+      }
+    },
+    "https://tournament-server.herokuapp.com/api/v2/user": {
+      "get": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/user"
+        },
+        "operationId": "get-https:--tournament-server.herokuapp.com-api-v2-user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "summary": "List tournament-server.herokuapp.com v2s",
+        "tags": [
+          "Miscellaneous"
+        ]
+      },
+      "parameters": [],
+      "post": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/user"
+        },
+        "operationId": "post-https:--tournament-server.herokuapp.com-api-v2-user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Item created"
+          }
+        },
+        "summary": "Create tournament-server.herokuapp.com v2",
+        "tags": [
+          "Miscellaneous"
+        ]
+      },
+      "put": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/user"
+        },
+        "operationId": "put-https:--tournament-server.herokuapp.com-api-v2-user",
+        "parameters": [],
+        "responses": {},
+        "summary": "Update tournament-server.herokuapp.com v2s",
+        "tags": [
+          "Miscellaneous"
+        ]
+      }
+    },
+    "https://tournament-server.herokuapp.com/api/v2/user/signupCheck": {
+      "parameters": [],
+      "post": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://tournament-server.herokuapp.com/api/v2/user/signupCheck"
+        },
+        "operationId": "post-https:--tournament-server.herokuapp.com-api-v2-user-signupCheck",
+        "parameters": [],
+        "responses": {
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "summary": "Create api user",
+        "tags": [
+          "Miscellaneous"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ]
+}

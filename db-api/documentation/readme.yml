@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  title: DB API
+  version: 2.12.0
+paths:
+  /:
+    parameters: []
+    get:
+      description: ''
+      operationId: 'get-https:--tournament-server.herokuapp.com'
+      parameters: []
+      responses:
+        '200':
+          description: Retrieves the API documentation
+      summary: 'The API documentation'
+      tags:
+        - Miscellaneous
+  /agent:
+    parameters: []
+    put:
+      description: 'Inserts the agent into the database'
+      operationId: 'put-https:--tournament-server.herokuapp.com-api-v2-agent'
+      requestBody: 
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    userID: 
+                      type: string
+                      example: 0fbe7dd3-20b4-400a-ad28-53d86dd36cd2
+                    tournamentID:
+                      type: string
+                      example: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
+                    ipAddress:
+                      type: string
+                      example: 192.168.0.0.1
+                    portNum:
+                      type: integer
+                      example: 8000
+                signal:
+                  type: object
+
+      responses:
+        '201':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The user ID.
+                  username:
+                    type: string
+                    description: The user name.
+          
+      summary: Inserts the user's agent
+      tags:
+        - Agent
+    delete:
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: Item deleted
+      summary: Delete api agents
+      tags:
+        - Agent
+    post:
+      description: ''
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-agent'
+      parameters: []
+      responses:
+        '200':
+          description: Item created
+      summary: Create api agent
+      tags:
+        - Agent
+  /game:
+    parameters: []
+    get:
+      description: ''
+      operationId: 'get-https:--tournament-server.herokuapp.com-api-v2-game'
+      parameters: []
+      responses:
+        '200':
+          description: Success
+      summary: List tournament-server.herokuapp.com v2s
+      tags:
+        - Game
+    put:
+      description: ''
+      operationId: 'put-https:--tournament-server.herokuapp.com-api-v2-game'
+      parameters: []
+      responses:
+        '200':
+          description: Item created
+      summary: Update api games
+      tags:
+        - Game
+  /match:
+    parameters: []
+    post:
+      description: ''
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-match'
+      parameters: []
+      responses:
+        '200':
+          description: Item created
+      summary: Create api match
+      tags:
+        - Match
+    put:
+      description: ''
+      operationId: 'put-https:--tournament-server.herokuapp.com-api-v2-match'
+      parameters: []
+      responses:
+        '200':
+          description: Item created
+      summary: Update api matches
+      tags:
+        - Match
+  /tournament:
+    get:
+      description: ''
+      operationId: 'get-https:--tournament-server.herokuapp.com-api-v2-tournament'
+      parameters: []
+      responses:
+        '200':
+          description: Item created
+      summary: List tournament-server.herokuapp.com v2s
+      tags:
+        - Tournament
+    parameters: []
+  /tournament/add:
+    parameters: []
+    post:
+      description: ''
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-tournament-add'
+      parameters: []
+      responses:
+        '201':
+          description: Item created
+      summary: Create api tournament
+      tags:
+        - Tournament
+  /user:
+    get:
+      description: ''
+      operationId: 'get-https:--tournament-server.herokuapp.com-api-v2-user'
+      parameters: []
+      responses:
+        '200':
+          description: Success
+      summary: List tournament-server.herokuapp.com v2s
+      tags:
+        - User
+    parameters: []
+    post:
+      description: ''
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-user'
+      parameters: []
+      responses:
+        '200':
+          description: Item created
+      summary: Create tournament-server.herokuapp.com v2
+      tags:
+        - User
+    put:
+      description: ''
+      operationId: 'put-https:--tournament-server.herokuapp.com-api-v2-user'
+      parameters: []
+      responses:
+        '200':
+          description: Item created
+      summary: Update tournament-server.herokuapp.com v2s
+      tags:
+        - User
+  /user/signupCheck:
+    parameters: []
+    post:
+      description: ''
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-user-signupCheck'
+      parameters: []
+      responses:
+        '400':
+          description: Bad request
+      summary: Create api user
+      tags:
+        - User
+servers:
+  - url: https://tournament-server.herokuapp.com/api/v2/
