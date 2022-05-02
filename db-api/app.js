@@ -31,13 +31,27 @@ app.use((req, res, next) => {
 ////////////////////////////////
 /// Routes
 ////////////////////////////////
-app.use('/', homeRouter);
-app.use('/api/v2/', homeRouter);
 
-app.use('/api/v2/user', userRouter);
-app.use('/api/v2/agent', agentRouter);
-app.use('/api/v2/game', gameRouter);
-app.use('/api/v2/tournament', tournamentRouter);
-app.use('/api/v2/match', matchRouter);
+try {
+  app.use('/', homeRouter);
+  app.use('/api/v2/', homeRouter);
+
+  app.use('/api/v2/user', userRouter);
+  app.use('/api/v2/agent', agentRouter);
+  app.use('/api/v2/game', gameRouter);
+  app.use('/api/v2/tournament', tournamentRouter);
+  app.use('/api/v2/match', matchRouter);
+} catch (err) {
+  app.use((req, res, next) => {
+    res.status(400).json({
+      status: 'error',
+      message:
+        'Invalid request body data. Please check the documentation to correct the request.',
+      errorLog: err,
+    });
+
+    next();
+  });
+}
 
 module.exports = app;

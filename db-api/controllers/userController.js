@@ -96,7 +96,7 @@ exports.insertUser = async (req, res) => {
     clientInput.userDP == null || clientInput.userDP === ''
       ? 'default.png'
       : clientInput.userDP
-  }")`;
+  }", "${clientInput.userDescription}")`;
 
   await db
     .execute(INSERT_USER)

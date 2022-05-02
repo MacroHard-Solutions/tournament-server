@@ -25,7 +25,7 @@ exports.getTournaments = async (req, res) => {
 };
 exports.insertTournament = async (req, res) => {
   const clientInput = req.body.data;
-  const INSERT_TOURNAMENT = `CALL insert_tournament("${clientInput.tournamentName}", "${clientInput.gameID}")`;
+  const INSERT_TOURNAMENT = `CALL insert_tournament("${clientInput.tournamentName}", "${clientInput.gameID}", "${clientInput.tournamentDP}")`;
 
   db.execute(INSERT_TOURNAMENT)
     .then(([rows, fields]) => {
@@ -33,7 +33,7 @@ exports.insertTournament = async (req, res) => {
         res,
         201,
         'Tournament added successfully',
-        rows[0]
+        rows[0][0]
       );
     })
     .catch((err) => {
