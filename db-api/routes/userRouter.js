@@ -9,7 +9,7 @@ router
   .get(userController.getAllUsers)
   .put(userController.checkReqBody, userController.insertUser)
   .post(userController.checkLogin, userController.getUser);
-  
+
 router.route('/signupCheck').post(userController.checkUsername);
 router.route('/update').patch(userController.updateUser); // FIXME: this
 

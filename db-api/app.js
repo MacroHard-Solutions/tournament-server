@@ -1,6 +1,7 @@
 const express = require('express'); // Framework for node
 const morgan = require('morgan'); // HTTP request logger
 const cors = require('cors'); // CORS middleware
+const bodyParser = require('body-parser');
 
 const homeRouter = require('./routes/homeRouter');
 const userRouter = require('./routes/userRouter');
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(cors());
 
 app.use(express.json()); // Parse the body into json
-app.use(express.static(`${__dirname}/public`)); // Provide the /public directory for file transfer
+// app.use(bodyParser.json());
 
 // Log the time the file was requested
 app.use((req, res, next) => {
@@ -32,8 +33,7 @@ app.use((req, res, next) => {
 /// Routes
 ////////////////////////////////
 
-app.use('/', homeRouter);
-app.use('/api/v2/', homeRouter);
+app.use('/api/v2', express.static(`${__dirname}/public`)); // Provide the /public directory for file transfer
 
 app.use('/api/v2/user', userRouter);
 app.use('/api/v2/agent', agentRouter);

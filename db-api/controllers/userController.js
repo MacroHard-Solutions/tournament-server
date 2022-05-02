@@ -18,6 +18,7 @@ exports.checkLogin = async (req, res, next) => {
 
 // Debugging for frontend
 exports.checkReqBody = async (req, res, next) => {
+
   clientInput = req.body.data;
 
   if (!clientInput.fName || clientInput.fName == '') {
