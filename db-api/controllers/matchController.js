@@ -22,7 +22,30 @@ const insertAgentResult = async (matchLogID, agentID, ranking) => {
   });
 };
 
-exports.getMatches = async (req, res) => {
+exports.getAllMatchResults = async (req, res) => {
+  const GET_ALL_MATCH_RESULTS = 'CALL get_match_results();';
+
+  await db
+    .execute(GET_ALL_MATCH_RESULTS)
+    .then(([rows, fields]) => {
+      resultHandler.returnSuccess(
+        res,
+        200,
+        'Successfully retrieved all match results',
+        rows[0]
+      );
+    })
+    .catch((err) => {
+      resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to retrieve match results'
+      );
+    });
+};
+
+exports.getTournamentMatches = async (req, res) => {
   const tournamentID = req.body.data.tournamentID;
   const GET_TOURNAMENT_MATCHES = `CALL get_tournament_matches("${tournamentID}")`;
 

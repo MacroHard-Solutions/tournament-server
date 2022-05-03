@@ -2,7 +2,7 @@
 -- MySQL Workbench Migration
 -- Migrated Schemata: tourney_server
 -- Source Schemata: tourney_server
--- Created: Sun May  1 20:49:48 2022
+-- Created: Tue May  3 13:39:56 2022
 -- Workbench Version: 8.0.29
 -- ----------------------------------------------------------------------------
 
@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS `tourney_server`.`ADDRESS` (
   `ADDRESS_IP` VARCHAR(15) NOT NULL COMMENT 'Agent\'s IP address',
   `ADDRESS_PORT` INT UNSIGNED NOT NULL COMMENT 'Agent\'s port #',
   PRIMARY KEY (`ADDRESS_ID`),
-  UNIQUE INDEX `ADDRESS_ID_UNIQUE` (`ADDRESS_ID` ASC) VISIBLE)
+  UNIQUE INDEX `ADDRESS_ID_UNIQUE` (`ADDRESS_ID` ASC) VISIBLE,
+  UNIQUE INDEX `IP_PORT_UNIQUE` (`ADDRESS_IP` ASC, `ADDRESS_PORT` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -32,6 +33,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tourney_server`.`AGENT` (
   `AGENT_ID` VARCHAR(45) NOT NULL COMMENT 'UUID of the player\'s agent',
+  `AGENT_NAME` VARCHAR(100) NOT NULL,
   `USER_ID` VARCHAR(45) NOT NULL COMMENT 'The player\'s UUID',
   `ADDRESS_ID` VARCHAR(45) NOT NULL COMMENT 'The agent\'s address UUID',
   `TOURNAMENT_ID` VARCHAR(45) NOT NULL COMMENT 'The tournament UUID',
@@ -105,7 +107,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `tourney_server`.`RANKING` (
   `MATCH_LOG_ID` VARCHAR(45) NOT NULL COMMENT 'The UUID of the game played',
   `AGENT_ID` VARCHAR(45) NOT NULL COMMENT 'The UUID of the player\'s agent',
-  `RANKING` INT UNSIGNED NOT NULL COMMENT 'The agent\'s ranking in a match.\\\\\\\\n0 indicates an undefined ranking',
+  `RANKING` INT UNSIGNED NOT NULL COMMENT 'The agent\'s ranking in a match.\\\\\\\\\\\\\\\\n0 indicates an undefined ranking',
   PRIMARY KEY (`MATCH_LOG_ID`, `AGENT_ID`),
   INDEX `AGENT_ID_idx` (`AGENT_ID` ASC) VISIBLE,
   CONSTRAINT `AGENT_ID_RANKING`
@@ -165,12 +167,6 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 -- ----------------------------------------------------------------------------
--- View tourney_server.new_view
--- ----------------------------------------------------------------------------
-USE `tourney_server`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`admin`@`%` SQL SECURITY DEFINER VIEW `tourney_server`.`new_view` AS select `T`.`TOURNAMENT_NAME` AS `TOURNAMENT_NAME`,`U`.`USERNAME` AS `USERNAME`,`A`.`AGENT_ELO` AS `AGENT_ELO`,avg(`R`.`RANKING`) AS `AVERAGE_RANKING` from ((((`tourney_server`.`TOURNAMENT` `T` join `tourney_server`.`USER` `U`) join `tourney_server`.`AGENT` `A`) join `tourney_server`.`MATCH_LOG` `M`) join `tourney_server`.`RANKING` `R`) where ((`M`.`MATCH_LOG_ID` = `R`.`MATCH_LOG_ID`) and (`M`.`TOURNAMENT_ID` = `T`.`TOURNAMENT_ID`) and (`T`.`TOURNAMENT_ID` = `A`.`TOURNAMENT_ID`) and (`A`.`AGENT_ID` = `R`.`AGENT_ID`) and (`A`.`USER_ID` = `U`.`USER_ID`) and ((`T`.`TOURNAMENT_ID` = 'e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505') or (`T`.`TOURNAMENT_ID` = '01934c61-c6f6-11ec-a02e-0ab3cd6d5505'))) group by `A`.`AGENT_ID`,`T`.`TOURNAMENT_NAME` order by `A`.`AGENT_ELO` desc,`AVERAGE_RANKING`;
-
--- ----------------------------------------------------------------------------
 -- Routine tourney_server.check_existing_user
 -- ----------------------------------------------------------------------------
 DELIMITER $$
@@ -194,18 +190,20 @@ END$$
 DELIMITER ;
 
 -- ----------------------------------------------------------------------------
--- Routine tourney_server.execute_stmt
+-- Routine tourney_server.get_tournament_matches
 -- ----------------------------------------------------------------------------
 DELIMITER $$
 
 DELIMITER $$
 USE `tourney_server`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `execute_stmt`()
-    COMMENT 'Simply executes the current statement stored in @stmt'
+CREATE DEFINER=`admin`@`%` PROCEDURE `get_tournament_matches`(IN tournamentID VARCHAR(100))
 BEGIN
-  PREPARE queryStmt FROM @stmt;
-  EXECUTE queryStmt;
-  DEALLOCATE PREPARE queryStmt;
+	SET @tID = tournamentID;
+    SET @getStmt = 'SELECT * FROM MATCH_LOG WHERE TOURNAMENT_ID = ? ORDER BY MATCH_LOG_TIMESTAMP DESC';
+    PREPARE stmt FROM @getStmt;
+    EXECUTE stmt USING @tID;
+    DEALLOCATE PREPARE stmt;
+    
 END$$
 
 DELIMITER ;
@@ -238,31 +236,89 @@ END$$
 DELIMITER ;
 
 -- ----------------------------------------------------------------------------
+-- Routine tourney_server.get_user_agents
+-- ----------------------------------------------------------------------------
+DELIMITER $$
+
+DELIMITER $$
+USE `tourney_server`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `get_user_agents`(IN userID VARCHAR(45))
+BEGIN
+	SET @uID = userID;
+	SET @getAgents = 'SELECT A.AGENT_ID, A.AGENT_NAME, GAME_NAME, USERNAME, AGENT_ELO, AVG(R.RANKING) AS AVERAGE_RANKING, AGENT_STATUS
+		FROM USER AS U INNER JOIN AGENT AS A ON (U.USER_ID = A.USER_ID) 
+		INNER JOIN  TOURNAMENT AS T ON (A.TOURNAMENT_ID = T.TOURNAMENT_ID)
+		INNER JOIN MATCH_LOG AS M ON (T.TOURNAMENT_ID = M.TOURNAMENT_ID)
+		INNER JOIN RANKING AS R ON (M.MATCH_LOG_ID = R.MATCH_LOG_ID)
+		INNER JOIN GAME AS G ON (G.GAME_ID = T.GAME_ID)
+		WHERE
+		  A.AGENT_ID = R.AGENT_ID
+		  AND  U.USER_ID = ?
+		 GROUP BY A.AGENT_ID, T.TOURNAMENT_NAME
+		ORDER BY M.MATCH_LOG_ID, AGENT_ELO DESC, AVERAGE_RANKING;';
+	
+    PREPARE stmt FROM @getAgents;
+    EXECUTE stmt USING @uID;
+    DEALLOCATE PREPARE stmt;
+END$$
+
+DELIMITER ;
+
+-- ----------------------------------------------------------------------------
+-- Routine tourney_server.get_user_profile
+-- ----------------------------------------------------------------------------
+DELIMITER $$
+
+DELIMITER $$
+USE `tourney_server`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `get_user_profile`(IN userID VARCHAR(45))
+BEGIN
+	SET @uID = userID;
+	SET @stmt= 'SELECT U.USER_ID AS userID, USERNAME AS username, CONCAT(USER_FNAME, " ", USER_LNAME) AS fullName, TOURNAMENT_NAME AS topAgentTournament, AGENT_ID AS topAgentID, AGENT_ELO AS topAgentELO, COUNT(A.AGENT_ID) AS numAgents
+FROM `AGENT` AS A INNER JOIN `USER` AS U ON (A.USER_ID = U.USER_ID) 
+INNER JOIN `TOURNAMENT` AS T ON (A.TOURNAMENT_ID = T.TOURNAMENT_ID)
+INNER JOIN (SELECT AA.USER_ID, COUNT(*) FROM `AGENT` AS AA GROUP BY AA.USER_ID) AS C ON (C.USER_ID = A.USER_ID)
+WHERE U.USER_ID = ?
+ORDER BY AGENT_ELO DESC;';
+
+	PREPARE getProfile FROM @stmt;
+	EXECUTE getProfile USING @uID;
+	DEALLOCATE PREPARE getProfile;
+
+END$$
+
+DELIMITER ;
+
+-- ----------------------------------------------------------------------------
 -- Routine tourney_server.insert_agent
 -- ----------------------------------------------------------------------------
 DELIMITER $$
 
 DELIMITER $$
 USE `tourney_server`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `insert_agent`(IN userID VARCHAR(45), IN addressID VARCHAR(45), IN tournamentID VARCHAR(45))
+CREATE DEFINER=`admin`@`%` PROCEDURE `insert_agent`(IN agentName VARCHAR(100), IN userID VARCHAR(45), IN addressID VARCHAR(45), IN tournamentID VARCHAR(45))
     MODIFIES SQL DATA
     COMMENT 'Creates a new agent entry with the given userID, addressID, tournamentID'
 BEGIN
-
-	SET @uID = userID;
-    SET @addID = addressID;
-    SET @tID = tournamentID;
+	
+  SET @uID = userID;
+  SET @addID = addressID;
+  SET @tID = tournamentID;
     
-  SET @insertAgent = 'INSERT INTO `AGENT`(AGENT_ID, USER_ID, ADDRESS_ID, TOURNAMENT_ID)
-  VALUES (UUID(), ?, ?, ?);';
+  IF (agentName = '') THEN SELECT USERNAME FROM `USER` WHERE USER_ID = userID INTO @aName;
+  ELSE SET @aName = agentName;
+  END IF;
+  
+  SET @insertAgent = 'INSERT INTO `AGENT`(AGENT_ID, AGENT_NAME, USER_ID, ADDRESS_ID, TOURNAMENT_ID)
+  VALUES (UUID(), ?, ?, ?, ?);';
   PREPARE stmt FROM @insertAgent;
-  EXECUTE stmt USING @uID, @addID, @tID;
+  EXECUTE stmt USING @aName, @uID, @addID, @tID;
   DEALLOCATE PREPARE stmt;
 
   -- No need for prepared statements at this point
-  SELECT AGENT_ID, ADDRESS_IP, ADDRESS_PORT, TOURNAMENT_ID, AGENT_ELO 
-  FROM AGENT AS AG, ADDRESS AS AD
-  WHERE AG.ADDRESS_ID = AD.ADDRESS_ID;
+  SELECT AGENT_ID, AGENT_NAME, ADDRESS_IP, ADDRESS_PORT, TOURNAMENT_ID, AGENT_ELO, AGENT_STATUS
+  FROM AGENT AS AG INNER JOIN ADDRESS AS AD ON (AG.ADDRESS_ID = AD.ADDRESS_ID)
+  WHERE AG.ADDRESS_ID = addressID;
   
 END$$
 
@@ -293,6 +349,25 @@ BEGIN
   EXECUTE stmt USING @ipAdd, @pNum;
   DEALLOCATE PREPARE stmt;
   
+END$$
+
+DELIMITER ;
+
+-- ----------------------------------------------------------------------------
+-- Routine tourney_server.insert_agent_result
+-- ----------------------------------------------------------------------------
+DELIMITER $$
+
+DELIMITER $$
+USE `tourney_server`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `insert_agent_result`(IN matchLogID VARCHAR(45), IN agentID VARCHAR(45), IN ranking INT)
+BEGIN
+  SET @mlID = matchLogID;
+  SET @aID = agentID;
+  SET @ranking = ranking;
+  
+  INSERT INTO RANKING (MATCH_LOG_ID, AGENT_ID, RANKING)
+  VALUES (@mlID, @aID, @ranking);
 END$$
 
 DELIMITER ;
@@ -330,14 +405,12 @@ CREATE DEFINER=`admin`@`%` PROCEDURE `insert_match_log`(IN tournamentID VARCHAR(
     COMMENT 'Creates a new match log entry with the associated tournamentID, match log time and gameLog'
 BEGIN
 
-  -- SET @matchLogTime = CURRENT_TIMESTAMP();
-  INSERT INTO `MATCH_LOG`(MATCH_LOG_ID, TOURNAMENT_ID, MATCH_LOG_TIME, GAME_LOG)
 
-  VALUES (UUID(), tournamentID, @matchLogTime, gameLog);
+  INSERT INTO `MATCH_LOG`(MATCH_LOG_ID, TOURNAMENT_ID, MATCH_LOG_TIMESTAMP, MATCH_LOG_DATA)
 
+  VALUES (UUID(), tournamentID, matchLogTime, gameLog);
 
-
-  CALL retrieve_row_entry("MATCH_LOG", "MATCH_LOG_TIME", CONCAT("'",@matchLogTime,"'"));
+  CALL retrieve_row_entry("MATCH_LOG", "MATCH_LOG_TIMESTAMP", matchLogTime);
 
 END$$
 
@@ -370,14 +443,14 @@ DELIMITER $$
 
 DELIMITER $$
 USE `tourney_server`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `insert_tournament`(IN tournamentName VARCHAR(100), IN gameID VARCHAR(45))
+CREATE DEFINER=`admin`@`%` PROCEDURE `insert_tournament`(IN tournamentName VARCHAR(100), IN gameID VARCHAR(45), IN tournamentDP VARCHAR(100))
     MODIFIES SQL DATA
     COMMENT 'Creates a new tournament entry with the associated tournament name and the gameID it belongs to'
 BEGIN
 
-  INSERT INTO `TOURNAMENT`(TOURNAMENT_ID, TOURNAMENT_NAME, GAME_ID)
+  INSERT INTO `TOURNAMENT`(TOURNAMENT_ID, TOURNAMENT_NAME, GAME_ID, TOURNAMENT_DP)
 
-  VALUES (UUID(), tournamentName, gameID);
+  VALUES (UUID(), tournamentName, gameID, tournamentDP);
 
   CALL retrieve_row_entry("TOURNAMENT", "TOURNAMENT_NAME", tournamentName);
 
@@ -392,14 +465,14 @@ DELIMITER $$
 
 DELIMITER $$
 USE `tourney_server`$$
-CREATE DEFINER=`admin`@`%` PROCEDURE `insert_user`(IN fName VARCHAR(45), IN lName VARCHAR(45), IN username varchar(45), IN userEmail VARCHAR(45), IN userPass VARCHAR(100), IN isAdmin TINYINT, IN wantsNotifications tinyint, IN userDP VARCHAR(100))
+CREATE DEFINER=`admin`@`%` PROCEDURE `insert_user`(IN fName VARCHAR(45), IN lName VARCHAR(45), IN username varchar(45), IN userEmail VARCHAR(45), IN userPass VARCHAR(100), IN isAdmin TINYINT, IN wantsNotifications tinyint, IN userDP VARCHAR(100), IN userDescr VARCHAR(100))
     MODIFIES SQL DATA
     COMMENT 'Creates a new user with its associated values'
 BEGIN
 
-  INSERT INTO `USER`(USER_ID, USER_FNAME, USER_LNAME, USERNAME, USER_EMAIL, USER_PASSWD, USER_IS_ADMIN, USER_NOTIFICATIONS, USER_DP)
+  INSERT INTO `USER`(USER_ID, USER_FNAME, USER_LNAME, USERNAME, USER_EMAIL, USER_PASSWD, USER_IS_ADMIN, USER_NOTIFICATIONS, USER_DP, USER_DESCRIPTION)
 
-  VALUES (UUID(), fName, lName, username, userEmail, userPass, isAdmin, wantsNotifications, userDP);
+  VALUES (UUID(), fName, lName, username, userEmail, userPass, isAdmin, wantsNotifications, userDP, userDescr);
 
   CALL retrieve_row_entry("`USER`", "USERNAME", username);
 END$$
@@ -476,4 +549,14 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- ----------------------------------------------------------------------------
+-- Trigger tourney_server.AGENT_AFTER_DELETE
+-- ----------------------------------------------------------------------------
+DELIMITER $$
+USE `tourney_server`$$
+CREATE DEFINER=`admin`@`%` TRIGGER `AGENT_AFTER_DELETE` AFTER DELETE ON `AGENT` FOR EACH ROW BEGIN
+	DELETE FROM ADDRESS
+    WHERE ADDRESS.ADDRESS_ID = OLD.ADDRESS_ID;
+END;
 SET FOREIGN_KEY_CHECKS = 1;

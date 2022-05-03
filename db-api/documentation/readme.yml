@@ -908,6 +908,74 @@ paths:
         - Tournament
 
   /match:
+    get:
+      description: 'Retrieves all match results from the database'
+      operationId: 'get-https:--tournament-server.herokuapp.com-api-v2-match'
+      responses:
+        '200':
+          description: An array of match result objects is retrieved
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully retrieved all match results
+                  resultData:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        MATCH_LOG_ID:
+                          type: string
+                          example: 071ff1f5-b077-48c4-94bb-3b3601641175
+                        GAME_NAME:
+                          type: string
+                          example: Rock-Paper-Scissors-Lizard-Spock
+                        TOURNAMENT_NAME:
+                          type: string
+                          example: Rock-Paper-Scissors-Lizard-Spock Tourney
+                        MATCH_LOG_DATA:
+                          type: string
+                          example: "|Paper Lizard|Paper Paper|Scissors Rock|Scissors Rock|Rock Lizard|Paper Rock|"
+                        MATCH_LOG_TIMESTAMP:
+                          type: string
+                          example: '2022-04-10T16:39:15.000Z'
+                        A1_AGENT_ID:
+                          type: string
+                          example: 173afbb4-f4d0-446f-ac79-89695ea643bc
+                        A1_RANKING:
+                          type: integer
+                          example: 0
+                        A2_AGENT_ID:
+                          type: string
+                          example: a687bd27-a9de-4385-aee1-e2d23a405446
+                        A2_RANKING:
+                          type: integer
+                          example: 1
+                      
+        '502':
+          description: Failed
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                  logError:
+                    type: string
+
+      summary: 'Get all match results'
+      tags: 
+        - Match
     put:
       description: 'Adds a recorded match to the database'
       operationId: 'put-https:--tournament-server.herokuapp.com-api-v2-match'
