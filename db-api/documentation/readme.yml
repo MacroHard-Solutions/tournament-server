@@ -433,7 +433,7 @@ paths:
 
   /agent:
     put:
-      description: 'Inserts the agent into the database'
+      description: 'Inserts the agent into the database. `agentName` can be left as an empty string, this will cause the agent name to be the same as the username.'
       operationId: 'put-https:--tournament-server.herokuapp.com-api-v2-agent'
       requestBody: 
         required: true
@@ -445,6 +445,9 @@ paths:
                 data:
                   type: object
                   properties:
+                    agentName: 
+                      type: string
+                      example: myAgent
                     userID: 
                       type: string
                       example: 0fbe7dd3-20b4-400a-ad28-53d86dd36cd2
@@ -462,7 +465,10 @@ paths:
 
       responses:
         '201':
-          description: The created agent is returned
+          description: |
+            - The created agent is returned
+            - `AGENT_STATUS` -> -1:offline, 0:inactive, 1:active
+
           content: 
             application/json:
               schema:
@@ -480,6 +486,9 @@ paths:
                       AGENT_ID: 
                         type: string
                         example: 37729ba7-b6ec-4d41-aa04-e8d9a4bc19e6
+                      AGENT_NAME:
+                        type: string
+                        example: myAgent
                       ADDRESS_IP: 
                         type: string
                         exammple: 68.117.166.152
@@ -534,7 +543,10 @@ paths:
                   type: object
       responses:
         '200':
-          description: An array of the user's agent objects is returned
+          description: |
+            - An array of the user's agent objects is returned.
+            - `AGENT_STATUS` -> -1:offline, 0:inactive, 1:active
+
           content: 
             application/json:
               schema:
@@ -553,19 +565,25 @@ paths:
                       properties:
                         AGENT_ID: 
                           type: string
-                          example: 37729ba7-b6ec-4d41-aa04-e8d9a4bc19e6
-                        ADDRESS_IP: 
+                          example: f64da681-86c9-4b68-a266-7ae4b8668449
+                        AGENT_NAME: 
                           type: string
-                          exammple: 68.117.166.152
-                        ADDRESS_PORT:
-                          type: integer
-                          example: 5838
-                        TOURNAMENT_ID: 
+                          exammple: myAgent
+                        GAME_NAME:
                           type: string
-                          example: '01934c61-c6f6-11ec-a02e-0ab3cd6d5505'
+                          example: Tic-Tac-Toe
+                        USERNAME: 
+                          type: string
+                          example: MikeyMike
                         AGENT_ELO: 
                           type: float
-                          example: 1500
+                          example: 610
+                        AVERAGE_RANKING:
+                          type: float
+                          example: 0.4000
+                        AGENT_STATUS: 
+                          type: integer
+                          example: -1
         '502':
             description: Failed
             content: 

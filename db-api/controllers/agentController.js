@@ -17,7 +17,7 @@ const insertAgentAddress = async (ipAddress, portNum) => {
 
 exports.getUserAgents = async (req, res) => {
   const clientInput = req.body.data;
-  const GET_USER_AGENTS = `CALL retrieve_row_entry('AGENT', 'USER_ID', "${clientInput.userID}")`;
+  const GET_USER_AGENTS = `CALL get_user_agents("${clientInput.userID}")`;
 
   await db
     .execute(GET_USER_AGENTS)
@@ -58,7 +58,11 @@ exports.insertAgent = async (req, res) => {
     );
   }
 
-  const INSERT_AGENT = `CALL insert_agent ("${clientInput.userID}", "${newAddressID}", "${clientInput.tournamentID}");`;
+  const INSERT_AGENT = `CALL insert_agent ("${
+    !clientInput.agentName ? '' : clientInput.agentName
+  }", "${clientInput.userID}", "${newAddressID}", "${
+    clientInput.tournamentID
+  }");`;
 
   await db
     .execute(INSERT_AGENT)
