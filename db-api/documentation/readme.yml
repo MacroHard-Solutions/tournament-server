@@ -1047,13 +1047,13 @@ paths:
         - Match
      
   /match/filter:
-    post: # TODO:
+    post:
       description: |
         - Retrieves match results from the database
         - Each filter below is optional, either enter an empty string or leave it as undefined
         - Leave all attributes as undefined if there is no filter required
-        - Please use double quotes 
-        - `Currently the filters haven't been implemented yet in the DB`
+        - Date comparisons also cater for equality
+       
       operationId: 'get-https:--tournament-server.herokuapp.com-api-v2-match'
       requestBody:
         required: false
