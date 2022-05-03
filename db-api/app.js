@@ -33,6 +33,7 @@ app.use((req, res, next) => {
 /// Routes
 ////////////////////////////////
 
+app.use('/', express.static(`${__dirname}/public`)); // Provide the /public directory for file transfer
 app.use('/api/v2', express.static(`${__dirname}/public`)); // Provide the /public directory for file transfer
 
 app.use('/api/v2/user', userRouter);
