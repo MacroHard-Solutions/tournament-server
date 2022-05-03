@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const resultHandler = require('../util/resultHandler');
+const resultHandler = require('../util/responseHandler');
 
 const insertAgentAddress = async (ipAddress, portNum) => {
   return new Promise((resolve, reject) => {

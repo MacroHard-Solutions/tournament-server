@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const resultHandler = require('../util/resultHandler');
+const responseHandler = require('../util/responseHandler');
 
 exports.getAllGames = async (req, res) => {
   const RETRIEVE_ALL_GAMES = 'SELECT * FROM `GAME`';
@@ -7,7 +7,7 @@ exports.getAllGames = async (req, res) => {
   await db
     .execute(RETRIEVE_ALL_GAMES)
     .then(([rows, fields]) => {
-      return resultHandler.returnSuccess(
+      return responseHandler.returnSuccess(
         res,
         200,
         'Games retrieved successfully',
@@ -15,7 +15,7 @@ exports.getAllGames = async (req, res) => {
       );
     })
     .catch((err) => {
-      return resultHandler.returnError(
+      return responseHandler.returnError(
         res,
         502,
         err,
@@ -31,7 +31,7 @@ exports.addNewGame = async (req, res) => {
   await db
     .execute(INSERT_GAME)
     .then(([rows, fields]) => {
-      return resultHandler.returnSuccess(
+      return responseHandler.returnSuccess(
         res,
         201,
         'Game added successfully',
@@ -39,7 +39,7 @@ exports.addNewGame = async (req, res) => {
       );
     })
     .catch((err) => {
-      resultHandler(res, err, 'Unable to insert and/or retire the game');
+      responseHandler(res, err, 'Unable to insert and/or retire the game');
     });
 };
 

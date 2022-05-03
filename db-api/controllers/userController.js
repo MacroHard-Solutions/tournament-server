@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const resultHandler = require('../util/resultHandler');
+const resultHandler = require('../util/responseHandler');
 
 exports.checkLogin = async (req, res, next) => {
   clientInput = req.body.data;
@@ -140,6 +140,7 @@ exports.getUser = async (req, res) => {
       );
     });
 };
+
 
 exports.updateUser = async (req, res) => {
   const clientInput = req.body.data;

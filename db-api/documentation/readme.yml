@@ -355,6 +355,82 @@ paths:
       tags:
         - User
  
+  /profile:
+    post:
+      description: Retrieves the user's profile information
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-profile'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    userID: 
+                      type: string
+                      example: 0fbe7dd3-20b4-400a-ad28-53d86dd36cd2
+                signal: 
+                  type: object
+
+      responses: 
+        '200':
+          description: The user profile is retrieved
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User profile retrieved successfully
+                  resultData:
+                    type: object
+                    properties:
+                      userID:
+                        type: string
+                        example: 0fbe7dd3-20b4-400a-ad28-53d86dd36cd2
+                      username:
+                        type: string
+                        example: MikeyMike
+                      fullName:
+                        type: string
+                        example: Michael Le Forestier
+                      topAgentTournament:
+                        type: string
+                        example: Tic-Tac-Toe-Tourney
+                      topAgentID:
+                        type: string
+                        example: f64da681-86c9-4b68-a266-7ae4b8668449
+                      topAgentELO:
+                        type: integer
+                        example: 610
+                      numAgents:
+                        type: integer
+                        example: 2
+        '502':
+          description: Failed
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                  logError:
+                    type: string
+      summary: Gets the user's profile
+      tags: 
+        - Profile
+
   /agent:
     put:
       description: 'Inserts the agent into the database'

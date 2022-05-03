@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const resultHandler = require('../util/resultHandler');
+const resultHandler = require('../util/responseHandler');
 
 exports.getTournaments = async (req, res) => {
   const GET_ALL_TOURNAMENTS = 'SELECT * FROM `TOURNAMENT`';

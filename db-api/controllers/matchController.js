@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const resultHandler = require('../util/resultHandler');
+const resultHandler = require('../util/responseHandler');
 
 const insertMatchLog = async (tournamentID, matchLogTime, gameLog) => {
   const INSERT_MATCH_LOG = `CALL insert_match_log("${tournamentID}", "${matchLogTime}", "${gameLog}")`;
