@@ -6,8 +6,9 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(matchController.getAllMatchResults)
   .post(matchController.getTournamentMatches)
   .put(matchController.insertMatch);
+
+router.route('/filter').post(matchController.processFilter, matchController.getAllMatchResults);
 
 module.exports = router;
