@@ -1,0 +1,37 @@
+_id: req_b1c424e135ca43fea5779d360828cfd0
+type: Request
+parentId: fld_71bb9fc4350346f6a14934622ee6e0af
+modified: 1651609849516
+created: 1651595536616
+url: "{{ _.base_url }}/match/filter"
+name: Get all match results
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "data": {
+        "username": "kIXN",
+        "tournamentName": "oc",
+        "inProgress": false,
+        "date":{
+        "comparator": "<",
+        "val":"2022:02:01"
+        }
+      },
+      "signal": {}
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1651595536616
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

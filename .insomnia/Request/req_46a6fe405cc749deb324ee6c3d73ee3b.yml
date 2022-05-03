@@ -1,21 +1,26 @@
-_id: req_ce148c06ca4d42318433053b81885efa
+_id: req_46a6fe405cc749deb324ee6c3d73ee3b
 type: Request
-parentId: fld_e6158d5b909c4cb784611b0f1467ff79
-modified: 1651528207350
-created: 1650734509486
-url: "{{ _.base_url }}/user"
-name: Get all users
+parentId: fld_3146dfdffd13491b88b98180d3c9a5c4
+modified: 1651595940164
+created: 1651224401911
+url: "{{ _.base_url }}/agent/"
+name: Get user's agents
 description: ""
-method: GET
+method: POST
 body:
   mimeType: application/json
-  text: ""
+  text: |-
+    {
+      "data": {
+        "userID": "0fbe7dd3-20b4-400a-ad28-53d86dd36cd2"
+      }
+    }
 parameters: []
 headers:
   - name: Content-Type
     value: application/json
 authentication: {}
-metaSortKey: -1650714840797
+metaSortKey: -1651224401911
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

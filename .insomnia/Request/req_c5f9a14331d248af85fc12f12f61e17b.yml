@@ -1,21 +1,26 @@
-_id: req_ce148c06ca4d42318433053b81885efa
+_id: req_c5f9a14331d248af85fc12f12f61e17b
 type: Request
-parentId: fld_e6158d5b909c4cb784611b0f1467ff79
-modified: 1651528207350
-created: 1650734509486
-url: "{{ _.base_url }}/user"
-name: Get all users
+parentId: fld_bacd67680d2640e5a32cf1170780493c
+modified: 1651566388846
+created: 1651566352611
+url: "{{ _.base_url }}/profile"
+name: Get user profile
 description: ""
-method: GET
+method: POST
 body:
   mimeType: application/json
-  text: ""
+  text: |-
+    {
+      "data":{
+        "userID": "0fbe7dd3-20b4-400a-ad28-53d86dd36cd2"
+      }
+    }
 parameters: []
 headers:
   - name: Content-Type
     value: application/json
 authentication: {}
-metaSortKey: -1650714840797
+metaSortKey: -1651566352611
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

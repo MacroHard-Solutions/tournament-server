@@ -1,20 +1,24 @@
 _id: req_19617956b1604dba9de817e2d0e612c3
 type: Request
 parentId: fld_3146dfdffd13491b88b98180d3c9a5c4
-modified: 1651146109687
+modified: 1651576222213
 created: 1651066655929
-url: "{{ _.base_url }}/agent/add/"
+url: "{{ _.base_url }}/agent"
 name: Insert Agent
 description: ""
-method: POST
+method: PUT
 body:
   mimeType: application/json
-  text: >-
+  text: |-
     {
-      "userID": "0f378e72-f91b-49c0-ac0a-06ac71608696",
-       "tournamentID" : "f289ff14-c62e-11ec-a02e-0ab3cd6d5505",
-      "ipAddress": "{% faker 'internet', '', '', '', '', '', '', '', '', 'ip', '', '', '', '', '', '', 'en' %}",
-      "portNum": {% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'number', '', '9999', 'en' %}
+      "data": {
+        "agentName":"myAgent",
+        "userID": "0fbe7dd3-20b4-400a-ad28-53d86dd36cd2",
+        "tournamentID": "01934c61-c6f6-11ec-a02e-0ab3cd6d5505",
+        "ipAddress": "00000000",
+        "portNum": 1
+      },
+      "signal": {}
     }
 parameters: []
 headers:

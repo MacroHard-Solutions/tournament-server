@@ -1,0 +1,14 @@
+_id: env_env_7262148c77e611b381bdc882288f5737d7041e08_sub
+type: Environment
+parentId: env_7262148c77e611b381bdc882288f5737d7041e08
+modified: 1651442925959
+created: 1651442925959
+name: OpenAPI env
+data:
+  scheme: https
+  base_path: /api/v2
+  host: tournament-server.herokuapp.com
+dataPropertyOrder: null
+color: null
+isPrivate: false
+metaSortKey: 1651442925959

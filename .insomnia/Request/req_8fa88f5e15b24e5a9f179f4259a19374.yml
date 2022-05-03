@@ -1,9 +1,9 @@
 _id: req_8fa88f5e15b24e5a9f179f4259a19374
 type: Request
 parentId: fld_e6158d5b909c4cb784611b0f1467ff79
-modified: 1651072472206
+modified: 1651527992602
 created: 1650546834380
-url: "{{ _.base_url }}/user/signupCheck"
+url: "{{ _.heroku }}/user/signupCheck"
 name: Check existing username
 description: ""
 method: POST
@@ -11,7 +11,9 @@ body:
   mimeType: application/json
   text: |-
     {
-      "username": "Wooden419"
+      "data": {
+        "username": "Kixn"
+      }
     }
 parameters: []
 headers:

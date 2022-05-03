@@ -1,24 +1,28 @@
 _id: req_1b2e16d7694b44a8a296064471fb75fa
 type: Request
 parentId: fld_e6158d5b909c4cb784611b0f1467ff79
-modified: 1651072436325
+modified: 1651528209065
 created: 1649475911882
 url: "{{ _.base_url }}/user"
 name: User Signup
 description: ""
-method: POST
+method: PUT
 body:
   mimeType: application/json
-  text: >-
+  text: >
     {
-      "userID": "{% uuid 'v4' %}",
-      "fName": "{% faker 'name', '', '', '', '', '', '', '', '', '', '', 'firstName', '', '', '', '', 'en' %}",
-      "lName": "{% faker 'name', '', '', '', '', '', '', '', '', '', '', 'lastName', '', '', '', '', 'en' %}",
-      "username": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'word', '', '1', 'en' %}{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'number', '', '999', 'en' %}",
-      "userEmail": "{% faker 'internet', '', '', '', '', '', '', '', '', 'exampleEmail', '', '', '', '', '', '', 'en' %}",
-      "userPass": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'alphaNumeric', '', '10', 'en' %}",
-      "isAdmin": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'boolean', '', '', 'en' %}",
-      "wantsNotifications": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'boolean', '', '', 'en' %}"
+      "data": {
+        "fName": "{% faker 'name', '', '', '', '', '', '', '', '', '', '', 'firstName', '', '', '', '', 'en' %}",
+        "lName": "{% faker 'name', '', '', '', '', '', '', '', '', '', '', 'lastName', '', '', '', '', 'en' %}",
+        "username": "{% faker 'lorem', '', '', '', '', '', '', '', '', '', 'word', '', '', '', '', '', 'en' %}{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'number', '', '999', 'en' %}",
+        "userEmail": "{% faker 'internet', '', '', '', '', '', '', '', '', 'email', '', '', '', '', '', '', 'en' %}",
+        "userPass": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'alphaNumeric', '', '10', 'en' %}",
+        "isAdmin": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'boolean', '', '', 'en' %}",
+        "wantsNotifications": "{% faker 'random', '', '', '', '', '', '', '', '', '', '', '', '', 'boolean', '', '', 'en' %}",
+        "userDP": "{% faker 'image', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'en' %}",
+        "userDescription": "{% faker 'lorem', '', '', '', '', '', '', '', '', '', 'words', '', '', '', '', '10', 'en' %}"
+      },
+      "signal": {}
     }
 parameters: []
 headers:

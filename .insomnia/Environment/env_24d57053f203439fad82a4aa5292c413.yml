@@ -1,11 +1,12 @@
 _id: env_24d57053f203439fad82a4aa5292c413
 type: Environment
 parentId: env_7262148c77e611b381bdc882288f5737d7041e08
-modified: 1651146617319
+modified: 1651516088848
 created: 1649464530673
 name: api
 data:
-  base_url: http://localhost:8000/api/v2
+  base_url: localhost:8080/api/v2
+  heroku: https://tournament-server.herokuapp.com/api/v2
   userIDs:
     - 0f378e72-f91b-49c0-ac0a-06ac71608696
     - 40421666-8d89-4265-8f9a-09ce6ed05902
@@ -20,6 +21,7 @@ data:
 dataPropertyOrder:
   "&":
     - base_url
+    - heroku
     - userIDs
     - gameIDs
 color: "#7c0c92"

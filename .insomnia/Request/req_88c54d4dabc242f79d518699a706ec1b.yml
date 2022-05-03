@@ -1,19 +1,21 @@
 _id: req_88c54d4dabc242f79d518699a706ec1b
 type: Request
 parentId: fld_48a9d3648d5246fa82a01998e655d9d7
-modified: 1651147017200
+modified: 1651528467801
 created: 1649498096819
 url: "{{ _.base_url }}/game/"
 name: Add new Game
 description: ""
-method: POST
+method: PUT
 body:
   mimeType: application/json
   text: >-
     {
+      "data":{
       "gameName" : "{% faker 'lorem', '', '', '', '', '', '', '', '', '', 'slug', '', '', '', '', '', 'en' %}",
       "fileName" : "{% faker 'internet', '', '', '', '', '', '', '', '', 'url', '', '', '', '', 'directoryPath', '', 'en' %}",
       "gameIcon" : "{% faker 'image', '', '', '', '', '', '', '', '', '', '', '', '', '', 'fileName', '', 'en' %}"
+      }
     }
 parameters: []
 headers:

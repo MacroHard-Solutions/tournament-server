@@ -1,19 +1,19 @@
-_id: req_2c31c895bc8545b1951f90d93e08a8a0
+_id: req_9313d2e5725b4ef4a444525cbb7e5f33
 type: Request
-parentId: fld_e6158d5b909c4cb784611b0f1467ff79
-modified: 1651527994781
-created: 1649540364867
-url: "{{ _.base_url }}/user"
-name: User Login
+parentId: fld_71bb9fc4350346f6a14934622ee6e0af
+modified: 1651611179504
+created: 1651433517527
+url: "{{ _.base_url }}/match/"
+name: Get matches of a tournament
 description: ""
 method: POST
 body:
   mimeType: application/json
   text: |-
     {
-      "data": {
-        "username_email": "KIxn",
-        "passwd": "react"
+      "data":
+      {
+        "tournamentID":"01934c61-c6f6-11ec-a02e-0ab3cd6d5505"
       }
     }
 parameters: []
@@ -21,7 +21,7 @@ headers:
   - name: Content-Type
     value: application/json
 authentication: {}
-metaSortKey: -1650714840697
+metaSortKey: -1651433517527
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

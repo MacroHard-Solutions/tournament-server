@@ -1,21 +1,26 @@
-_id: req_ce148c06ca4d42318433053b81885efa
+_id: req_c5a7035d6b4741099258ec0bd53a64af
 type: Request
-parentId: fld_e6158d5b909c4cb784611b0f1467ff79
-modified: 1651528207350
-created: 1650734509486
-url: "{{ _.base_url }}/user"
-name: Get all users
+parentId: fld_3146dfdffd13491b88b98180d3c9a5c4
+modified: 1651567646085
+created: 1651223939986
+url: "{{ _.base_url }}/agent/"
+name: Remove Agent
 description: ""
-method: GET
+method: DELETE
 body:
   mimeType: application/json
-  text: ""
+  text: |-
+    {
+      "data":{
+      "agentID": "fdf8799a-492d-43d5-a30e-77edadd0d8b1"
+      }
+    }
 parameters: []
 headers:
   - name: Content-Type
     value: application/json
 authentication: {}
-metaSortKey: -1650714840797
+metaSortKey: -1651223939986
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true
