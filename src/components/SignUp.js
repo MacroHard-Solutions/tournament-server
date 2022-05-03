@@ -9,7 +9,7 @@ import useAxiosFunction from "../hooks/useAxiosFunction";
 
 /*
     Task List:
-        TODO nable sha256 for password encryption
+        TODO enable sha256 for password encryption
         TODO fix requests
 */
 
@@ -25,6 +25,7 @@ function SignUp({ userObj, setuserObj }) {
     const [errorPrompt, setErrorprompt] = useState(false); //handle error prompt state
     const [errorCaption, setErrorcaption] = useState("Loading...");
     const [checkLoading, setCheckloading] = useState(false);
+    const [desc, setDesc] = useState('');
 
     //hook to use axios to make requests to backend
     const [response, error, loading, axiosFetch] = useAxiosFunction();
@@ -69,7 +70,7 @@ function SignUp({ userObj, setuserObj }) {
     const createUser = async () => {
         axiosFetch({
             axiosInstance: axios,
-            method: 'POST',
+            method: 'PUT',
             url: '/user',
             requestConfig: {
                 data: {
@@ -80,7 +81,9 @@ function SignUp({ userObj, setuserObj }) {
                     "userEmail": email,
                     "userPass": password1,
                     "isAdmin": false,
-                    "wantsNotifications": false
+                    "wantsNotifications": false,
+                    "userDP": "https://i.imgur.com/rrJxe8N.jpg",
+                    "userDescription": desc
                 }
             }
         });
@@ -184,72 +187,88 @@ function SignUp({ userObj, setuserObj }) {
                 <span>Please Fill All Fields Below:</span>
                 {errorPrompt && <span className="loginprompt">{errorCaption}</span>}
                 <form>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            required
-                            autoFocus
-                            value={fname}
-                            onChange={(e) => setFname(e.target.value)}
-                        />
-                        <label>First Name:</label>
+                    <div className='formsplit'>
+                        <div className="input-container">
+                            <input
+                                type="text"
+                                required
+                                autoFocus
+                                value={fname}
+                                onChange={(e) => setFname(e.target.value)}
+                            />
+                            <label>First Name:</label>
+                        </div>
+                        <div className="input-container">
+                            <input
+                                type="text"
+                                required
+                                value={lname}
+                                onChange={(e) => setLname(e.target.value)}
+                            />
+                            <label>Last Name:</label>
+                        </div>
+                        <div className="input-container">
+                            <input
+                                type="text"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <label>Email:</label>
+                        </div>
+                        <div className="input-container">
+                            <input
+                                type="text"
+                                required
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <label>Username:</label>
+                        </div>
                     </div>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            required
-                            value={lname}
-                            onChange={(e) => setLname(e.target.value)}
-                        />
-                        <label>Last Name:</label>
+
+                    <div className='formsplit'>
+                        <div className="input-container" style={{ display: "flex", "flex-flow": "column" }}>
+                            <textarea
+                                name="desc" cols="50" rows="7"
+                                value={desc}
+                                onChange={(e) => setDesc(e.target.value)}
+                                placeholder='Enter a Quote that best describes Yourself.'
+                            >
+                            </textarea>
+                            <label>User Description:</label>
+                        </div>
+                        <div className="input-container">
+                            <input
+                                type="password"
+                                required
+                                value={password1}
+                                onChange={(e) => setPassword1(e.target.value)}
+                            />
+                            <label>Enter Password:</label>
+                        </div>
+                        <div className="input-container">
+                            <input
+                                type="password"
+                                required
+                                value={password2}
+                                onChange={(e) => setPassword2(e.target.value)}
+                            />
+                            <label>Confirm Password:</label>
+                        </div>
+                        <button
+                            className='signupbutton'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setSignupattempt(true);
+                            }}
+                        >
+                            Submit
+                        </button>
                     </div>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <label>Email:</label>
-                    </div>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            required
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                        <label>Username:</label>
-                    </div>
-                    <div className="input-container">
-                        <input
-                            type="password"
-                            required
-                            value={password1}
-                            onChange={(e) => setPassword1(e.target.value)}
-                        />
-                        <label>Enter Password:</label>
-                    </div>
-                    <div className="input-container">
-                        <input
-                            type="password"
-                            required
-                            value={password2}
-                            onChange={(e) => setPassword2(e.target.value)}
-                        />
-                        <label>Confirm Password:</label>
-                    </div>
-                    <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setSignupattempt(true);
-                        }}
-                    >
-                        Submit
-                    </button>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 

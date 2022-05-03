@@ -1,5 +1,5 @@
-.prompt{
-    background:#fff;
+.prompt {
+    background: #fff;
     padding: 20em;
     z-index: 2;
     border-radius: 0.5em;
@@ -73,8 +73,9 @@
     }
 }
 
-.caption{
+.caption {
     position: relative;
     top: 10em;
     font-size: x-large;
+    color: black;
 }

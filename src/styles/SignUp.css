@@ -48,15 +48,28 @@ input:valid~label {
 
 form {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     text-align: left;
+    align-items: space-between;
 }
 
-button {
+.signupbutton {
     align-self: center;
     margin-top: 2em !important;
+    margin-left: 7em !important;
 }
 
 h2 {
     margin: 0;
+}
+
+.formsplit {
+    margin: 0.5em;
+}
+
+textarea {
+    outline: 0.1em solid rgb(0, 123, 195);
+    resize: none;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 0.6em;
 }

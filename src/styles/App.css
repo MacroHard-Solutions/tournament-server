@@ -6,3 +6,7 @@ button {
     background-color: rgb(14, 68, 136) !important;
     color: rgb(254, 255, 254) !important;
 }
+
+body {
+    font-family: 'Poppins', sans-serif !important;
+}

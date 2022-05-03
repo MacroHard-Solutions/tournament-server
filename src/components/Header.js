@@ -22,14 +22,13 @@ const Header = () => {
     }
 
     var logo = '/imgs/block_logo_azure_white.jpg';
-    
+
 
     return (
         <div className="Header">
-            <img className="img1" src={logo} alt="MacroHard"/>
+            <img className="img1" src={logo} alt="MacroHard" />
             <img className="img2" onClick={returnHome} src={'/imgs/macro_only3.jpg'} alt="MacroHard" />
-            <img className="img3" onClick={returnHome} src={'/imgs/ttitle_only.jpg'} alt="MacroHard" />
-            <h2 onClick={returnHome}></h2>
+            <h2 onClick={returnHome}>Tournament Server</h2>
             <Link to='#' className='menu-bars'>
                 <FaIcons.FaBars onClick={showSidebar} />
             </Link>

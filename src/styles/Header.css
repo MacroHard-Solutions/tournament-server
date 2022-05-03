@@ -61,8 +61,7 @@ ul {
 
 a {
     position: relative;
-    color: rgba(240, 248, 255, 0.95);
-    color: black;
+    color: rgb(254, 255, 254);
     font-size: x-large;
     margin: 2em 0;
 }
@@ -91,9 +90,9 @@ a:hover::before {
     margin: 0;
     cursor: pointer;
     flex-grow: 1;
-    font-style: italic;
     font-weight: 900;
-
+    text-align: center;
+    color: rgb(254, 255, 254);
 }
 
 .Header h2::before {

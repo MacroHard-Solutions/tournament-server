@@ -30,7 +30,7 @@ function SignIn({ userObj, setuserObj }) {
         axiosFetch({
             axiosInstance: axios,
             method: 'POST',
-            url: '/user/login',
+            url: '/user',
             requestConfig: {
                 data: {
                     "username_email": username,
@@ -100,7 +100,7 @@ function SignIn({ userObj, setuserObj }) {
                 <h2>Sign In</h2>
                 {errorPrompt && <span className='loginprompt'>{errorCaption}</span>}
                 {loading && <Loading caption='Loading User Credentials...' />}
-                <form>
+                <form className='signinform'>
                     <div className="input-container">
                         <input
                             type="text"
