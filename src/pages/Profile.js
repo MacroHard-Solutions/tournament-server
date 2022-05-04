@@ -24,33 +24,36 @@ function Profile({ userObj, setuserObj }) {
         }
     });
 
-    return (
+    var img_url = JSON.stringify(userObj.USER_DP).replace(new RegExp('"', "g"), "");
+
+    return (       
         <div className='profile'>
             {userObj ? <div className='profileBox'>
                 <div className="usernameDP">
-                    <img src="https://i.imgur.com/CjnIMqJ.png" style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
+                    <img src={img_url} style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
                     <div className="usernameBox">
                         <h1>{JSON.stringify(userObj.USERNAME).replace(new RegExp('"', "g"), "")}</h1>
-                        <h1>{JSON.stringify(userObj.USER_DESCRIPTION)}</h1>
+                        <h3>{JSON.stringify(userObj.USER_DESCRIPTION).replace(new RegExp('"', "g"), "")}</h3>
                     </div>
                 </div>
                 <div className="statBox">
                     <div className="statfieldBox">
-                        <h2>Name:</h2>
-                        <h2>Smartest Agent:</h2>
-                        <h2>Num of agents:</h2>
+                        <h1>Name:</h1>
+                        <h1>Email:</h1>
+                        <h1>Smartest Agent:</h1>
+                        <h1>Num of agents:</h1>
                     </div>
                     <div className="statinfoBox">
-                        <h2>{JSON.stringify(userObj.USER_FNAME).replace(new RegExp('"', "g"), "") + " " + JSON.stringify(userObj.USER_LNAME).replace(new RegExp('"', "g"), "")}</h2>
-                        <h2>Random</h2>
-                        <h2>1</h2>
+                        <h1>{JSON.stringify(userObj.USER_FNAME).replace(new RegExp('"', "g"), "") + " " + JSON.stringify(userObj.USER_LNAME).replace(new RegExp('"', "g"), "")}</h1>
+                        <h1>{JSON.stringify(userObj.USER_EMAIL).replace(new RegExp('"', "g"), "")}</h1>
+                        <h1>Random</h1>
+                        <h1>1</h1>
                     </div>
                 </div>
                 <button onClick={logOut}>Log out</button>
             </div> : <h3 style={{ color: 'red' }}>Internal Server Error: Unable to retreive User Object</h3>}
             <div className='profileAgentsBox'>
-                <h2>User Agents</h2>
-                <AgentList userObj={userObj} />
+                <h1>User Agents</h1>
             </div>
         </div>
     )
