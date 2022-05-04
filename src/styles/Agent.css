@@ -1,9 +1,13 @@
 .Agent {
     border: 0.1em solid rgb(0, 123, 195);
-    display: flex;
-    align-items: space-around;
+    padding: 1em;
+    margin: 1em;
+    text-align: left;
+    border-radius: 0.4em;
 }
 
 .agenthistory {
+    margin: auto auto;
     align-self: center;
+    justify-self: center;
 }
