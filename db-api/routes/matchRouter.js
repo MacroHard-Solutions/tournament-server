@@ -9,6 +9,4 @@ router
   .post(matchController.processFilter, matchController.getFilteredMatches)
   .put(matchController.insertMatch);
 
-router.route('/filter').post(matchController.processFilter, matchController.getFilteredMatches);
-
 module.exports = router;

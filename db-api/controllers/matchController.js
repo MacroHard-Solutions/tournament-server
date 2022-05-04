@@ -89,35 +89,6 @@ exports.getFilteredMatches = async (req, res) => {
     });
 };
 
-/**
- * @deprecated
- * @param {*} req
- * @param {*} res
- */
-exports.getTournamentMatches = async (req, res) => {
-  const tournamentID = req.body.data.tournamentID;
-  const GET_TOURNAMENT_MATCHES = `CALL get_tournament_matches("${tournamentID}")`;
-
-  await db
-    .execute(GET_TOURNAMENT_MATCHES)
-    .then(([rows, fields]) => {
-      resultHandler.returnSuccess(
-        res,
-        200,
-        'Successfully retrieved matches of the given tournament',
-        rows[0]
-      );
-    })
-    .catch((err) => {
-      resultHandler.returnError(
-        res,
-        502,
-        err,
-        'Unable to retrieve tournament matches'
-      );
-    });
-};
-
 exports.insertMatch = async (req, res) => {
   const clientInput = req.body.data;
   const agentResults = clientInput.agentResults;
