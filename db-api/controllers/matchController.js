@@ -1,4 +1,3 @@
-const cli = require('nodemon/lib/cli');
 const db = require('../util/db');
 const resultHandler = require('../util/responseHandler');
 
@@ -32,6 +31,10 @@ exports.processFilter = (req, res, next) => {
     // skip
   } else query.push(`TOURNAMENT_NAME LIKE "%${clientInput.tournamentName}%"`);
 
+  if (!clientInput.gameName || clientInput.gameName === '') {
+    // skip
+  } else query.push(`GAME_NAME LIKE "%${clientInput.gameName}%"`);
+
   if (clientInput.inProgress === undefined || clientInput.inProgress === '') {
     // skip
   } else
@@ -61,7 +64,7 @@ exports.processFilter = (req, res, next) => {
   next();
 };
 
-exports.getAllMatchResults = async (req, res) => {
+exports.getFilteredMatches = async (req, res) => {
   const clientInput = req.body.data;
   console.log(clientInput.filter);
   const GET_ALL_MATCH_RESULTS = `CALL get_match_results('${clientInput.filter}');`;
@@ -86,6 +89,11 @@ exports.getAllMatchResults = async (req, res) => {
     });
 };
 
+/**
+ * @deprecated
+ * @param {*} req
+ * @param {*} res
+ */
 exports.getTournamentMatches = async (req, res) => {
   const tournamentID = req.body.data.tournamentID;
   const GET_TOURNAMENT_MATCHES = `CALL get_tournament_matches("${tournamentID}")`;

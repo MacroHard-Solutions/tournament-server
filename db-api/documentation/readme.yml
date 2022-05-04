@@ -1099,76 +1099,6 @@ paths:
       tags:
         - Match
     post:
-      description: 'All matches from a tournament are retrieved from the database'
-      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-match'
-      requestBody: 
-        required: true
-        content: 
-          application/json:
-            schema:
-              type: object
-              properties:
-                data:
-                  type: object
-                  properties:
-                    tournamentID: 
-                      type: string
-                      example: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505
-                signal:
-                  type: object
-                      
-      responses:
-        '200':
-          description: Matches from the given tournament are returned
-          content: 
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status: 
-                    type: string
-                    example: success
-                  message:
-                    type: string
-                    example: All matches of the tournament have been retrieved successfully
-                  resultData:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        MATCH_LOG_ID: 
-                          type: string
-                          example: b17d2e65-dafe-47c7-8dbc-b59a3dd16476
-                        TOURNAMENT_ID: 
-                          type: string
-                          example: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505
-                        MATCH_LOG_DATA: 
-                          type: string
-                          example: '|Paper Rock|Paper Lizard|Spock Spock|Spock Spock|Spock Lizard|Paper Lizard|Scissors Paper|'
-                        MATCH_LOG_TIMESTAMP: 
-                          type: string
-                          example: '2022-04-27T18:41:42.000'
-
-        '502':
-          description: Failed
-          content: 
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: failed
-                  message:
-                    type: string
-                  logError:
-                    type: string
-      summary: Retrieves the matches of a tournament
-      tags:
-        - Match
-     
-  /match/filter:
-    post:
       description: |
         - Retrieves match results from the database
         - Each filter below is optional, either enter an empty string or leave it as undefined
@@ -1190,6 +1120,130 @@ paths:
                       type: string
                       example: moose918
                     tournamentName:
+                      type: string
+                      example: tourney
+                    gameName:
+                      type: string
+                      example: ic
+                    inProgress:
+                      type: boolean
+                      example: false
+                    date:
+                      type: object
+                      properties:
+                        comparator:
+                          type: string
+                          example: <
+                        val:
+                          type: string
+                          example: '2022-02-22'
+                    
+                signal:
+                  type: object
+                
+      responses:
+        '200':
+          description: An array of match result objects is retrieved
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully retrieved all match results
+                  resultData:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        MATCH_LOG_ID:
+                          type: string
+                          example: e7cc1eb8-0e84-4bec-ada0-09652e9f5873
+                        GAME_NAME:
+                          type: string
+                          example: Rock-Paper-Scissors-Lizard-Spock
+                        TOURNAMENT_NAME:
+                          type: string
+                          example: Rock-Paper-Scissors-Lizard-Spock Tourney
+                        MATCH_LOG_DATA: 
+                          type: string
+                          example: "|Lizard Spock|Lizard Rock|Scissors Lizard|Spock Spock|Paper Spock|Rock Rock|Spock Lizard|"
+                        MATCH_LOG_TIMESTAMP:
+                          type: string
+                          example: '2022-02-22T16:34:42.000Z'
+                        MATCH_LOG_IN_PROGRESS: 
+                          type: integer
+                          example: 1
+                        U1_USERNAME: 
+                          type: string
+                          example: Zizi
+                        R1_AGENT_ID: 
+                          type: string
+                          example: 173afbb4-f4d0-446f-ac79-89695ea643bc
+                        R1_RANKING: 
+                          type: integer 
+                          example: 0
+                        U2_USERNAME: 
+                          type: string
+                          example: Kixn
+                        R2_AGENT_ID: 
+                          type: string
+                          example: b724d13a-32e0-400b-a6ac-9b499a41c511
+                        R2_RANKING: 
+                          type: integer
+                          example: 1
+
+                      
+        '502':
+          description: Failed
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                  logError:
+                    type: string
+
+      summary: 'Get all match results'
+      tags: 
+        - Match
+     
+  /match/filter:
+    post:
+      description: |
+        - `This endpoint is depreciated and will be removed. It is now available on the root /match endpoint`
+        - Retrieves match results from the database
+        - Each filter below is optional, either enter an empty string or leave it as undefined
+        - Leave all attributes as undefined if there is no filter required
+        - Date comparisons also cater for equality
+       
+      operationId: 'get-https:--tournament-server.herokuapp.com-api-v2-match'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data: 
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                      example: moose918
+                    tournamentName:
+                      type: string
+                      example: tourney
+                    gameName:
                       type: string
                       example: Rock
                     inProgress:
@@ -1280,7 +1334,8 @@ paths:
                   logError:
                     type: string
 
-      summary: 'Get all match results'
+      summary: Get all match results - `Depreciated`
+      depreciated: true
       tags: 
         - Match
     
