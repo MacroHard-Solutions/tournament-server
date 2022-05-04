@@ -9,6 +9,7 @@
     left: 0;
     right: 0;
     top: 0;
+    text-align: center;
 }
 
 .centered {
@@ -78,4 +79,5 @@
     top: 10em;
     font-size: x-large;
     color: black;
+    text-align: center;
 }

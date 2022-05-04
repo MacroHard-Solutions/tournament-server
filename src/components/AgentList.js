@@ -14,16 +14,22 @@ function AgentList({ userObj }) {
     //TODO implement refetch
 
     //useAxios hook to pull agent data
+    //eslint-disable-next-line
     const [response, error, loading, refetch] = useAxios({
         axiosInstance: axios,
         method: 'POST',
         url: '/agent',
         requestConfig: {
             data: {
-                userID: "e11036e6-dfa4-419d-90a4-4374ae609d4c"//userObj.USER_ID
+                userID: userObj.USER_ID
             }
         }
     });
+
+    //useEffect to refectch when object is mounted
+    useEffect(() => {
+        refetch();
+    }, [])
 
     //useEffect to detect a response from the server
     useEffect(() => {

@@ -25,7 +25,7 @@ function Profile({ userObj, setuserObj }) {
 
     return (
         <div className='profile'>
-            {userObj ? <div className='profileBox'>
+            {userObj ? <> <div className='profileBox'>
                 <div className="usernameDP">
                     <img src="https://i.imgur.com/CjnIMqJ.png" alt="user Display" style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
                     <div className="usernameBox">
@@ -46,10 +46,11 @@ function Profile({ userObj, setuserObj }) {
                     </div>
                 </div>
                 <button onClick={logOut}>Log out</button>
-            </div> : <h3 style={{ color: 'red' }}>Internal Server Error: Unable to retreive User Object</h3>}
-            <div className='profileAgentsBox'>
-                <AgentList userObj={userObj} />
             </div>
+                <div className='profileAgentsBox'>
+                    <AgentList userObj={userObj} />
+                </div> </> : <h3 style={{ color: 'red' }}>Internal Server Error: Unable to retreive User Object</h3>
+            }
         </div >
     )
 }
