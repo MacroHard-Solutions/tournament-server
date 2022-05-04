@@ -2,7 +2,7 @@
 -- MySQL Workbench Migration
 -- Migrated Schemata: tourney_server
 -- Source Schemata: tourney_server
--- Created: Tue May  3 13:39:56 2022
+-- Created: Tue May  3 23:28:04 2022
 -- Workbench Version: 8.0.29
 -- ----------------------------------------------------------------------------
 
@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS `tourney_server`.`MATCH_LOG` (
   `TOURNAMENT_ID` VARCHAR(45) NOT NULL COMMENT 'The UUID of the tournament this match was played in',
   `MATCH_LOG_DATA` LONGTEXT NOT NULL COMMENT 'Details of the match',
   `MATCH_LOG_TIMESTAMP` TIMESTAMP NOT NULL COMMENT 'Date and time of  recording the past match',
+  `MATCH_LOG_IN_PROGRESS` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 'Whether the match is in progress or finished',
   PRIMARY KEY (`MATCH_LOG_ID`),
   UNIQUE INDEX `MATCH_LOG_ID_UNIQUE` (`MATCH_LOG_ID` ASC) VISIBLE,
   UNIQUE INDEX `UK_MATCH_LOG_MATCH_LOG_TIME` (`MATCH_LOG_TIMESTAMP` ASC) VISIBLE,
@@ -185,6 +186,36 @@ BEGIN
 
   DEALLOCATE PREPARE existingUserCheck;
 
+END$$
+
+DELIMITER ;
+
+-- ----------------------------------------------------------------------------
+-- Routine tourney_server.get_match_results
+-- ----------------------------------------------------------------------------
+DELIMITER $$
+
+DELIMITER $$
+USE `tourney_server`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `get_match_results`(IN whereCondition VARCHAR(200))
+BEGIN
+SET @whereCon = whereCondition;
+SET @stmt = CONCAT('
+SELECT M.MATCH_LOG_ID, G.GAME_NAME, T.TOURNAMENT_NAME, M.MATCH_LOG_DATA, M.MATCH_LOG_TIMESTAMP, MATCH_LOG_IN_PROGRESS, U1.USERNAME AS U1_USERNAME, R1_AGENT_ID, R1_RANKING, U2.USERNAME AS U2_USERNAME, R2_AGENT_ID, R2_RANKING
+FROM `MATCH_LOG` AS M INNER JOIN 
+	(SELECT R1.MATCH_LOG_ID, R1.AGENT_ID AS R1_AGENT_ID, R1.RANKING AS R1_RANKING, R2.AGENT_ID AS R2_AGENT_ID, R2.RANKING AS R2_RANKING FROM `RANKING` AS R1 INNER JOIN `RANKING` AS R2 ON (R1.MATCH_LOG_ID = R2.MATCH_LOG_ID AND R1.AGENT_ID != R2.AGENT_ID)
+	GROUP BY R1.MATCH_LOG_ID) AS R ON (M.MATCH_LOG_ID = R.MATCH_LOG_ID)
+INNER JOIN `AGENT` AS A1 ON (A1.AGENT_ID = R1_AGENT_ID)
+INNER JOIN `AGENT` AS A2 ON (A2.AGENT_ID = R2_AGENT_ID)
+INNER JOIN `USER` AS U1 ON (U1.USER_ID = A1.USER_ID)
+INNER JOIN `USER` AS U2 ON (U2.USER_ID = A2.USER_ID)
+INNER JOIN TOURNAMENT AS T ON (M.TOURNAMENT_ID = T.TOURNAMENT_ID)
+INNER JOIN GAME AS G ON (G.GAME_ID = T.GAME_ID)
+WHERE ', whereCondition);
+
+PREPARE st FROM @stmt;
+EXECUTE st;
+DEALLOCATE PREPARE st;
 END$$
 
 DELIMITER ;

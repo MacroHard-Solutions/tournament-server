@@ -431,6 +431,74 @@ paths:
       tags: 
         - Profile
 
+  /agent/{tournamentID}:
+    get:
+      description: 'Retrieves all agents of the specified tournamentID'
+      operationId:  'get-https:--tournament-server.herokuapp.com-api-v2-agent-tournamentID'
+      summary: Get all agents of tournament
+      tags:
+        - Agent
+      
+      parameters:
+        - in: path
+          name: tournamentID
+          required: true
+          schema:
+            type: string
+          description: The tournament ID
+      
+      responses:
+        '200':
+          description: 'An array of agent objects is returned'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Retrieved all agents of the specified tournament
+                  resultData:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        userID: 
+                          type: string
+                          example: ef368c5d-b01e-48c6-81bd-33e15f27bb2f
+                        agentID: 
+                          type: string
+                          example: 0e852e78-207e-4bc8-bb9d-215ab10cc385
+                        fullName: 
+                          type: string
+                          example: Thabo Mohapi
+                        ipAddress: 
+                          type: string
+                          example: 206.126.0.27
+                        portNum: 
+                          type: integer
+                          example: 1031
+                        agentELO:
+                          type: float
+                          example: 600
+        '502':
+          description: Failed
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                  logError:
+                    type: string
+
   /agent:
     put:
       description: 'Inserts the agent into the database. `agentName` can be left as an empty string, this will cause the agent name to be the same as the username.'
@@ -653,7 +721,60 @@ paths:
       summary: Delete the user's agent
       tags:
         - Agent
-    
+    patch:
+      description: Updates the user's agent
+      operationId: 'patch-https:--tournament-server.herokuapp.com-api-v2-agent'
+      requestBody: 
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    agentID: 
+                      type: string
+                      example: 0e852e78-207e-4bc8-bb9d-215ab10cc385",
+                    agentELO:
+                      type: float
+                      example: 600
+      responses:
+        '200':
+          description: The update was successful
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Successfully updated the agent
+                  resultData:
+                    type: null
+        '502':
+          description: Failed
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                  logError:
+                    type: string
+              
+                
+      summary: Update user agent
+      tags:
+        - Agent
   /game:
     get:
       description: 'Retrieves all games from the database'

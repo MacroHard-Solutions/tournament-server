@@ -39,6 +39,30 @@ exports.getUserAgents = async (req, res) => {
     });
 };
 
+exports.getTournamentAgents = async (req, res) => {
+  const tournamentID = req.params.tournamentID;
+  const GET_TOURNAMENT_AGENTS = `CALL get_agents_from_tournament('${tournamentID}')`;
+
+  await db
+    .execute(GET_TOURNAMENT_AGENTS)
+    .then(([rows, fields]) => {
+      resultHandler.returnSuccess(
+        res,
+        200,
+        'Retrieved all agents of the specified tournament',
+        rows[0]
+      );
+    })
+    .catch((err) => {
+      resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to retrieve the agents of the specified tournament'
+      );
+    });
+};
+
 exports.insertAgent = async (req, res) => {
   const clientInput = req.body.data;
 
@@ -102,3 +126,27 @@ exports.deleteAgent = async (req, res) => {
       return resultHandler.returnError(res, 502, err, 'Unable to delete agent');
     });
 };
+
+exports.updateAgent = async (req, res) => {
+  const clientInput = req.body.data;
+  const UPDATE_AGENT = `CALL update_agent("${clientInput.agentID}",${clientInput.agentELO})`
+ 
+  await db
+    .execute(UPDATE_AGENT)
+    .then((result) => {
+      resultHandler.returnSuccess(
+        res,
+        200,
+        'Successfully updated the agent',
+        null
+      );
+    })
+    .catch((err) => {
+      resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to update the specified agent'
+      );
+    });
+}
