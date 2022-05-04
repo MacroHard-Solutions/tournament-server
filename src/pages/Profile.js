@@ -4,9 +4,8 @@ import '../styles/Profile.css';
 import React from 'react';
 import AgentList from "../components/AgentList";
 
-import ParticlesBg from 'particles-bg';
-
 //TODO: Team MT work on user Info Section (discuss specifics with katlego) 
+//TODO style scrollbars
 
 function Profile({ userObj, setuserObj }) {
 
@@ -28,7 +27,7 @@ function Profile({ userObj, setuserObj }) {
         <div className='profile'>
             {userObj ? <div className='profileBox'>
                 <div className="usernameDP">
-                    <img src="https://i.imgur.com/CjnIMqJ.png" style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
+                    <img src="https://i.imgur.com/CjnIMqJ.png" alt="user Display" style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
                     <div className="usernameBox">
                         <h1>{JSON.stringify(userObj.USERNAME).replace(new RegExp('"', "g"), "")}</h1>
                         <h1>{JSON.stringify(userObj.USER_DESCRIPTION)}</h1>
@@ -49,10 +48,9 @@ function Profile({ userObj, setuserObj }) {
                 <button onClick={logOut}>Log out</button>
             </div> : <h3 style={{ color: 'red' }}>Internal Server Error: Unable to retreive User Object</h3>}
             <div className='profileAgentsBox'>
-                <h2>User Agents</h2>
                 <AgentList userObj={userObj} />
             </div>
-        </div>
+        </div >
     )
 }
 export default Profile;

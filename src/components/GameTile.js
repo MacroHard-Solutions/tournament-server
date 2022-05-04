@@ -30,19 +30,10 @@ const GameTile = props => {
     }
 
     return (
-        <div>
+        <div className='gameTile'>
             <h3 className="Title">{props.title}</h3>
-            <div className="imageholder">
-                <div style={{ width: '20em', height: '10em', backgroundSize: 'cover', borderRadius: '1em', backgroundImage: image }}>
-                    <div className="tilebuttons">
-                        <div className="tileicon">
-                            <FaPlay size="2em" />
-                            <FaRegEye size="2em" />
-                        </div>
-                        <button className="buttonn" onClick={pushPlay}>Play</button>
-                        <button className="buttonn" onClick={pushWatch}>Watch</button>
-                    </div>
-                </div>
+            <div className="imageholder" style={{ width: '20em', height: '15em', backgroundSize: 'cover', borderRadius: '1em', backgroundImage: image }}>
+
             </div>
         </div>
     );

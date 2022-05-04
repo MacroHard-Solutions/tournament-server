@@ -60,8 +60,6 @@ function SignIn({ userObj, setuserObj }) {
             if (response.status === "success") {
                 setuserObj(response.resultData[0]);
                 history.push('profile');
-                //TODO clear comment
-                console.log(response.resultData[0]);
             }
         }
         //eslint-disable-next-line
@@ -103,11 +101,11 @@ function SignIn({ userObj, setuserObj }) {
                 <form className='signinform'>
                     <div className="input-container">
                         <input
+                            autoFocus
                             type="text"
                             required
                             value={username}
                             onChange={e => setUsername(e.target.value)}
-                            autoFocus
                         />
                         <label>Email/Username:</label>
                     </div>

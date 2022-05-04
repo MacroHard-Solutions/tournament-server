@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from "react";
+import '../styles/Agent.css'
 
 /**format of agent object
  *  "AGENT_ID": "f64da681-86c9-4b68-a266-7ae4b8668449",
@@ -35,12 +36,14 @@ function Agent({ AGENT_ID, AGENT_NAME, GAME_NAME, AGENT_ELO, AVERAGE_RANKING, AG
 
     return (
         <div className='Agent'>
-            <h3>Agent Name:   {AGENT_NAME}</h3>
-            <h3>Game:   {GAME_NAME}</h3>
-            <h3>ELO:    {AGENT_ELO}</h3>
-            <h3>Average Ranking:    {AVERAGE_RANKING}</h3>
-            <h3>Status:     {status}</h3>
+            <h3><u>Agent Name:</u>   {AGENT_NAME}</h3>
+            <h3><u>Game:</u>   {GAME_NAME}</h3>
+            <h3><u>ELO:</u>    {AGENT_ELO}</h3>
+            <h3><u>Average Ranking:</u>    {AVERAGE_RANKING}</h3>
+            <h3><u>Status:</u>     {status}</h3>
             <button className='agenthistory'>History</button>
         </div>
     )
 }
+
+export default Agent;
