@@ -1,4 +1,8 @@
-.Home{
+html {
+    max-width: 94vw;
+}
+
+.Home {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,7 +10,7 @@
     flex: 1;
 }
 
-.Popgames{
+.Popgames {
     width: 100vw;
     height: 100vh;
     padding: 2em;
@@ -16,22 +20,22 @@
     scroll-behavior: smooth;
 }
 
-.imageholder{
+.imageholder {
     display: flex;
     flex-direction: column;
     text-align: center;
     justify-content: center;
 }
 
-.game{
+.game {
     height: fit-content;
     padding: 1em;
     width: fit-content;
     border-radius: 0.5em;
-    
+
 }
 
-button{
+button {
     margin: 0.5em 3em;
     align-items: center;
     background-color: rgb(0, 123, 195);
@@ -42,24 +46,24 @@ button{
     cursor: pointer;
     display: inline-flex;
     font-family: -apple-system,
-    system-ui,
-    system-ui,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    "Fira Sans",
-    Ubuntu,
-    Oxygen,
-    "Oxygen Sans",
-    Cantarell,
-    "Droid Sans",
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
-    "Segoe UI Symbol",
-    "Lucida Grande",
-    Helvetica,
-    Arial,
-    sans-serif;
+        system-ui,
+        system-ui,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        "Fira Sans",
+        Ubuntu,
+        Oxygen,
+        "Oxygen Sans",
+        Cantarell,
+        "Droid Sans",
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        "Lucida Grande",
+        Helvetica,
+        Arial,
+        sans-serif;
     font-size: 16px;
     font-weight: 600;
     justify-content: center;
@@ -70,12 +74,13 @@ button{
     overflow: hidden;
     padding: 0px;
     width: 4em;
-    height: 1em;;
+    height: 1em;
+    ;
     text-align: center;
     touch-action: manipulation;
     transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
-    box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
-    color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+        box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s;
     user-select: none;
     -webkit-user-select: none;
     vertical-align: middle;
@@ -84,12 +89,12 @@ button{
 
 button:hover,
 button:focus {
-    background-color: #16437E;
+    background-color: #0e3669 !important;
     color: #ffffff;
 }
 
 button:active {
-    background: #09223b;
+    background: #2387ec;
     color: rgb(255, 255, 255, .7);
 }
 
@@ -100,7 +105,7 @@ button:disabled {
 }
 
 .gamesub {
-    display: flex; 
+    display: flex;
     flex-flow: column;
     align-items: center;
 }

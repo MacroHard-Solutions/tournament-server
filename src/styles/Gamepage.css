@@ -1,0 +1,144 @@
+.watchPage {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2em;
+}
+
+.filterBox {
+    text-align: center;
+    min-height: 30vh;
+    min-width: 25vw;
+    max-height: 40vh;
+    max-width: 30vw;
+    border: 0.3em solid rgb(0, 123, 195);
+    padding: 1em;
+    border-radius: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.watchInfo {
+    color: black;
+    margin: 0;
+}
+
+.gamesBox {
+    height: 75vh;
+    width: 55vw;
+    text-align: center;
+    border: 0.3em solid rgb(0, 123, 195);
+    padding: 1em;
+    border-radius: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.filterTools {
+    display: flex;
+    flex-flow: column;
+}
+
+.form__label,
+.form__label::after,
+.form__label::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+    font-size: 62, 5%;
+}
+
+
+.form__label {
+    font-family: 'Poppins', sans-serif;
+    padding-left: 1em;
+    font-size: 1.2rem;
+    margin-left: 2rem;
+    margin-top: 0.7rem;
+    display: block;
+    transition: all 0.3s;
+    transform: translateY(0rem);
+    text-align: left;
+}
+
+.form__input {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    font-size: 1rem;
+    margin: 0 auto;
+    border-radius: 0.2rem;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    width: 80%;
+    display: block;
+    border-bottom: 0.1rem solid black;
+    transition: all 0.3s;
+}
+
+.form__input:placeholder-shown+.form__label {
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: translateY(-4rem);
+    transform: translateY(-4rem);
+}
+
+.dateFilter {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.cmbx {
+    appearance: none;
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Safari, Chrome, Opera */
+    -webkit-appearance: none;
+}
+
+.dateButton {
+    padding: 0.5em;
+    width: 9em;
+}
+
+.box {}
+
+.box select {
+    background-color: rgb(14, 68, 136);
+    color: white;
+    padding: 0.5em;
+    width: 8em;
+    border: none;
+    font-size: 1rem;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    -webkit-appearance: button;
+    appearance: button;
+    outline: none;
+}
+
+.box::before {
+    content: "\f13a";
+    font-family: FontAwesome;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+    font-size: 28px;
+    line-height: 45px;
+    color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+}
+
+.box:hover::before {
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.box select option {
+    padding: 30px;
+}

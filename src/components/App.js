@@ -72,7 +72,9 @@ function App() {
             <SignUp userObj={userObj} setuserObj={setuserObj} />{/*SignUp page*/}
           </Route>
           <Route path='/amc' component={AMC} />{/*Agent management console for users to manage their available agents*/}
-          <Route path='/gamepage' component={Gamepage} />{/*Page to show historical games for users to watch*/}
+          <Route path='/gamepage'>
+            <Gamepage tourney={''} />
+          </Route>{/*Page to show historical games for users to watch*/}
           <Route component={Notfound} />{/*default route for a 404 page not found error*/}
         </Switch>
       </div>

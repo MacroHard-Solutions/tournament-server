@@ -1,0 +1,12 @@
+.matchHolder {
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    justify-content: space-evenly;
+    border: 1px solid black;
+}
+
+.matchHolder:hover {
+    background-color: wheat;
+    cursor: pointer;
+}

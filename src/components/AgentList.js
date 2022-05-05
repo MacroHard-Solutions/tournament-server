@@ -47,7 +47,7 @@ function AgentList({ userObj }) {
         <div className='agentList'>
             {loading && <Loading caption='Retreiving User Agents' />}
             <h2>Agent List</h2>
-            {error && <h3 style={{ color: "red" }}>Unable to retreive User Agents</h3>}
+            {error && <h3 style={{ color: "red" }}>Error: Unable to retreive User Agents</h3>}
             {display && agentsArr.map((agent) => {
                 return (
                     <Agent

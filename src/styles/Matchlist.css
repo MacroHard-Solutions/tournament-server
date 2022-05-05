@@ -1,0 +1,18 @@
+.allMatchContainer {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 60vh;
+    padding: 0.5em;
+}
+
+
+.matchList {
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    justify-content: space-evenly;
+    border: 1px solid black;
+    position: static;
+}
+
+.heading {}

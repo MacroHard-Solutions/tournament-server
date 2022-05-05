@@ -4,13 +4,15 @@ import '../styles/GameTile.css';
 import { useHistory } from 'react-router-dom';
 import { MdOutlinePlayArrow, MdVideoLabel } from 'react-icons/md'
 
+//TODO smooth out hover animation using css
+
 function GameTile({ title, key, imageurl, game_id }) {
 
     const [hovering, setHovering] = useState(false);
 
-    
+
     const history = useHistory();
-    
+
     const pushPlay = () => {
         history.push('/play');
     }
@@ -18,7 +20,7 @@ function GameTile({ title, key, imageurl, game_id }) {
     const pushWatch = () => {
         history.push('/watch');
     }
-    
+
 
     useEffect(() => {
         window.scroll(0, 0)
@@ -38,11 +40,11 @@ function GameTile({ title, key, imageurl, game_id }) {
                 style={{ width: '20em', height: '15em', backgroundSize: 'cover', borderRadius: '1em', backgroundImage: `url(${imageurl})` }}>
                 <div className={hovering ? 'showButtons' : 'hideButtons'}>
                     <div className='buttonHolder'>
-                        <MdOutlinePlayArrow onClick={pushPlay}/>
+                        <MdOutlinePlayArrow onClick={pushPlay} />
                         <span>Play</span>
                     </div>
                     <div className='buttonHolder'>
-                        <MdVideoLabel onClick={pushWatch}/>
+                        <MdVideoLabel onClick={pushWatch} />
                         <span>watch</span>
                     </div>
                 </div>
