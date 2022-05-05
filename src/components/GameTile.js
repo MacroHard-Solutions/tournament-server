@@ -1,14 +1,14 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import '../styles/GameTile.css';
-//import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { MdOutlinePlayArrow, MdVideoLabel } from 'react-icons/md'
 
 function GameTile({ title, key, imageurl, game_id }) {
 
     const [hovering, setHovering] = useState(false);
 
-    /*
+    
     const history = useHistory();
     
     const pushPlay = () => {
@@ -18,7 +18,7 @@ function GameTile({ title, key, imageurl, game_id }) {
     const pushWatch = () => {
         history.push('/watch');
     }
-    */
+    
 
     useEffect(() => {
         window.scroll(0, 0)
@@ -38,11 +38,11 @@ function GameTile({ title, key, imageurl, game_id }) {
                 style={{ width: '20em', height: '15em', backgroundSize: 'cover', borderRadius: '1em', backgroundImage: `url(${imageurl})` }}>
                 <div className={hovering ? 'showButtons' : 'hideButtons'}>
                     <div className='buttonHolder'>
-                        <MdOutlinePlayArrow />
+                        <MdOutlinePlayArrow onClick={pushPlay}/>
                         <span>Play</span>
                     </div>
                     <div className='buttonHolder'>
-                        <MdVideoLabel />
+                        <MdVideoLabel onClick={pushWatch}/>
                         <span>watch</span>
                     </div>
                 </div>

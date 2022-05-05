@@ -1,0 +1,85 @@
+.watch {
+    padding: 1.25em;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.gameBoard{
+    min-width: 30vw;
+    max-width: 50vw;
+    height: 80vh;
+    background: white;
+    padding: 1.25em;
+}
+
+.board{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 45vw;
+    max-width: 65vw;
+    height: 65vh;
+    background: white;
+    padding: 1.25em;
+}
+
+.usersPlaying{
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em;
+    justify-content: space-between;
+    
+}
+
+.userELO{
+    display: flex;
+    flex-direction: column;
+}
+
+.playbackControls{
+    border: 0.3em solid rgb(0, 123, 195);
+    border-radius: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 15vw;
+    max-width: 20vw;
+    height: 80vh;
+    background: white;
+    padding: 1.25em;
+    display: flex;
+    flex-direction: row;
+}
+
+.Leaderboard{
+    border: 0.3em solid rgb(0, 123, 195);
+    border-radius: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 25vw;
+    max-width: 30vw;
+    height: 70vh;
+    background: white;
+    padding: 1.25em;
+    display: flex;
+    flex-direction: row;
+}
+
+.pgc{
+    border: 0.3em solid rgb(0, 123, 195);
+    border-radius: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 25vw;
+    max-width: 30vw;
+    height: 7.5vh;
+    background: white;
+    display: flex;
+    flex-direction: row;
+}
+
+.leaderboardandButtons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 0.8%;
+}

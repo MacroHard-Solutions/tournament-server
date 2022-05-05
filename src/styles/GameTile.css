@@ -26,52 +26,6 @@
 .buttonHolder {
     display: flex;
     flex-direction: column;
-<<<<<<< HEAD
-    text-align: center;
-    justify-content: center;
-}
-
-div.imageholder:hover div.images{
-    opacity: 0.6;
-}
-
-div.imageholder:hover .tileicon{
-    display: none;
-}
-
-div.imageholder:hover button.buttonn {
-    display: block;
-}
-
-div.imageholder button.buttonn{
-    top:50%;
-    left:50%;
-    display:none;
-}
-
-.buttonn{
-    width: 100px;
-    height: 40px;
-    margin-top: 10%;
-}
-
-.tileicon{
-    margin-top: 10%;
-    display: flex;
-    flex-direction: row;
-}
-
-.tilebuttons{
-    justify-content: space-around;
-    display: flex;
-    flex-direction: row;
-    margin-top: 10%;
-}
-
-button{
-    margin: 0.5em 3em;
-=======
->>>>>>> c51bfde69b278f93d26cdbcb5470b3572aca3b0f
     align-items: center;
     justify-content: center;
 }

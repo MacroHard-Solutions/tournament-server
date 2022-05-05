@@ -23,17 +23,11 @@ function Profile({ userObj, setuserObj }) {
         }
     });
 
-    var img_url = JSON.stringify(userObj.USER_DP).replace(new RegExp('"', "g"), "");
-
     return (       
         <div className='profile'>
             {userObj ? <> <div className='profileBox'>
                 <div className="usernameDP">
-<<<<<<< HEAD
-                    <img src={img_url} style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
-=======
-                    <img src="https://i.imgur.com/CjnIMqJ.png" alt="user Display" style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
->>>>>>> c51bfde69b278f93d26cdbcb5470b3572aca3b0f
+                    <img src={JSON.stringify(userObj.USER_DP).replace(new RegExp('"', "g"), "")} alt="User display picture could not be loaded." style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
                     <div className="usernameBox">
                         <h1>{JSON.stringify(userObj.USERNAME).replace(new RegExp('"', "g"), "")}</h1>
                         <h3>{JSON.stringify(userObj.USER_DESCRIPTION).replace(new RegExp('"', "g"), "")}</h3>
@@ -54,12 +48,6 @@ function Profile({ userObj, setuserObj }) {
                     </div>
                 </div>
                 <button onClick={logOut}>Log out</button>
-<<<<<<< HEAD
-            </div> : <h3 style={{ color: 'red' }}>Internal Server Error: Unable to retreive User Object</h3>}
-            <div className='profileAgentsBox'>
-                <h1>User Agents</h1>
-=======
->>>>>>> c51bfde69b278f93d26cdbcb5470b3572aca3b0f
             </div>
                 <div className='profileAgentsBox'>
                     <AgentList userObj={userObj} />
