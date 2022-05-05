@@ -6,8 +6,7 @@
 }
 
 .gameBoard{
-    min-width: 30vw;
-    max-width: 50vw;
+    width: 55vw;
     height: 80vh;
     background: white;
     padding: 1.25em;
@@ -18,7 +17,7 @@
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
     min-width: 45vw;
     max-width: 65vw;
-    height: 65vh;
+    height: 70vh;
     background: white;
     padding: 1.25em;
 }
@@ -41,8 +40,7 @@
     border-radius: 0.5em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    min-width: 15vw;
-    max-width: 20vw;
+    width: 15vw;
     height: 80vh;
     background: white;
     padding: 1.25em;
@@ -55,8 +53,7 @@
     border-radius: 0.5em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    min-width: 25vw;
-    max-width: 30vw;
+    width: 25vw;
     height: 70vh;
     background: white;
     padding: 1.25em;
@@ -69,8 +66,8 @@
     border-radius: 0.5em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    min-width: 25vw;
-    max-width: 30vw;
+    width: 25vw;
+    padding-inline: 1.25em;
     height: 7.5vh;
     background: white;
     display: flex;
