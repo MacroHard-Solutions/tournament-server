@@ -592,7 +592,10 @@ paths:
       tags:
         - Agent
     post:
-      description: Retrieves the given user's agents from the database
+      description: |
+       - Retrieves the given user's agents from the database, given by the userID field
+       - Retrieves a specific agent from the database, given by the agentID field
+       - `Do not enter both fields, choose one`
       operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-agent'
       requestBody: 
         required: true
@@ -607,12 +610,16 @@ paths:
                     userID: 
                       type: string
                       example: 0fbe7dd3-20b4-400a-ad28-53d86dd36cd2
+                    agentID: 
+                      type: string
+                      example: 0e852e78-207e-4bc8-bb9d-215ab10cc385
                 signal:
                   type: object
       responses:
         '200':
           description: |
             - An array of the user's agent objects is returned.
+            - Or the object of the specific agent requested is returned.
             - `AGENT_STATUS` -> -1:offline, 0:inactive, 1:active
 
           content: 
@@ -652,6 +659,7 @@ paths:
                         AGENT_STATUS: 
                           type: integer
                           example: -1
+        
         '502':
             description: Failed
             content: 
@@ -666,7 +674,7 @@ paths:
                       type: string
                     logError:
                       type: string
-      summary: Retrieve user' agents
+      summary: Retrieve an agent or the user's agents
       tags:
         - Agent
     delete:

@@ -1,5 +1,5 @@
 const db = require('../util/db');
-const resultHandler = require('../util/responseHandler');
+const responseHandler = require('../util/responseHandler');
 
 const insertAgentAddress = async (ipAddress, portNum) => {
   return new Promise((resolve, reject) => {
@@ -17,12 +17,24 @@ const insertAgentAddress = async (ipAddress, portNum) => {
 
 exports.getUserAgents = async (req, res) => {
   const clientInput = req.body.data;
-  const GET_USER_AGENTS = `CALL get_user_agents("${clientInput.userID}")`;
+  let stmt;
+  if (!clientInput.agentID)
+    stmt = `CALL get_user_agents("${clientInput.userID}")`;
+  else if (!clientInput.userID)
+    stmt = `CALL get_agent("${clientInput.agentID}")`;
+
+  if (!stmt)
+    return responseHandler.returnError(
+      res,
+      400,
+      new Error('Invalid request made'),
+      'Please enter either the userID or agentID'
+    );
 
   await db
-    .execute(GET_USER_AGENTS)
+    .execute(stmt)
     .then(([rows, fields]) => {
-      return resultHandler.returnSuccess(
+      return responseHandler.returnSuccess(
         res,
         200,
         "The user's agent(s) have been retrieved",
@@ -30,7 +42,7 @@ exports.getUserAgents = async (req, res) => {
       );
     })
     .catch((err) => {
-      return resultHandler.returnError(
+      return responseHandler.returnError(
         res,
         502,
         err,
@@ -46,7 +58,7 @@ exports.getTournamentAgents = async (req, res) => {
   await db
     .execute(GET_TOURNAMENT_AGENTS)
     .then(([rows, fields]) => {
-      resultHandler.returnSuccess(
+      responseHandler.returnSuccess(
         res,
         200,
         'Retrieved all agents of the specified tournament',
@@ -54,7 +66,7 @@ exports.getTournamentAgents = async (req, res) => {
       );
     })
     .catch((err) => {
-      resultHandler.returnError(
+      responseHandler.returnError(
         res,
         502,
         err,
@@ -74,7 +86,7 @@ exports.insertAgent = async (req, res) => {
       clientInput.portNum
     );
   } catch (err) {
-    return resultHandler.returnError(
+    return responseHandler.returnError(
       res,
       502,
       err,
@@ -91,7 +103,7 @@ exports.insertAgent = async (req, res) => {
   await db
     .execute(INSERT_AGENT)
     .then(([rows, fields]) => {
-      return resultHandler.returnSuccess(
+      return responseHandler.returnSuccess(
         res,
         201,
         "The user's agent has been inserted successfully",
@@ -99,7 +111,7 @@ exports.insertAgent = async (req, res) => {
       );
     })
     .catch((err) => {
-      return resultHandler.returnError(
+      return responseHandler.returnError(
         res,
         502,
         err,
@@ -115,7 +127,7 @@ exports.deleteAgent = async (req, res) => {
   await db
     .execute(REMOVE_AGENT)
     .then((result) => {
-      return resultHandler.returnSuccess(
+      return responseHandler.returnSuccess(
         res,
         200,
         'Agents of the specified id have been removed successfully',
@@ -123,18 +135,23 @@ exports.deleteAgent = async (req, res) => {
       );
     })
     .catch((err) => {
-      return resultHandler.returnError(res, 502, err, 'Unable to delete agent');
+      return responseHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to delete agent'
+      );
     });
 };
 
 exports.updateAgent = async (req, res) => {
   const clientInput = req.body.data;
-  const UPDATE_AGENT = `CALL update_agent("${clientInput.agentID}",${clientInput.agentELO})`
- 
+  const UPDATE_AGENT = `CALL update_agent("${clientInput.agentID}",${clientInput.agentELO})`;
+
   await db
     .execute(UPDATE_AGENT)
     .then((result) => {
-      resultHandler.returnSuccess(
+      responseHandler.returnSuccess(
         res,
         200,
         'Successfully updated the agent',
@@ -142,11 +159,11 @@ exports.updateAgent = async (req, res) => {
       );
     })
     .catch((err) => {
-      resultHandler.returnError(
+      responseHandler.returnError(
         res,
         502,
         err,
         'Unable to update the specified agent'
       );
     });
-}
+};
