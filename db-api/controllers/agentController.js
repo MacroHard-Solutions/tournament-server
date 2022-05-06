@@ -51,6 +51,30 @@ exports.getUserAgents = async (req, res) => {
     });
 };
 
+exports.getAgentPair = async (req, res) => {
+  const clientInput = req.body.data;
+  const GET_AGENT_PAIR = `CALL get_agent_pair('${clientInput.agentA}', '${clientInput.agentB}')`;
+
+  await db
+    .execute(GET_AGENT_PAIR)
+    .then(([rows, fields]) => {
+      responseHandler.returnSuccess(
+        res,
+        200,
+        'Retrieved the agent pair',
+        rows[0]
+      );
+    })
+    .catch((err) => {
+      responseHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to retrieve the agents of the specified tournament'
+      );
+    });
+};
+
 exports.getTournamentAgents = async (req, res) => {
   const tournamentID = req.params.tournamentID;
   const GET_TOURNAMENT_AGENTS = `CALL get_agents_from_tournament('${tournamentID}')`;

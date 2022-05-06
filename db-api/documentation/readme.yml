@@ -783,6 +783,108 @@ paths:
       summary: Update user agent
       tags:
         - Agent
+  /agent/pair:
+    post:
+      description: |
+       - Retrieves a pair of agents from the database
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-agent-pair'
+      requestBody: 
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    agentA: 
+                      type: string
+                      example: 0fbe7dd3-20b4-400a-ad28-53d86dd36cd2
+                    agentB: 
+                      type: string
+                      example: 0e852e78-207e-4bc8-bb9d-215ab10cc385
+                signal:
+                  type: object
+      responses:
+        '200':
+          description: |
+            - An array of the requested agent pair
+            - Or the object of the specific agent requested is returned.
+            - `AGENT_STATUS` -> -1:offline, 0:inactive, 1:active
+
+          content: 
+            application/json:
+              schema:
+                status: 
+                  type: string
+                  example: success
+                message: 
+                  type: string
+                  example: Retrieved the agent pair
+                resultData: 
+                  
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      AGENT_ID: 
+                        type: string
+                        example: 0e852e78-207e-4bc8-bb9d-215ab10cc385
+                      AGENT_NAME: 
+                        type: string
+                        exammple: ""
+                      USER_ID: 
+                        type: string
+                        example: ef368c5d-b01e-48c6-81bd-33e15f27bb2f
+                      TOURNAMENT_ID: 
+                        type: string
+                        example: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
+                      AGENT_ELO: 
+                        type: float
+                        example: 610
+                      AGENT_STATUS: 
+                        type: integer
+                        example: -1
+                    
+                      # AGENT_ID: 
+                      #   type: string
+                      #   example: 1aea2e2e-be8a-4aaa-8c43-5fe4bb60467e
+                      # AGENT_NAME: 
+                      #   type: string
+                      #   exammple: ""
+                      # USER_ID: 
+                      #   type: string
+                      #   example: e0e35f91-5b72-487d-bad9-54221e08b22f
+                      # TOURNAMENT_ID: 
+                      #   type: string
+                      #   example: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
+                      # AGENT_ELO: 
+                      #   type: float
+                      #   example: 610
+                      # AGENT_STATUS: 
+                      #   type: integer
+                      #     example: -1
+              
+        '502':
+            description: Failed
+            content: 
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      example: failed
+                    message:
+                      type: string
+                    logError:
+                      type: string
+      summary: Retrieve a pair of agents
+      tags:
+        - Agent
+    
+  
   /game:
     get:
       description: 'Retrieves all games from the database'

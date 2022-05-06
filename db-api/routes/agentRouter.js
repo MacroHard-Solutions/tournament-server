@@ -10,8 +10,7 @@ router
   .put(agentController.insertAgent)
   .delete(agentController.deleteAgent)
   .patch(agentController.updateAgent);
-router
-  .route('/:tournamentID')
-  .get(agentController.getTournamentAgents)
+router.route('/pair').post(agentController.getAgentPair);
+router.route('/:tournamentID').get(agentController.getTournamentAgents);
 
 module.exports = router;
