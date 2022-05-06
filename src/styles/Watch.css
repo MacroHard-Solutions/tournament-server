@@ -5,50 +5,58 @@
     flex-direction: row;
 }
 
-.gameBoard{
+.gameBoard {
     width: 55vw;
     height: 80vh;
     background: white;
     padding: 1.25em;
 }
 
-.board{
+.board {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    min-width: 45vw;
-    max-width: 65vw;
-    height: 70vh;
+    width: 35vw;
+    height: 60vh;
     background: white;
     padding: 1.25em;
+    margin-left: 5em;
+    padding: 0;
+    border: 0.5px solid black;
 }
 
-.usersPlaying{
+.usersPlaying {
     display: flex;
     flex-direction: row;
     margin: 0.5em;
-    justify-content: space-between;
-    
+    justify-content: space-evenly;
+
 }
 
-.userELO{
+.vs {
+    margin: 0 5em;
+}
+
+.userELO {
     display: flex;
     flex-direction: column;
 }
 
-.playbackControls{
+.playbackControls {
     border: 0.3em solid rgb(0, 123, 195);
     border-radius: 0.5em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    width: 15vw;
-    height: 80vh;
+    width: 20vw;
+    height: 55vh;
+    align-self: center;
     background: white;
     padding: 1.25em;
     display: flex;
-    flex-direction: row;
+    flex-flow: column;
+    text-align: center;
 }
 
-.Leaderboard{
+.Leaderboard {
     border: 0.3em solid rgb(0, 123, 195);
     border-radius: 0.5em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
@@ -58,10 +66,12 @@
     background: white;
     padding: 1.25em;
     display: flex;
-    flex-direction: row;
+    flex-flow: column;
+    text-align: center;
+    justify-content: space-evenly;
 }
 
-.pgc{
+.pgc {
     border: 0.3em solid rgb(0, 123, 195);
     border-radius: 0.5em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
@@ -72,11 +82,30 @@
     background: white;
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
 }
 
-.leaderboardandButtons{
+.leaderboardandButtons {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin-left: 0.8%;
+}
+
+.watchbtns {
+    padding: 1em 3em;
+    width: 8em;
+}
+
+.plbckbtns {
+    height: fit-content;
+    margin: 5em 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.plbckbtns button {
+    width: 3em;
+    font-size: 1.5em;
+    margin: 0;
 }
