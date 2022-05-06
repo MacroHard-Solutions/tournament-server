@@ -9,7 +9,7 @@ import useAxios from '../hooks/useAxios';
 
 //TODO refactor gametiles to display games from server
 
-function Homepage() {
+function Homepage({ arbTourney, setArbtourney }) {
     //state to control display
     const [display, setDisplay] = useState(false);
     const [gameArr, setGamearr] = useState([]);
@@ -57,6 +57,8 @@ function Homepage() {
                             imageurl={game.TOURNAMENT_DP}
                             game_id={game.GAME_ID}
                             tournament_id={game.TOURNAMENT_ID}
+                            arbTourney={arbTourney}
+                            setArbtourney={setArbtourney}
                         />
                     );
                 })}

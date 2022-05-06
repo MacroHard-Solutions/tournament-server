@@ -42,6 +42,8 @@ import React from 'react';
 function App() {
 
   const [userObj, setuserObj] = useState(null);
+  //TODO try and find a better workaround for the homepage => gamepage filter issue
+  const [arbTourney, setArbtourney] = useState('');
 
   return (
     <Router>
@@ -56,8 +58,18 @@ function App() {
       </div>
       <div className='main'>
         <Switch>
-          <Route path='/' component={Homepage} exact />{/*Homepage whereby users will be shown GameTiles representing all games*/}
-          <Route path='/home' component={Homepage} exact />{/**/}
+          <Route path='/' exact>
+            <Homepage
+              arbTourney={arbTourney}
+              setArbtourney={setArbtourney}
+            />
+          </Route>{/*Homepage whereby users will be shown GameTiles representing all games*/}
+          <Route path='/home' exact>
+            <Homepage
+              arbTourney={arbTourney}
+              setArbtourney={setArbtourney}
+            />
+          </Route>{/**/}
           <Route path='/play' component={Play} />{/*Challenge page whereby users can see available opponent agents, and challenge them*/}
           <Route path='/watch' component={Watch} />{/*Watch page where the user can watch an historical game*/}
           <Route path='/leaderboards' component={Leaderboards} />{/*Community page wherteby users can see the leaderboards per game */}
@@ -73,7 +85,7 @@ function App() {
           </Route>
           <Route path='/amc' component={AMC} />{/*Agent management console for users to manage their available agents*/}
           <Route path='/gamepage'>
-            <Gamepage tourney={''} />
+            <Gamepage tourney={arbTourney} />
           </Route>{/*Page to show historical games for users to watch*/}
           <Route component={Notfound} />{/*default route for a 404 page not found error*/}
         </Switch>

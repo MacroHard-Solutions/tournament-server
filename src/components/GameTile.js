@@ -6,7 +6,7 @@ import { MdOutlinePlayArrow, MdVideoLabel } from 'react-icons/md'
 
 //TODO smooth out hover animation using css
 
-function GameTile({ title, key, imageurl, game_id }) {
+function GameTile({ title, key, imageurl, game_id, arbTourney, setArbtourney }) {
 
     const [hovering, setHovering] = useState(false);
 
@@ -18,7 +18,8 @@ function GameTile({ title, key, imageurl, game_id }) {
     }
 
     const pushWatch = () => {
-        history.push('/watch');
+        setArbtourney(title);
+        history.push('/gamepage');
     }
 
 
