@@ -68,7 +68,6 @@
     display: flex;
     flex-flow: column;
     text-align: center;
-    justify-content: space-evenly;
 }
 
 .pgc {

@@ -5,6 +5,6 @@ import { BrowserRouter } from 'react-router-dom'
 
 test('renders learn react link', () => {
   render(<BrowserRouter><App /></BrowserRouter>);
-  const linkElement = screen.getByText(/Available Games:/i);
+  const linkElement = screen.getByText(/Available Tournaments:/i);
   expect(linkElement).toBeInTheDocument();
 });

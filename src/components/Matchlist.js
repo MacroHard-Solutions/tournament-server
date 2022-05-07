@@ -6,7 +6,7 @@ import axios from '../apis/TourneyServerAPI';
 import { useState, useEffect } from 'react';
 import Loading from '../components/Loading';
 
-function Matchlist({ user, tourney, dt, dtcomp, req }) {
+function Matchlist({ user, tourney, dt, dtcomp, req, setGame, setGameplay, setP1, setP2, setP1_agent, setP2_agent }) {
 
     const [matchArr, setMatcharr] = useState([]);
     const [display, setDisplay] = useState(false);
@@ -81,11 +81,19 @@ function Matchlist({ user, tourney, dt, dtcomp, req }) {
                             <Match
                                 game={match.GAME_NAME}
                                 p1={match.U1_USERNAME}
+                                p1_agent={match.R1_AGENT_ID}
                                 p2={match.U2_USERNAME}
+                                p2_agent={match.R2_AGENT_ID}
                                 winner={findWinner(match)}
                                 dt={match.MATCH_LOG_TIMESTAMP}
                                 key={match.MATCH_LOG_ID}
                                 data={match.MATCH_LOG_DATA}
+                                setGameplay={setGameplay}
+                                setP1={setP1}
+                                setP2={setP2}
+                                setP1_agent={setP1_agent}
+                                setP2_agent={setP2_agent}
+                                setGame={setGame}
                             />
                         )
                     })

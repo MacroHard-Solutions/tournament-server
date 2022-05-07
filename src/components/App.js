@@ -44,6 +44,14 @@ function App() {
   const [userObj, setuserObj] = useState(null);
   //TODO try and find a better workaround for the homepage => gamepage filter issue
   const [arbTourney, setArbtourney] = useState('');
+  //data needed for watch page
+  const [gameplay, setGameplay] = useState('');//match to be watched
+  const [p1, setP1] = useState('');
+  const [p2, setP2] = useState('');
+  const [p1_agent, setP1_agent] = useState('');
+  const [p2_agent, setP2_agent] = useState('');
+  const [game, setGame] = useState('');
+
 
   return (
     <Router>
@@ -71,7 +79,16 @@ function App() {
             />
           </Route>{/**/}
           <Route path='/play' component={Play} />{/*Challenge page whereby users can see available opponent agents, and challenge them*/}
-          <Route path='/watch' component={Watch} />{/*Watch page where the user can watch an historical game*/}
+          <Route path='/watch'>
+            <Watch
+              gameplay={gameplay}
+              p1={p1}
+              p1_agent={p1_agent}
+              p2={p2}
+              p2_agent={p2_agent}
+              game={game}
+            />
+          </Route>{/*Watch page where the user can watch an historical game*/}
           <Route path='/leaderboards' component={Leaderboards} />{/*Community page wherteby users can see the leaderboards per game */}
           <Route path='/profile'>
             <Profile userObj={userObj} setuserObj={setuserObj} />{/*Profile page where a user can see their social details as well as their rvailable agents*/}
@@ -85,7 +102,15 @@ function App() {
           </Route>
           <Route path='/amc' component={AMC} />{/*Agent management console for users to manage their available agents*/}
           <Route path='/gamepage'>
-            <Gamepage tourney={arbTourney} />
+            <Gamepage
+              tourney={arbTourney}
+              setGameplay={setGameplay}
+              setP1={setP1}
+              setP2={setP2}
+              setP1_agent={setP1_agent}
+              setP2_agent={setP2_agent}
+              setGame={setGame}
+            />
           </Route>{/*Page to show historical games for users to watch*/}
           <Route component={Notfound} />{/*default route for a 404 page not found error*/}
         </Switch>

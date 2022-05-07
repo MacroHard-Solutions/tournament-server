@@ -7,7 +7,7 @@ import Matchlist from '../components/Matchlist';
 
 //TODO fix UI error with DatePicker Component
 
-function Watch({ tourney }) {
+function Watch({ tourney, setGameplay, setP1, setP2, setP1_agent, setP2_agent, setGame }) {
 
     const [date, setDate] = useState("");
     const [isOpen, setIsOpen] = useState(false);
@@ -83,6 +83,12 @@ function Watch({ tourney }) {
                     dt={dateFilter ? date.toISOString() : "1980-01-01"}
                     dtcomp={dateFilter ? dateComparator : ">"}
                     req={req}
+                    setGameplay={setGameplay}
+                    setP1={setP1}
+                    setP2={setP2}
+                    setP1_agent={setP1_agent}
+                    setP2_agent={setP2_agent}
+                    setGame={setGame}
                 />
             </div>
         </div>

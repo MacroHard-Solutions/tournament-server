@@ -43,7 +43,7 @@ function Homepage({ arbTourney, setArbtourney }) {
 
     return (
         <div className="Home">
-            <h1>Available Games:</h1>
+            <h1>Available Tournaments:</h1>
             <ParticlesBg type="cobweb" color="#0e4588" bg={{ position: "fixed", zIndex: -1, width: "150%", height: "120%" }} />
             {loading && <Loading caption='Retreiving Available Games' />}
             {error && <h3 style={{ color: "red" }}>Unable to retreive Games</h3>}
