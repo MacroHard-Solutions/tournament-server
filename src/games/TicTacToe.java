@@ -28,6 +28,17 @@ public class TicTacToe implements Game {
         }
     }
 
+    public boolean fullBoard(){
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                if (board[i][j].equals(" "))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
     // null if game is not over; otherwise return the winner
     // board will already be updated
     //TODO figure out draws
@@ -107,6 +118,8 @@ public class TicTacToe implements Game {
 
         if (winner)
             return player;
+        else if (fullBoard())
+            return draw;
         else
             return null;
     }

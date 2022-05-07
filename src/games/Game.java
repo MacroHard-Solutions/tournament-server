@@ -66,15 +66,14 @@ public interface Game {
 
         while (winner == null){
             Player currPlayer = getNextPlayer(players);
-            System.out.println(currPlayer.username);
             String move = gameServer.sendAndReceiveMessage(currPlayer, "move");
-            System.out.println(move);
 
             // if the move is invalid, the way to handle this is defined by the game designer
             while (!validMove(currPlayer, move)){
                 move = handleInvalidMove(currPlayer, move, gameServer);
             }
 
+            System.out.println(currPlayer.username + " played " + move);
             logMove(move);
             broadcastMove(players, currPlayer, move, gameServer);
             step(currPlayer, move);
@@ -85,12 +84,19 @@ public interface Game {
             winner = asynchronousGameOver(currPlayer, move);
         }
 
-        System.out.println("Winner... " + winner.username);
+        if (winner != draw)
+            System.out.println("Winner... " + winner.username);
+        else
+            System.out.println("Draw!");
+
         for (Player player: players){
-            gameServer.sendMessage(player, "winner_" + winner.username);
+            if (winner != draw)
+                gameServer.sendMessage(player, "winner_" + winner.username);
+            else
+                gameServer.sendMessage(player, "draw");
         }
 
-        System.out.println("games.Game over...");
+        System.out.println("Game over...");
         gameServer.closeServer();
     }
 
@@ -140,7 +146,7 @@ public interface Game {
             gameServer.sendMessage(player, "winner_" + winner.username);
         }
 
-        System.out.println("games.Game over...");
+        System.out.println("Game over...");
         gameServer.closeServer();
     }
 }

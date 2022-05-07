@@ -27,8 +27,8 @@ public class Program {
         server.start();
         System.out.println("Server started on port 8001");
 
-        System.out.println("Starting game");
-        newGame();
+        //System.out.println("Starting game");
+        //ewGame();
     }
 
     private static void newGame() throws Exception {
