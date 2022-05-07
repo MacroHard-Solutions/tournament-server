@@ -664,6 +664,12 @@ paths:
                         AGENT_NAME: 
                           type: string
                           exammple: myAgent
+                        ADDRESS_IP: 
+                          type: string
+                          exammple: 192.164.32.1
+                        ADDRESS_PORT: 
+                          type: integer
+                          exammple: 8080
                         GAME_NAME:
                           type: string
                           example: Tic-Tac-Toe
