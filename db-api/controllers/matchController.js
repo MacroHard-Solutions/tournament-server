@@ -51,11 +51,15 @@ exports.processFilter = (req, res, next) => {
       `(U1.USERNAME LIKE "%${clientInput.username}%" OR U2.USERNAME LIKE "%${clientInput.username}%")`
     );
 
-  if (!clientInput.date || clientInput.date === '') {
+  if (
+    !clientInput.date ||
+    clientInput.date.comparator === '' ||
+    clientInput.date.val === ''
+  ) {
     // skip
   } else
     query.push(
-      `DATE(MATCH_LOG_TIMESTAMP) ${clientInput.date.comparator} \"${clientInput.date.val}\"`
+      `(MATCH_LOG_TIMESTAMP ${clientInput.date.comparator} \"${clientInput.date.val}\")`
     );
 
   if (query.length === 0) clientInput.filter = 'true';
