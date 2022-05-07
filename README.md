@@ -12,7 +12,7 @@ The following is a brief outline of the functions of the back-end server:
 ### Render Request
 The render request is an http POST request, made by the front-end, where a game-log is given and the server renders the images of that game.
 The body of the POST request should be a JSON object of the following format:
-```
+```JSON
 {
 	"data":{
 		"type":"render",
