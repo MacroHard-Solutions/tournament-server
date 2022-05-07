@@ -679,6 +679,13 @@ paths:
                         AGENT_STATUS: 
                           type: integer
                           example: -1
+                        TOURNAMENT_ID: 
+                          type: string
+                          example: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
+                        TOURNAMENT_NAME: 
+                          type: string
+                          example: Tic-Tac-Toe-Tourney
+                        
         
         '502':
             description: Failed
@@ -1196,6 +1203,7 @@ paths:
         - Retrieves match results from the database
         - Each filter below is optional, either enter an empty string or leave it as undefined
         - Leave all attributes as undefined if there is no filter required
+        - Leaving either the `date comparator` or `date value blank` will nullify the date filter
         - Date comparisons also cater for equality
        
       operationId: 'get-https:--tournament-server.herokuapp.com-api-v2-match'
