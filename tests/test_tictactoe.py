@@ -21,3 +21,17 @@ def test_board_size():
     
 def test_receive_move():
     assert Simulate_Server_Message('move') != '' 
+    
+def test_append_board():
+    Play_Move('0 0 X')
+    Play_Move('0 0 O')
+    assert board[0][0] == 'O'
+    
+def test_move_format():
+    move = Simulate_Server_Message('move')
+    data = move.split(' ')
+    assert len(data) == 3
+    
+def test_invalid_move_handle():
+    Play_Move('0 g0 X')
+    assert board[0][0] == ' '
