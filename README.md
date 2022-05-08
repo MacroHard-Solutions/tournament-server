@@ -14,11 +14,11 @@ The render request is an http POST request, made by the front-end, where a game-
 The body of the POST request should be a JSON object of the following format:
 ```JSON
 {
-	"data":{
-		"type":"render",
-		"game":"Tic-Tac-Toe",
-		"moves":["0 0 X","1 2 O","2 2 X","1 1 O","1 0 X","2 1 O","2 0 X"]},
-	"signal":{}
+	"data": {
+		"type": "render",
+		"game": "Tic-Tac-Toe",
+		"moves": ["0 0 X","1 2 O","2 2 X","1 1 O","1 0 X","2 1 O","2 0 X"]},
+	"signal": {}
 }
 ```
 * The "type" field specifies the request type, in this case it is a render request.
@@ -29,3 +29,22 @@ The back-end server then sends an http response message with a 200 status code i
 
 ### GET Request
 A rendered image can be downloaded using its URI in an http GET request. 
+
+### Challenge Request
+The challenge request is an http POST request, made by the fron-end, where user agent IDs are given and a game is started between those agents. 
+The body of the POST request should be a JSON object of the following format:
+```JSON
+{
+	"data": {
+		"type": "challenge",
+    		"game":"Tic-Tac-Toe",
+    		"tournamentID": "22531f29-cd83-11ec-8a34-0ea680fee648",
+    		"agentIDs": ["a0ea49b7-ce11-11ec-8a34-0ea680fee648", "e8955372-ce0e-11ec-8a34-0ea680fee648"]
+	},
+  "signal": {}
+}
+```
+* The "type" field specifies the request type, in this case it is a challenge request.
+* The "game" field specifies the name of the game which is being rendered (taken from the database).
+* The "tournamentID" field specifies which tournament this game is being played under.
+* The "agentsID" contains the IDs of the agents as a JSON array
