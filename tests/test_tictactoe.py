@@ -33,5 +33,6 @@ def test_move_format():
     assert len(data) == 3
     
 def test_invalid_move_handle():
+    Play_Move('0 0 O')
     Play_Move('0 g0 X')
-    assert board[0][0] == ' '
+    assert board[0][0] == 'O'
