@@ -1,5 +1,3 @@
-package games;
-
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -28,7 +26,7 @@ public class MyHttpHandler implements HttpHandler {
             try {
                 handlePOSTRequest(exchange);
             }
-            catch (ParseException e) {
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -71,7 +69,7 @@ public class MyHttpHandler implements HttpHandler {
         outputStream.close();
     }
 
-    private void handlePOSTRequest(HttpExchange httpExchange) throws IOException, ParseException {
+    private void handlePOSTRequest(HttpExchange httpExchange) throws Exception {
         InputStream inputStream = httpExchange.getRequestBody();
 
         JSONParser jsonParser = new JSONParser();
@@ -85,13 +83,14 @@ public class MyHttpHandler implements HttpHandler {
         if (type.equals("render")){
             handleRenderRequest(httpExchange, data);
         }
-        else if (type.equals("new-game")){
-            handleRenderRequest(httpExchange, data);
+        else if (type.equals("challenge")){
+            handleChallengeRequest(httpExchange, data);
         }
     }
 
     private void handleRenderRequest(HttpExchange httpExchange, JSONObject jsonObject) throws IOException, ParseException {
         String gameName = (String) jsonObject.get("game");
+        // flag used for synchronous game
         boolean flag = false;
         //TODO sync this properly with the database
         if (gameName.equals("Tic-Tac-Toe"))
@@ -118,7 +117,7 @@ public class MyHttpHandler implements HttpHandler {
 
         // code to load the user-defined class dynamically
         try {
-            Class dynamicClass = Program.getClassFromFile("games." + gameName);
+            Class dynamicClass = Miscellaneous.loadGameClass(gameName);
             constructor = dynamicClass.getDeclaredConstructor();
         }
         catch (Exception e) {
@@ -126,9 +125,9 @@ public class MyHttpHandler implements HttpHandler {
         }
 
         // create dummy players to instantiate a new TicTacToe object
-        ArrayList<Player> dummyPlayers = new ArrayList<>();
-        dummyPlayers.add(new Player("Jimbo", "", 69));
-        dummyPlayers.add(new Player("Timbo", "", 4));
+        ArrayList<Agent> dummyAgents = new ArrayList<>();
+        dummyAgents.add(new Agent("Jimbo", "", 69));
+        dummyAgents.add(new Agent("Timbo", "", 4));
         Game game = null;
 
         try {
@@ -143,25 +142,25 @@ public class MyHttpHandler implements HttpHandler {
 
         ArrayList<String> imageLocations = new ArrayList<>();
         for (int i = 0; i < gameLog.size(); i++){
-            Player currPlayer = game.getNextPlayer(dummyPlayers);
+            Agent currAgent = game.getNextPlayer(dummyAgents);
 
             //TODO check and error message if move is invalid (particularly if it is of the wrong format)
             String move = (String) gameLog.get(i);
 
             if (flag){
                 String[] moves = move.split(" ");
-                game.step(currPlayer, moves[0]);
+                game.step(currAgent, moves[0]);
 
-                currPlayer = game.getNextPlayer(dummyPlayers);
+                currAgent = game.getNextPlayer(dummyAgents);
 
-                game.step(currPlayer, moves[1]);
+                game.step(currAgent, moves[1]);
             }
             else {
-                game.step(currPlayer, move);
+                game.step(currAgent, move);
             }
 
             BufferedImage gameState = game.render();
-            ImageHelper.writeImage(gameState, directory + "/" + i + ".jpg", "JPG");
+            Miscellaneous.writeImage(gameState, directory + "/" + i + ".jpg", "JPG");
 
             String imageLocation = directory + "/" + i + ".jpg";
             imageLocations.add(imageLocation);
@@ -178,8 +177,25 @@ public class MyHttpHandler implements HttpHandler {
         outputStream.close();
     }
 
-    private void handleNewGameRequest(HttpExchange httpExchange, JSONObject jsonObject) {
+    private void handleChallengeRequest(HttpExchange httpExchange, JSONObject jsonObject) throws Exception {
+        String gameName = (String) jsonObject.get("game");
+        //TODO sync this properly with the database
+        if (gameName.equals("Tic-Tac-Toe"))
+            gameName = "TicTacToe";
 
+        String tournamentID = (String) jsonObject.get("tournamentID");
+        JSONArray agentIDs = (JSONArray) jsonObject.get("agentIDs");
+
+        boolean gameSuccessful = Miscellaneous.challenge(agentIDs.get(0).toString(), agentIDs.get(1).toString(), gameName, tournamentID);
+
+        //TODO when successful send back gameID for live viewing potential - change return to string
+        if (gameSuccessful)
+            httpExchange.sendResponseHeaders(200, -1);
+        else
+            httpExchange.sendResponseHeaders(502, -1);
+
+        OutputStream outputStream = httpExchange.getResponseBody();
+        outputStream.close();
     }
 
     // used to return the image locations as a json array in the http response

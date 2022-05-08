@@ -1,5 +1,3 @@
-package games;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -21,7 +19,7 @@ public class RockPaperScissorsLizardSpock implements Game{
     // null if game is not over; otherwise return the winner
     // board will already be updated
     @Override
-    public Player synchronousGameOver(ArrayList<Player> players, ArrayList<String> moves) {
+    public Agent synchronousGameOver(ArrayList<Agent> agents, ArrayList<String> moves) {
         // Check if it is a tie
         if (moves.get(0).equals(moves.get(1)))
             return null;
@@ -34,27 +32,27 @@ public class RockPaperScissorsLizardSpock implements Game{
         matchUps.put("Spock", new ArrayList<>(Arrays.asList("Scissors", "Rock")));
 
         if (matchUps.get(moves.get(0)).contains(moves.get(1)))
-            return players.get(0);
+            return agents.get(0);
         else
-            return players.get(1);
+            return agents.get(1);
     }
 
     @Override
-    public Player getNextPlayer(ArrayList<Player> players) {
-        Player out = players.get(nextPlayerIndex);
+    public Agent getNextPlayer(ArrayList<Agent> agents) {
+        Agent out = agents.get(nextPlayerIndex);
         nextPlayerIndex = (nextPlayerIndex + 1) % 2;
         return out;
     }
 
     @Override
-    public void step(Player player, String move) {
-        System.out.println(player.username + " chose " + move);
+    public void step(Agent agent, String move) {
+        System.out.println(agent.username + " chose " + move);
         playerMoves.set(stepIndex, move);
         stepIndex = (stepIndex + 1) % 2;
     }
 
     @Override
-    public boolean validMove(Player player, String move) {
+    public boolean validMove(Agent agent, String move) {
         ArrayList<String> acceptableMoves = new ArrayList<>(Arrays.asList("Rock", "Paper", "Scissors", "Lizard", "Spock"));
         return acceptableMoves.contains(move);
     }

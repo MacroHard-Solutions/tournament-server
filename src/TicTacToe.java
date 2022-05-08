@@ -1,5 +1,3 @@
-package games;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -41,9 +39,8 @@ public class TicTacToe implements Game {
 
     // null if game is not over; otherwise return the winner
     // board will already be updated
-    //TODO figure out draws
     @Override
-    public Player asynchronousGameOver(Player player, String move) {
+    public Agent asynchronousGameOver(Agent agent, String move) {
         String[] data = move.split(" ");
         int x = Integer.parseInt(data[0]);
         int y = Integer.parseInt(data[1]);
@@ -117,7 +114,7 @@ public class TicTacToe implements Game {
         }
 
         if (winner)
-            return player;
+            return agent;
         else if (fullBoard())
             return draw;
         else
@@ -125,15 +122,15 @@ public class TicTacToe implements Game {
     }
 
     @Override
-    public Player getNextPlayer(ArrayList<Player> players) {
-        Player out = players.get(i);
+    public Agent getNextPlayer(ArrayList<Agent> agents) {
+        Agent out = agents.get(i);
         i = (i + 1) % 2;
         return out;
     }
 
     // True if valid. False if invalid
     @Override
-    public boolean validMove(Player player, String move){
+    public boolean validMove(Agent agent, String move){
         // TODO could check more, like if move is not empty string, the format is correct, etc.
         String[] data = move.split(" ");
         int x = Integer.parseInt(data[0]);
@@ -152,7 +149,7 @@ public class TicTacToe implements Game {
 
     // Update board
     @Override
-    public void step(Player player, String move) {
+    public void step(Agent agent, String move) {
         String[] data = move.split(" ");
         int x = Integer.parseInt(data[0]);
         int y = Integer.parseInt(data[1]);

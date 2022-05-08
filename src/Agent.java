@@ -1,11 +1,9 @@
-package games;
-
-public class Player {
+public class Agent {
     String username;
     String ipAddress;
     int port;
 
-    public Player(String username, String ipAddress, int port) {
+    public Agent(String username, String ipAddress, int port) {
         this.username = username;
         this.ipAddress = ipAddress;
         this.port = port;

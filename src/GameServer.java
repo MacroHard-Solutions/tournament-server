@@ -1,5 +1,3 @@
-package games;
-
 import java.net.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -13,20 +11,20 @@ public class GameServer {
     private DataOutputStream out1 = null;
     private DataOutputStream out2 = null;
 
-    Player player1 = null;
-    Player player2 = null;
+    Agent agent1 = null;
+    Agent agent2 = null;
 
     boolean active = true;
 
-    public GameServer(Player player1, Player player2){
+    public GameServer(Agent agent1, Agent agent2){
         // starts server and waits for a connection
         try {
-            socket1 = new Socket(player1.ipAddress, player1.port);
+            socket1 = new Socket(agent1.ipAddress, agent1.port);
             in1 = new DataInputStream(new BufferedInputStream(socket1.getInputStream()));
             out1 = new DataOutputStream(socket1.getOutputStream());
-            System.out.println("Player 1 has joined...");
+            System.out.println("Agent 1 has joined...");
 
-            this.player1 = player1;
+            this.agent1 = agent1;
         }
         catch(IOException i) {
             System.out.println("An error has occurred:");
@@ -37,12 +35,12 @@ public class GameServer {
         }
 
         try {
-            socket2 = new Socket(player2.ipAddress, player2.port);
+            socket2 = new Socket(agent2.ipAddress, agent2.port);
             in2 = new DataInputStream(new BufferedInputStream(socket2.getInputStream()));
             out2 = new DataOutputStream(socket2.getOutputStream());
-            System.out.println("Player 2 has joined...");
+            System.out.println("Agent 2 has joined...");
 
-            this.player2 = player2;
+            this.agent2 = agent2;
         }
         catch(IOException i) {
             System.out.println("An error has occurred:");
@@ -53,11 +51,11 @@ public class GameServer {
         }
     }
 
-    public String sendAndReceiveMessage(Player player, String message){
+    public String sendAndReceiveMessage(Agent agent, String message){
         StringBuilder response = new StringBuilder();
 
         try {
-            if (player == player1) {
+            if (agent == agent1) {
                 // Using output.write(s.getBytes(StandardCharsets.UTF_8)) is more compatible with non-Java clients.
                 // Python utf-8 decoding doesn't support the 2-byte length prefix added by writeUTF().
                 out1.write(message.getBytes(StandardCharsets.UTF_8));
@@ -68,7 +66,7 @@ public class GameServer {
                     response.append((char) ch);
                 }
             }
-            else if (player == player2) {
+            else if (agent == agent2) {
                 out2.write(message.getBytes(StandardCharsets.UTF_8));
                 while(true) {
                     int ch = in2.read();
@@ -78,7 +76,7 @@ public class GameServer {
             }
             else {
                 //TODO use logging instead of println
-                System.out.println("Unknown Player");
+                System.out.println("Unknown Agent");
             }
         }
         catch(IOException i){
@@ -88,15 +86,15 @@ public class GameServer {
         return response.toString();
     }
 
-    public void sendMessage(Player player, String message){
+    public void sendMessage(Agent agent, String message){
         try {
-            if (player == player1)
+            if (agent == agent1)
                 out1.write(message.getBytes(StandardCharsets.UTF_8));
-            else if (player == player2)
+            else if (agent == agent2)
                 out2.write(message.getBytes(StandardCharsets.UTF_8));
             else
                 //TODO use logging instead of println
-                System.out.println("Unknown Player");
+                System.out.println("Unknown Agent");
         }
         catch(IOException i){
             System.out.println(i);
@@ -127,8 +125,8 @@ public class GameServer {
     }
 
     public void cancelGame(){
-        sendMessage(player1, "cancel");
-        sendMessage(player2, "cancel");
+        sendMessage(agent1, "cancel");
+        sendMessage(agent2, "cancel");
         closeServer();
     }
 }
