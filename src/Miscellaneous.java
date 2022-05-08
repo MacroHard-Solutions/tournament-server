@@ -22,6 +22,7 @@ public class Miscellaneous {
         String dateTime = getCurrentDateTime();
         Game game = (Game) constructor.newInstance();
         String[] gameInfo = game.createAsynchronousGame(agents);
+        System.out.println(gameInfo[1]);
 
         if (gameInfo[0].equals("failed"))
             return false;

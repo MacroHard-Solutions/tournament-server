@@ -185,6 +185,7 @@ public class MyHttpHandler implements HttpHandler {
 
         String tournamentID = (String) jsonObject.get("tournamentID");
         JSONArray agentIDs = (JSONArray) jsonObject.get("agentIDs");
+        //TODO return message earlier
 
         boolean gameSuccessful = Miscellaneous.challenge(agentIDs.get(0).toString(), agentIDs.get(1).toString(), gameName, tournamentID);
 

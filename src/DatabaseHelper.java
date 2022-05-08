@@ -15,7 +15,7 @@ public class DatabaseHelper {
 
     //TODO finish
     public static Agent getAgent(String agentID) throws IOException {
-        String endpoint = databaseEndpoint + "/agent";
+        /*String endpoint = databaseEndpoint + "/agent";
         URL dbURL = new URL(endpoint);
 
         HttpURLConnection dbConnection = (HttpURLConnection) dbURL.openConnection();
@@ -51,9 +51,12 @@ public class DatabaseHelper {
             }
         }
 
-        //JSONObject postResponse
+        //JSONObject postResponse*/
 
-
+        if (agentID.equals("a0ea49b7-ce11-11ec-8a34-0ea680fee648"))
+            return new Agent("Stalin", "3.231.164.164", 8001);
+        else if (agentID.equals("e8955372-ce0e-11ec-8a34-0ea680fee648"))
+            return new Agent("Magnus_Carlson", "54.157.20.63", 8000);
 
         return null;
     }
@@ -64,11 +67,9 @@ public class DatabaseHelper {
 
         HttpURLConnection dbConnection = (HttpURLConnection) dbURL.openConnection();
         dbConnection.setRequestMethod("PUT");
-        dbConnection.setRequestProperty("Content-Type", "application/json; utf-8");
-        dbConnection.setRequestProperty("Accept", "application/json");
-
         // to write content to the connection output stream
         dbConnection.setDoOutput(true);
+        dbConnection.setRequestProperty("Content-Type", "application/json");
 
         // create json request body
         JSONObject agent1 = new JSONObject();
@@ -101,6 +102,8 @@ public class DatabaseHelper {
 
         // getting the response code
         int statusCode = dbConnection.getResponseCode();
+
+        dbConnection.disconnect();
         return  (statusCode == 201);
     }
 }

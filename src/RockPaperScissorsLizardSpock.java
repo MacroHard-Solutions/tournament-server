@@ -46,7 +46,6 @@ public class RockPaperScissorsLizardSpock implements Game{
 
     @Override
     public void step(Agent agent, String move) {
-        System.out.println(agent.username + " chose " + move);
         playerMoves.set(stepIndex, move);
         stepIndex = (stepIndex + 1) % 2;
     }
