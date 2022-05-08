@@ -5,7 +5,7 @@ This is our Software Design project which facilitates the creation and hosting o
 The following is a brief outline of the functions of the back-end server:
 * Accept requests from the front-end app and process them
 * Run tournaments and games and save the results to the database
-* Communicate with agent agents to facilitate games
+* Communicate with agents to facilitate games
 
 ## Requests
 
