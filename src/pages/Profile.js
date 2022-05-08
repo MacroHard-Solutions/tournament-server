@@ -44,7 +44,7 @@ function Profile() {
         url: '/profile',
         requestConfig: {
             data: {
-                userID: userObj.USER_ID
+                userID: userObj ? userObj.USER_ID : "?"
             }
         }
     });
