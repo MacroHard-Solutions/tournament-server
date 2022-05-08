@@ -1,8 +1,6 @@
-package games;
-
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TicTacToeTest {
     @Test
@@ -12,7 +10,7 @@ class TicTacToeTest {
         String fakeIpAddress = "127.0.0.1";
         int fakePort = 6666;
 
-        Player fakePlayer = new Player(fakeUsername, fakeIpAddress, fakePort);
+        Agent fakePlayer = new Agent(fakeUsername, fakeIpAddress, fakePort);
         TicTacToe ticTacToe = new TicTacToe();
 
         // Act
@@ -25,7 +23,7 @@ class TicTacToeTest {
         ticTacToe.step(fakePlayer, fakePlayerMoves);
 
         // Assert
-        Player winner = ticTacToe.asynchronousGameOver(fakePlayer, fakePlayerMoves);
+        Agent winner = ticTacToe.asynchronousGameOver(fakePlayer, fakePlayerMoves);
         assertEquals(fakeUsername, winner.username);
     }
 }
