@@ -1,0 +1,84 @@
+Index: backend-server.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <output url=\"file://$MODULE_DIR$/out/production/backend-server\" />\r\n    <output-test url=\"file://$MODULE_DIR$/out/test/backend-server\" />\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src\" isTestSource=\"false\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"library\" name=\"googlecode.json.simple\" level=\"application\" />\r\n  </component>\r\n</module>
+===================================================================
+diff --git a/backend-server.iml b/backend-server.iml
+--- a/backend-server.iml	
++++ b/backend-server.iml	
+@@ -1,14 +1,51 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<module type="JAVA_MODULE" version="4">
+-  <component name="NewModuleRootManager">
+-    <output url="file://$MODULE_DIR$/out/production/backend-server" />
+-    <output-test url="file://$MODULE_DIR$/out/test/backend-server" />
+-    <exclude-output />
++<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
++    <output url="file://$MODULE_DIR$/target/classes" />
++    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+     <content url="file://$MODULE_DIR$">
+       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++      <excludeFolder url="file://$MODULE_DIR$/target" />
+     </content>
+     <orderEntry type="inheritedJdk" />
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="library" name="googlecode.json.simple" level="application" />
++    <orderEntry type="module-library">
++      <library name="JUnit4">
++        <CLASSES>
++          <root url="jar://$MODULE_DIR$/lib/junit-4.13.1.jar!/" />
++          <root url="jar://$MODULE_DIR$/lib/hamcrest-core-1.3.jar!/" />
++        </CLASSES>
++        <JAVADOC />
++        <SOURCES />
++      </library>
++    </orderEntry>
++    <orderEntry type="module-library">
++      <library name="JUnit5.7.0">
++        <CLASSES>
++          <root url="jar://$MODULE_DIR$/lib/junit-jupiter-5.7.0.jar!/" />
++          <root url="jar://$MODULE_DIR$/lib/junit-jupiter-api-5.7.0.jar!/" />
++          <root url="jar://$MODULE_DIR$/lib/apiguardian-api-1.1.0.jar!/" />
++          <root url="jar://$MODULE_DIR$/lib/opentest4j-1.2.0.jar!/" />
++          <root url="jar://$MODULE_DIR$/lib/junit-platform-commons-1.7.0.jar!/" />
++          <root url="jar://$MODULE_DIR$/lib/junit-jupiter-params-5.7.0.jar!/" />
++          <root url="jar://$MODULE_DIR$/lib/junit-jupiter-engine-5.7.0.jar!/" />
++          <root url="jar://$MODULE_DIR$/lib/junit-platform-engine-1.7.0.jar!/" />
++        </CLASSES>
++        <JAVADOC />
++        <SOURCES />
++      </library>
++    </orderEntry>
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter:5.8.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-api:5.8.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-commons:1.8.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-params:5.8.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.8.2" level="project" />
++    <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.8.2" level="project" />
++    <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
++    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
++    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <module name=\"backend-server\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n    <bytecodeTargetLevel>\r\n      <module name=\"backend-server\" target=\"1.8\" />\r\n    </bytecodeTargetLevel>\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	
++++ b/.idea/compiler.xml	
+@@ -10,7 +10,7 @@
+       </profile>
+     </annotationProcessing>
+     <bytecodeTargetLevel>
+-      <module name="backend-server" target="1.8" />
++      <module name="backend-server" target="8" />
+     </bytecodeTargetLevel>
+   </component>
+ </project>
+\ No newline at end of file
