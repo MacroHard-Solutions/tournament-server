@@ -18,6 +18,7 @@ def Play_Move(player_move):
         col = int(data[1])
     except:
         print(player_move)
+        return
     piece = data[2]
     board[row][col] = piece
     print(board)
