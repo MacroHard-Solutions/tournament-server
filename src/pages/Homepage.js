@@ -7,8 +7,6 @@ import axios from '../apis/TourneyServerAPI';
 import Loading from '../components/Loading';
 import useAxios from '../hooks/useAxios';
 
-//TODO refactor gametiles to display games from server
-
 function Homepage({ arbTourney, setArbtourney }) {
     //state to control display
     const [display, setDisplay] = useState(false);

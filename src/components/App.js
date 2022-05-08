@@ -12,9 +12,9 @@ import Watch from '../pages/Watch';
 import AMC from '../pages/AMC';
 import Gamepage from '../pages/Gamepage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import React from 'react';
+import useStore from '../hooks/useStore';
 
 /*
   App Structure:
@@ -41,17 +41,25 @@ import React from 'react';
 
 function App() {
 
-  const [userObj, setuserObj] = useState(null);
-  //TODO try and find a better workaround for the homepage => gamepage filter issue
-  const [arbTourney, setArbtourney] = useState('');
-  //data needed for watch page
-  const [gameplay, setGameplay] = useState('');//match to be watched
-  const [p1, setP1] = useState('');
-  const [p2, setP2] = useState('');
-  const [p1_agent, setP1_agent] = useState('');
-  const [p2_agent, setP2_agent] = useState('');
-  const [game, setGame] = useState('');
-
+  //pull necessary info from state
+  const { userObj, setUserobj, arbTourney, setArbtourney, gameplay, setGameplay, p1, setP1, p2, setP2, p1_agent, setP1_agent, p2_agent, setP2_agent, game, setGame } = useStore(state => ({
+    userObj: state.userObj,
+    setUserobj: state.setUserobj,
+    arbTourney: state.arbTourney,
+    setArbtourney: state.setArbtourney,
+    gameplay: state.gameplay,
+    setGameplay: state.setGameplay,
+    p1: state.p1,
+    setP1: state.setP1,
+    p2: state.p2,
+    setP2: state.setP2,
+    p1_agent: state.p1_agent,
+    setP1_agent: state.setP1_agent,
+    p2_agent: state.p2_agent,
+    setP2_agent: state.setP2_agent,
+    game: state.game,
+    setGame: state.setGame,
+  }));
 
   return (
     <Router>
@@ -91,18 +99,23 @@ function App() {
           </Route>{/*Watch page where the user can watch an historical game*/}
           <Route path='/leaderboards' component={Leaderboards} />{/*Community page wherteby users can see the leaderboards per game */}
           <Route path='/profile'>
-            <Profile userObj={userObj} setuserObj={setuserObj} />{/*Profile page where a user can see their social details as well as their rvailable agents*/}
+            <Profile
+              userObj={userObj}
+              setuserObj={setUserobj}
+              setArbtourney={setArbtourney}
+            />{/*Profile page where a user can see their social details as well as their rvailable agents*/}
           </Route>
           <Route path='/playerverification' component={PlayerVerification} />{/*Page for user to decide between SignIN & SignUp*/}
           <Route path='/signin'>
-            <SignIn userObj={userObj} setuserObj={setuserObj} />  {/*SignIn page*/}
+            <SignIn userObj={userObj} setuserObj={setUserobj} />  {/*SignIn page*/}
           </Route>
           <Route path='/signup'>
-            <SignUp userObj={userObj} setuserObj={setuserObj} />{/*SignUp page*/}
+            <SignUp userObj={userObj} setuserObj={setUserobj} />{/*SignUp page*/}
           </Route>
           <Route path='/amc' component={AMC} />{/*Agent management console for users to manage their available agents*/}
           <Route path='/gamepage'>
             <Gamepage
+              arbUser={userObj ? userObj.USERNAME : ''}
               tourney={arbTourney}
               setGameplay={setGameplay}
               setP1={setP1}

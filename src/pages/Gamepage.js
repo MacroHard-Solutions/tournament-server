@@ -1,19 +1,33 @@
 import React from 'react';
 import '../styles/Gamepage.css';
 import DatePicker from "react-datepicker";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import Matchlist from '../components/Matchlist';
+import useStore from '../hooks/useStore';
 
 //TODO fix UI error with DatePicker Component
 
-function Watch({ tourney, setGameplay, setP1, setP2, setP1_agent, setP2_agent, setGame }) {
+function Watch() {
+
+    //pull necessary info from state
+    const { arbUser, tourney, setGameplay, setP1, setP2, setP1_agent, setP2_agent, setGame } = useStore(state => ({
+        arbUser: state.userObj.USERNAME,
+        tourney: state.arbTourney,
+        setGameplay: state.setGameplay,
+        setP1: state.setP1,
+        setP2: state.setP2,
+        setP1_agent: state.setP1_agent,
+        setP2_agent: state.setP2_agent,
+        setGame: state.setGame,
+    }));
+
 
     const [date, setDate] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [dateComparator, setDatecomparator] = useState('=');
     const [dateFilter, setDatefilter] = useState(false);
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState(arbUser);
     const [tournament, setTournament] = useState(tourney);
     const [req, setReq] = useState(false);
 
@@ -42,7 +56,7 @@ function Watch({ tourney, setGameplay, setP1, setP2, setP1_agent, setP2_agent, s
                     <input
                         type="text" className="form__input" id="username"
                         placeholder="Enter a Username" required=""
-                        vale={user} onChange={e => setUser(e.target.value)}
+                        value={user} onChange={e => setUser(e.target.value)}
                     />
                     <label htmlFor="username" class="form__label">Username</label>
                     <input
@@ -64,7 +78,7 @@ function Watch({ tourney, setGameplay, setP1, setP2, setP1_agent, setP2_agent, s
                                 {dateFilter ? date.toDateString() : 'Click to set Date Filter'}
                             </button>
                             {isOpen && (
-                                <DatePicker style={"position: absolute !important"} selected={date} onChange={handleChange} inline />
+                                <DatePicker style={{ position: "absolute !important" }} selected={date} onChange={handleChange} inline />
                             )}
                         </>
                     </div>
@@ -80,8 +94,8 @@ function Watch({ tourney, setGameplay, setP1, setP2, setP1_agent, setP2_agent, s
                 <Matchlist
                     user={user}
                     tourney={tournament}
-                    dt={dateFilter ? date.toISOString() : "1980-01-01"}
-                    dtcomp={dateFilter ? dateComparator : ">"}
+                    dt={dateFilter ? date.toISOString() : ""}
+                    dtcomp={dateFilter ? dateComparator : ""}
                     req={req}
                     setGameplay={setGameplay}
                     setP1={setP1}

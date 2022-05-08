@@ -7,18 +7,34 @@ import { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import useAxiosFunction from '../hooks/useAxiosFunction';
 import gameAxios from '../apis/GamingAPI';
+import useStore from '../hooks/useStore';
 
-function Watch({ gameplay, p1, p2, p1_agent, p2_agent, game }) {
+function Watch() {
+
+    //pull from store
+    const { gameplay, p1, p2, p1_agent, p2_agent, game } = useStore(state => ({
+        gameplay: state.gameplay,
+        p1: state.p1,
+        p2: state.p2,
+        p1_agent: state.p1_agent,
+        p2_agent: state.p2_agent,
+        game: state.game,
+    }));
 
     //setup state to hold retrieved agent data
     const [user1ELO, setEuser1ELO] = useState('');
     const [user2ELO, setEuser2ELO] = useState('');
     const [moves, setMoves] = useState([]);
+    const [imgArr, setImgarr] = useState([]);
+    const [currImage, setCurrimage] = useState(0);
+    const [playInterval, setPlayinterval] = useState(0);
 
     //hook to use axios to make requests to backend
+    //eslint-disable-next-line
     const [responseFunction, errorFunction, loadingFunction, axiosFetch] = useAxiosFunction();
 
     //useaxios hook to pull pair of agents
+    //eslint-disable-next-line
     const [response, error, loading, refetch] = useAxios({
         axiosInstance: axios,
         method: 'POST',
@@ -42,7 +58,7 @@ function Watch({ gameplay, p1, p2, p1_agent, p2_agent, game }) {
                 url: '',
                 requestConfig: {
                     data: {
-                        type: 'render',
+                        type: "render",
                         "game": game,
                         "moves": moves
                     }
@@ -81,13 +97,48 @@ function Watch({ gameplay, p1, p2, p1_agent, p2_agent, game }) {
         const result = Array.isArray(responseFunction);
         if (responseFunction && !result) {
             console.log('Gameplay Retreived');
-            if (responseFunction.status === "success") {
-                //store pair of image objects in array
-                let imgArr = Array.from(responseFunction.imageURIs);
-                console.log(imgArr);
-            }
+            //store pair of image objects in array
+            let tempArr = Array.from(responseFunction.imageURIs).map((img) => {
+                return (`http://54.197.128.13:8001/game-server/${img}`);
+            })
+            setImgarr(tempArr);
         }
-    }, [responseFunction])
+    }, [responseFunction]);
+
+    useEffect(() => {
+        if (imgArr.length > 0) {
+            console.log(imgArr);
+        }
+    }, [imgArr]);
+
+    //functions to handle playback of gameplay
+    const goBack = () => {
+        clearInterval(playInterval);
+        setPlayinterval(0);
+        if (currImage !== 0) {
+            setCurrimage(currImage - 1);
+        }
+    }
+
+    const goForward = () => {
+        if (currImage < (imgArr.length - 1)) {
+            setCurrimage(currImage + 1);
+            console.log(currImage);
+        } else {
+            clearInterval(playInterval);
+            setPlayinterval(0);
+        }
+    }
+
+
+    const play = () => {
+        //TODO implement playback feature
+    }
+
+    const pause = () => {
+        clearInterval(playInterval);
+        setPlayinterval(0);
+    }
 
     return (
         <div className="watch">
@@ -106,19 +157,31 @@ function Watch({ gameplay, p1, p2, p1_agent, p2_agent, game }) {
                     </div>
                 </div>
                 <div className='board'>
-                    <img width="100%" height="100%" src="/imgs/chess_board.jpg" />
+                    <img width="100%" height="100%" alt='gameplay data' src={`${imgArr[currImage]}`} />
                 </div>
             </div>
 
             <div className='playbackControls'>
                 <h2 style={{ height: "fit-content" }}>Playback Controls</h2>
                 <div className="plbckbtns">
-                    <button><FiPlay>Play</FiPlay></button>
-                    <button><FiPause>Pause</FiPause></button>
+                    <button onClick={(e) => {
+                        e.preventDefault();
+                        play();
+                    }}><FiPlay>Play</FiPlay></button>
+                    <button onClick={(e) => {
+                        e.preventDefault();
+                        pause();
+                    }}><FiPause>Pause</FiPause></button>
                 </div>
                 <div className="plbckbtns">
-                    <button><FiSkipBack>Back</FiSkipBack></button>
-                    <button><FiSkipForward>Forward</FiSkipForward></button>
+                    <button onClick={(e) => {
+                        e.preventDefault();
+                        goBack();
+                    }}><FiSkipBack>Back</FiSkipBack></button>
+                    <button onClick={(e) => {
+                        e.preventDefault();
+                        goForward();
+                    }}><FiSkipForward>Forward</FiSkipForward></button>
                 </div>
             </div>
             <div className='leaderboardandButtons'>

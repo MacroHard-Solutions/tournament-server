@@ -4,9 +4,9 @@ import axios from '../apis/TourneyServerAPI';
 import Loading from '../components/Loading';
 import { useEffect, useState } from 'react';
 import Agent from '../components/Agent';
-import '../styles/AgentList.css'
+import '../styles/AgentList.css';
 
-function AgentList({ userObj }) {
+function AgentList({ userObj, setArbtourney }) {
 
     const [agentsArr, setAgentsarr] = useState([]);
     const [display, setDisplay] = useState(false);
@@ -58,6 +58,8 @@ function AgentList({ userObj }) {
                         AVERAGE_RANKING={agent.AVERAGE_RANKING}
                         AGENT_STATUS={agent.AGENT_STATUS}
                         key={agent.AGENT_ID}
+                        TOURNAMENT_NAME={agent.TOURNAMENT_NAME}
+                        setArbtourney={setArbtourney}
                     />
                 );
             })}

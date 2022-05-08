@@ -21,7 +21,7 @@ function Matchlist({ user, tourney, dt, dtcomp, req, setGame, setGameplay, setP1
                 username: user,
                 tournamentName: tourney,
                 gameName: "",
-                inProgress: false,
+                inProgress: 0,
                 date: {
                     comparator: dtcomp,
                     val: dt
@@ -49,6 +49,7 @@ function Matchlist({ user, tourney, dt, dtcomp, req, setGame, setGameplay, setP1
 
     //function to determine winner of a match
     const findWinner = (match) => {
+        //eslint-disable-next-line
         if (match.R1_RANKING == 0) {
             return (match.U1_USERNAME);
         } else {

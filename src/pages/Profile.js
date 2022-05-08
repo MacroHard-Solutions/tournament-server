@@ -3,11 +3,15 @@ import { useHistory } from "react-router-dom";
 import '../styles/Profile.css';
 import React from 'react';
 import AgentList from "../components/AgentList";
+import useStore from "../hooks/useStore";
 
-//TODO: Team MT work on user Info Section (discuss specifics with katlego) 
-//TODO style scrollbars
+function Profile() {
 
-function Profile({ userObj, setuserObj }) {
+    const { userObj, setuserObj, setArbtourney } = useStore(state => ({
+        userObj: state.userObj,
+        setuserObj: state.setUserobj,
+        setArbtourney: state.setArbtourney
+    }))
 
     const history = useHistory();
 
@@ -23,11 +27,11 @@ function Profile({ userObj, setuserObj }) {
         }
     });
 
-    return (       
+    return (
         <div className='profile'>
             {userObj ? <> <div className='profileBox'>
                 <div className="usernameDP">
-                    <img src={JSON.stringify(userObj.USER_DP).replace(new RegExp('"', "g"), "")} alt="User display picture could not be loaded." style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
+                    <img src={JSON.stringify(userObj.USER_DP).replace(new RegExp('"', "g"), "")} alt="User display graphic could not be loaded." style={{ borderRadius: "20em", height: "15em", width: "15em" }} />
                     <div className="usernameBox">
                         <h1>{JSON.stringify(userObj.USERNAME).replace(new RegExp('"', "g"), "")}</h1>
                         <h3>{JSON.stringify(userObj.USER_DESCRIPTION).replace(new RegExp('"', "g"), "")}</h3>
@@ -50,7 +54,7 @@ function Profile({ userObj, setuserObj }) {
                 <button onClick={logOut}>Log out</button>
             </div>
                 <div className='profileAgentsBox'>
-                    <AgentList userObj={userObj} />
+                    <AgentList userObj={userObj} setArbtourney={setArbtourney} />
                 </div> </> : <h3 style={{ color: 'red' }}>Internal Server Error: Unable to retreive User Object</h3>
             }
         </div >

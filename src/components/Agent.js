@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from "react";
-import '../styles/Agent.css'
+import '../styles/Agent.css';
+import { useHistory } from 'react-router-dom';
 
 /**format of agent object
  *  "AGENT_ID": "f64da681-86c9-4b68-a266-7ae4b8668449",
@@ -13,9 +14,18 @@ import '../styles/Agent.css'
  * 
  */
 
-function Agent({ AGENT_ID, AGENT_NAME, GAME_NAME, AGENT_ELO, AVERAGE_RANKING, AGENT_STATUS }) {
+function Agent({ setArbtourney, TOURNAMENT_NAME, AGENT_ID, AGENT_NAME, GAME_NAME, AGENT_ELO, AVERAGE_RANKING, AGENT_STATUS }) {
 
     const [status, setStatus] = useState('Unknown');
+
+    //state to help user navigate
+    const history = useHistory();
+
+    //handle history button click
+    const handleClick = () => {
+        setArbtourney(TOURNAMENT_NAME);
+        history.push('gamepage');
+    }
 
     useEffect(() => {
         switch (AGENT_STATUS) {
@@ -41,7 +51,7 @@ function Agent({ AGENT_ID, AGENT_NAME, GAME_NAME, AGENT_ELO, AVERAGE_RANKING, AG
             <h3><u>ELO:</u>    {AGENT_ELO}</h3>
             <h3><u>Average Ranking:</u>    {AVERAGE_RANKING}</h3>
             <h3><u>Status:</u>     {status}</h3>
-            <button className='agenthistory'>History</button>
+            <button className='agenthistory' onClick={handleClick}>History</button>
         </div>
     )
 }

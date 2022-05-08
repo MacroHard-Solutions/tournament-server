@@ -10,7 +10,6 @@ import useAxiosFunction from "../hooks/useAxiosFunction";
 /*
     Task List:
         TODO enable sha256 for password encryption
-        TODO fix requests
 */
 
 function SignUp({ userObj, setuserObj }) {
@@ -108,8 +107,6 @@ function SignUp({ userObj, setuserObj }) {
             if (response.status === "success") {
                 setuserObj(response.resultData[0]);
                 history.push('profile');
-                //TODO clear comment
-                console.log(response.resultData[0]);
             }
         }
         //eslint-disable-next-line
@@ -167,7 +164,7 @@ function SignUp({ userObj, setuserObj }) {
     //HOOK TO DETECT WHEN THE USER TRIES TO LOGIN
     useEffect(() => {
         if (signupattempt) {
-            //TODO Validate fields
+            //Validate fields
             const valid = passwordValidation() && emailValidation() && namesValidation();
             if (valid) {
                 setCheckloading(true);
