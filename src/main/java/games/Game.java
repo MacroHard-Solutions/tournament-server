@@ -8,13 +8,14 @@ public interface Game {
     Player draw = new Player("draw", "", -1);
 
     // returns null if the game is not over, else it returns the winning player
-    default Player asynchronousGameOver(Player player, String move){
+    default Player asynchronousGameOver(Player player, String move) {
         return null;
     }
 
     // returns null if the game is not over, else it returns the winning player
-    // each move in the moves arraylist corresponds to the player in the players arrayList in the same index
-    default Player synchronousGameOver(ArrayList<Player> players, ArrayList<String> moves){
+    // each move in the moves arraylist corresponds to the player in the players
+    // arrayList in the same index
+    default Player synchronousGameOver(ArrayList<Player> players, ArrayList<String> moves) {
         return null;
     }
 
@@ -29,33 +30,35 @@ public interface Game {
     // produces an image of the current game state
     BufferedImage render();
 
-    default void logMove(String move){
+    default void logMove(String move) {
+
     }
 
     // This method allows the game creator to handle invalid moves in lots of ways
     // A default move could be returned instead (like in snake)
-    // The creator could even skip this player's turn by creating a null move string since he controls validMove, playMove and the player agents
-    default String handleInvalidMove(Player player, String invalidMove, GameServer server){
+    // The creator could even skip this player's turn by creating a null move string
+    // since he controls validMove, playMove and the player agents
+    default String handleInvalidMove(Player player, String invalidMove, GameServer server) {
         return server.sendAndReceiveMessage(player, "move");
     }
 
-    default void broadcastMove(ArrayList<Player> players, Player playerWhoMoved, String move, GameServer server){
-        for (Player player: players){
+    default void broadcastMove(ArrayList<Player> players, Player playerWhoMoved, String move, GameServer server) {
+        for (Player player : players) {
             if (player != playerWhoMoved)
                 server.sendMessage(player, move);
         }
     }
 
-    default void createAsynchronousGame(ArrayList<Player> players){
+    default void createAsynchronousGame(ArrayList<Player> players) {
         System.out.println("Initialising game...");
         // this is the initial game state before any move has been played (think chess)
-        //TODO save this image to a live game folder, and in synchronous game
+        // TODO save this image to a live game folder, and in synchronous game
         BufferedImage initialGameState = render();
         System.out.println("Creating game...");
 
         GameServer gameServer = new GameServer(players.get(0), players.get(1));
 
-        if (!gameServer.active){
+        if (!gameServer.active) {
             System.out.println("Unable to set up game.");
             return;
         }
@@ -64,12 +67,13 @@ public interface Game {
 
         System.out.println("Starting game... ");
 
-        while (winner == null){
+        while (winner == null) {
             Player currPlayer = getNextPlayer(players);
             String move = gameServer.sendAndReceiveMessage(currPlayer, "move");
 
-            // if the move is invalid, the way to handle this is defined by the game designer
-            while (!validMove(currPlayer, move)){
+            // if the move is invalid, the way to handle this is defined by the game
+            // designer
+            while (!validMove(currPlayer, move)) {
                 move = handleInvalidMove(currPlayer, move, gameServer);
             }
 
@@ -78,7 +82,7 @@ public interface Game {
             broadcastMove(players, currPlayer, move, gameServer);
             step(currPlayer, move);
 
-            //TODO save this image to a live game folder, and in synchronous game
+            // TODO save this image to a live game folder, and in synchronous game
             BufferedImage gameState = render();
 
             winner = asynchronousGameOver(currPlayer, move);
@@ -89,7 +93,7 @@ public interface Game {
         else
             System.out.println("Draw!");
 
-        for (Player player: players){
+        for (Player player : players) {
             if (winner != draw)
                 gameServer.sendMessage(player, "winner_" + winner.username);
             else
@@ -100,13 +104,13 @@ public interface Game {
         gameServer.closeServer();
     }
 
-    default void createSynchronousGame(ArrayList<Player> players){
+    default void createSynchronousGame(ArrayList<Player> players) {
         System.out.println("Initialising game...");
         System.out.println("Creating game...");
 
         GameServer gameServer = new GameServer(players.get(0), players.get(1));
 
-        if (!gameServer.active){
+        if (!gameServer.active) {
             System.out.println("Unable to set up game.");
             return;
         }
@@ -115,7 +119,7 @@ public interface Game {
 
         System.out.println("Starting game... ");
 
-        while (winner == null){
+        while (winner == null) {
             ArrayList<String> moves = new ArrayList<>();
 
             for (int i = 0; i < players.size(); i++) {
@@ -123,7 +127,8 @@ public interface Game {
                 Player currPlayer = getNextPlayer(players);
                 String move = gameServer.sendAndReceiveMessage(currPlayer, "move");
 
-                // if the move is invalid, the way to handle this is defined by the game designer
+                // if the move is invalid, the way to handle this is defined by the game
+                // designer
                 while (!validMove(currPlayer, move)) {
                     move = handleInvalidMove(currPlayer, move, gameServer);
                 }
@@ -142,7 +147,7 @@ public interface Game {
         }
 
         System.out.println("Winner... " + winner.username);
-        for (Player player: players){
+        for (Player player : players) {
             gameServer.sendMessage(player, "winner_" + winner.username);
         }
 

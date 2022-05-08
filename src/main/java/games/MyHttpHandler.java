@@ -1,43 +1,44 @@
 package games;
 
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
+import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class MyHttpHandler implements HttpHandler {
     int renderNumber = 0;
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if ("GET".equals(exchange.getRequestMethod())){
+        if ("GET".equals(exchange.getRequestMethod())) {
             handleGETRequest(exchange);
-        }
-        else if ("POST".equals(exchange.getRequestMethod())) {
+        } else if ("POST".equals(exchange.getRequestMethod())) {
             try {
                 handlePOSTRequest(exchange);
-            }
-            catch (ParseException e) {
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
-        }
-        else if ("OPTIONS".equals(exchange.getRequestMethod())){
+        } else if ("OPTIONS".equals(exchange.getRequestMethod())) {
             System.out.println("OPTIONS request");
             handleOPTIONSRequest(exchange);
-        }
-        else {
-            //TODO log error
+        } else {
+            // TODO log error
             System.out.println("Error");
         }
     }
@@ -75,30 +76,31 @@ public class MyHttpHandler implements HttpHandler {
         InputStream inputStream = httpExchange.getRequestBody();
 
         JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        JSONObject jsonObject = (JSONObject) jsonParser
+                .parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 
         // this is how Kian wants his requests to be
         JSONObject data = (JSONObject) jsonObject.get("data");
         String type = (String) data.get("type");
 
         setHttpExchangeResponseHeaders(httpExchange);
-        if (type.equals("render")){
+        if (type.equals("render")) {
             handleRenderRequest(httpExchange, data);
-        }
-        else if (type.equals("new-game")){
+        } else if (type.equals("new-game")) {
             handleRenderRequest(httpExchange, data);
         }
     }
 
-    private void handleRenderRequest(HttpExchange httpExchange, JSONObject jsonObject) throws IOException, ParseException {
+    private void handleRenderRequest(HttpExchange httpExchange, JSONObject jsonObject)
+            throws IOException, ParseException {
         String gameName = (String) jsonObject.get("game");
         boolean flag = false;
-        //TODO sync this properly with the database
+        // TODO sync this properly with the database
         if (gameName.equals("Tic-Tac-Toe"))
             gameName = "TicTacToe";
         if (gameName.equals("Rock-Paper-Scissors-Lizard-Spock")) {
             gameName = "RockPaperScissorsLizardSpock";
-            //Todo need to get the moves stored in a smarter way
+            // Todo need to get the moves stored in a smarter way
             flag = true;
         }
 
@@ -108,8 +110,8 @@ public class MyHttpHandler implements HttpHandler {
 
         // clear folder of previous game images
         File[] files = folder.listFiles();
-        if(files != null) {  //some JVMs return null for empty dirs
-            for(File f: files) {
+        if (files != null) { // some JVMs return null for empty dirs
+            for (File f : files) {
                 f.delete();
             }
         }
@@ -120,8 +122,7 @@ public class MyHttpHandler implements HttpHandler {
         try {
             Class dynamicClass = Program.getClassFromFile("games." + gameName);
             constructor = dynamicClass.getDeclaredConstructor();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
 
@@ -134,29 +135,28 @@ public class MyHttpHandler implements HttpHandler {
         try {
             assert constructor != null;
             game = (Game) constructor.newInstance();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             handleInvalidGame(httpExchange);
             return;
         }
 
         ArrayList<String> imageLocations = new ArrayList<>();
-        for (int i = 0; i < gameLog.size(); i++){
+        for (int i = 0; i < gameLog.size(); i++) {
             Player currPlayer = game.getNextPlayer(dummyPlayers);
 
-            //TODO check and error message if move is invalid (particularly if it is of the wrong format)
+            // TODO check and error message if move is invalid (particularly if it is of the
+            // wrong format)
             String move = (String) gameLog.get(i);
 
-            if (flag){
+            if (flag) {
                 String[] moves = move.split(" ");
                 game.step(currPlayer, moves[0]);
 
                 currPlayer = game.getNextPlayer(dummyPlayers);
 
                 game.step(currPlayer, moves[1]);
-            }
-            else {
+            } else {
                 game.step(currPlayer, move);
             }
 
@@ -183,9 +183,9 @@ public class MyHttpHandler implements HttpHandler {
     }
 
     // used to return the image locations as a json array in the http response
-    private String asJsonArray(ArrayList<String> list){
+    private String asJsonArray(ArrayList<String> list) {
         StringBuilder output = new StringBuilder("{\"imageURIs\":[");
-        for (String s: list){
+        for (String s : list) {
             output.append('"').append(s).append('"').append(",");
         }
 

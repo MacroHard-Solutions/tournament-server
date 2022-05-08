@@ -1,7 +1,7 @@
 package games;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,13 +10,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RockPaperScissorsLizardSpock implements Game{
+import javax.imageio.ImageIO;
+
+public class RockPaperScissorsLizardSpock implements Game {
     ArrayList<String> playerMoves = new ArrayList<>(Arrays.asList("", ""));
     int nextPlayerIndex = 0;
     int stepIndex = 0;
 
     // MUST HAVE A CONSTRUCTOR
-    public RockPaperScissorsLizardSpock(){}
+    public RockPaperScissorsLizardSpock() {
+    }
 
     // null if game is not over; otherwise return the winner
     // board will already be updated
@@ -55,12 +58,14 @@ public class RockPaperScissorsLizardSpock implements Game{
 
     @Override
     public boolean validMove(Player player, String move) {
-        ArrayList<String> acceptableMoves = new ArrayList<>(Arrays.asList("Rock", "Paper", "Scissors", "Lizard", "Spock"));
+        ArrayList<String> acceptableMoves = new ArrayList<>(
+                Arrays.asList("Rock", "Paper", "Scissors", "Lizard", "Spock"));
         return acceptableMoves.contains(move);
     }
 
     /**
      * This method reads an image from the file
+     * 
      * @param fileLocation -- > eg. "C:/testImage.jpg"
      * @return BufferedImage of the file read
      */
@@ -68,8 +73,7 @@ public class RockPaperScissorsLizardSpock implements Game{
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(fileLocation));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return img;
@@ -79,10 +83,10 @@ public class RockPaperScissorsLizardSpock implements Game{
     public BufferedImage render() {
         BufferedImage backgroundImage = readImage("images/RPS/board.jpg");
 
-        //Create a Graphics  from the background image
+        // Create a Graphics from the background image
         Graphics2D g = backgroundImage.createGraphics();
 
-        //Set Antialias Rendering
+        // Set Antialias Rendering
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Draw background image at location (0,0)
