@@ -1,3 +1,5 @@
+package main;
+
 public class Agent {
     String username;
     String ipAddress;
