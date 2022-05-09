@@ -103,8 +103,6 @@
     width: 9em;
 }
 
-.box {}
-
 .box select {
     background-color: rgb(14, 68, 136);
     color: white;
@@ -141,4 +139,19 @@
 
 .box select option {
     padding: 30px;
+}
+
+.react-datepicker__navigation--previous {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+
+.react-datepicker__navigation--next {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+    margin: 1em;
 }
