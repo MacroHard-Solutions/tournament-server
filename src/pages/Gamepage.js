@@ -12,7 +12,7 @@ function Watch() {
 
     //pull necessary info from state
     const { arbUser, tourney, setGameplay, setP1, setP2, setP1_agent, setP2_agent, setGame } = useStore(state => ({
-        arbUser: state.userObj.USERNAME,
+        arbUser: state.userObj ? state.userObj.USERNAME : '',
         tourney: state.arbTourney,
         setGameplay: state.setGameplay,
         setP1: state.setP1,
