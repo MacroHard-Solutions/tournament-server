@@ -133,6 +133,9 @@ function Watch() {
     }
 
     const goForward = () => {
+        if (playing) {
+            setCurrimage(currplayImage);
+        }
         setPlaying(false);
         if (currImage < (imgArr.length - 1)) {
             setCurrimage(currImage + 1);
@@ -146,7 +149,7 @@ function Watch() {
 
 
     const play = () => {
-        //TODO implement playback feature
+        //TODO fix final image showing 
         setPlaying(true);
         currplayImage = currImage;
         setPlayinterval(setInterval(() => {
