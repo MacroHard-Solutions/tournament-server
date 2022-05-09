@@ -28,7 +28,7 @@ function Watch() {
     const [moves, setMoves] = useState([]);
     const [imgArr, setImgarr] = useState([]);
     const [currImage, setCurrimage] = useState(0);
-    const [img, setImg] = useState(`${imgArr[currImage]}`);
+    const [img, setImg] = useState('https://wpamelia.com/wp-content/uploads/2019/06/loading1.jpg');
     const [playing, setPlaying] = useState(false);
     // const [playInterval, setPlayinterval] = useState(0);
     const forceUpdate = useForceUpdate();
@@ -40,6 +40,10 @@ function Watch() {
     let playInterval = 0;
     const setPlayinterval = (interval) => {
         playInterval = interval;
+        if (interval === 0) {
+            currplayImage = 0;
+            setCurrimage(0);
+        }
     }
 
     //hook to use axios to make requests to backend
@@ -144,7 +148,7 @@ function Watch() {
     const play = () => {
         //TODO implement playback feature
         setPlaying(true);
-        setCurrplayimage(currImage);
+        currplayImage = currImage;
         setPlayinterval(setInterval(() => {
             if (currplayImage < (imgArr.length - 1)) {
                 setCurrplayimage(currplayImage + 1);
@@ -153,7 +157,9 @@ function Watch() {
             } else {
                 clearInterval(playInterval);
                 setPlayinterval(0);
+                setCurrimage(0)
                 setPlaying(false);
+                setCurrplayimage(0);
             }
         }, 1500));
     }
@@ -163,6 +169,12 @@ function Watch() {
         setPlayinterval(0);
         setPlaying(false);
     }
+
+    useEffect(() => {
+        if (playing) {
+            setCurrimage(currplayImage);
+        }
+    }, [playing])
 
     return (
         <div className="watch">
