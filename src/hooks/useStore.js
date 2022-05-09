@@ -17,7 +17,9 @@ let store = (set) => ({
     p2_agent: '',
     setP2_agent: (agent) => set((state) => ({ p2_agent: agent })),
     game: '',
-    setGame: (g) => set((state) => ({ game: g }))
+    setGame: (g) => set((state) => ({ game: g })),
+    rend: false,
+    setRend: (b) => set((state) => ({ rend: b }))
 });
 
 store = devtools(store);

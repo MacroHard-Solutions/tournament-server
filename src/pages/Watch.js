@@ -8,6 +8,7 @@ import Loading from '../components/Loading';
 import useAxiosFunction from '../hooks/useAxiosFunction';
 import gameAxios from '../apis/GamingAPI';
 import useStore from '../hooks/useStore';
+import useForceUpdate from 'use-force-update';
 
 function Watch() {
 
@@ -27,7 +28,19 @@ function Watch() {
     const [moves, setMoves] = useState([]);
     const [imgArr, setImgarr] = useState([]);
     const [currImage, setCurrimage] = useState(0);
-    const [playInterval, setPlayinterval] = useState(0);
+    const [img, setImg] = useState(`${imgArr[currImage]}`);
+    const [playing, setPlaying] = useState(false);
+    // const [playInterval, setPlayinterval] = useState(0);
+    const forceUpdate = useForceUpdate();
+
+    let currplayImage = 0;
+    const setCurrplayimage = (c) => {
+        currplayImage = c;
+    }
+    let playInterval = 0;
+    const setPlayinterval = (interval) => {
+        playInterval = interval;
+    }
 
     //hook to use axios to make requests to backend
     //eslint-disable-next-line
@@ -105,14 +118,9 @@ function Watch() {
         }
     }, [responseFunction]);
 
-    useEffect(() => {
-        if (imgArr.length > 0) {
-            console.log(imgArr);
-        }
-    }, [imgArr]);
-
     //functions to handle playback of gameplay
     const goBack = () => {
+        setPlaying(false);
         clearInterval(playInterval);
         setPlayinterval(0);
         if (currImage !== 0) {
@@ -121,23 +129,39 @@ function Watch() {
     }
 
     const goForward = () => {
+        setPlaying(false);
         if (currImage < (imgArr.length - 1)) {
             setCurrimage(currImage + 1);
             console.log(currImage);
         } else {
             clearInterval(playInterval);
             setPlayinterval(0);
+            setPlaying(false);
         }
     }
 
 
     const play = () => {
         //TODO implement playback feature
+        setPlaying(true);
+        setCurrplayimage(currImage);
+        setPlayinterval(setInterval(() => {
+            if (currplayImage < (imgArr.length - 1)) {
+                setCurrplayimage(currplayImage + 1);
+                setImg(`${imgArr[currplayImage]}`);
+                console.log(currplayImage);
+            } else {
+                clearInterval(playInterval);
+                setPlayinterval(0);
+                setPlaying(false);
+            }
+        }, 1500));
     }
 
     const pause = () => {
         clearInterval(playInterval);
         setPlayinterval(0);
+        setPlaying(false);
     }
 
     return (
@@ -157,7 +181,7 @@ function Watch() {
                     </div>
                 </div>
                 <div className='board'>
-                    <img width="100%" height="100%" alt='gameplay data' src={`${imgArr[currImage]}`} />
+                    <img width="100%" height="100%" alt='gameplay data' src={playing ? img : `${imgArr[currImage]}`} />
                 </div>
             </div>
 
@@ -189,7 +213,7 @@ function Watch() {
                     <h2>Leaderboard</h2>
                 </div>
                 <div className='pgc'>
-                    <button className='watchbtns'>Play</button>
+                    <button className='watchbtns' onClick={forceUpdate}>Play</button>
                     <button className='watchbtns'>Games</button>
                     <button className='watchbtns'>Challenge</button>
                 </div>
