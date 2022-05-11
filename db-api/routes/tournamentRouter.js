@@ -9,6 +9,5 @@ router
   .get(tournamentController.getTournaments)
   .put(tournamentController.insertTournament)
   .delete(tournamentController.deleteTournament);
-// router.route('/').delete(tournamentController.deleteTournament);
 
 module.exports = router;

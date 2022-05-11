@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(matchController.processFilter, matchController.getFilteredMatches)
+  .post(matchController.processFilter, matchController.getFilteredMatches) // First process the filter query string
   .put(matchController.insertMatch);
 
 module.exports = router;

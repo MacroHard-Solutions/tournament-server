@@ -17,18 +17,21 @@ const insertAgentAddress = async (ipAddress, portNum) => {
 
 exports.getUserAgents = async (req, res) => {
   const clientInput = req.body.data;
-  let stmt;
-  if (!clientInput.agentID)
+  let stmt, message;
+  if (!clientInput.agentID) {
     stmt = `CALL get_user_agents("${clientInput.userID}")`;
-  else if (!clientInput.userID)
+    message = "THe user's agents have been retrieved";
+  } else if (!clientInput.userID) {
     stmt = `CALL get_agent("${clientInput.agentID}")`;
+    message = 'The agent has eben retrieved';
+  }
 
   if (!stmt)
     return responseHandler.returnError(
       res,
       400,
       new Error('Invalid request made'),
-      'Please enter either the userID or agentID'
+      'Please enter a valid ID'
     );
 
   await db
@@ -150,11 +153,13 @@ exports.deleteAgent = async (req, res) => {
 
   await db
     .execute(REMOVE_AGENT)
-    .then((result) => {
+    .then(([rows, fields]) => {
+      console.log(rows[0]);
+
       return responseHandler.returnSuccess(
         res,
         200,
-        'Agents of the specified id have been removed successfully',
+        `${rows[0][0]['count']} agent(s) have been removed successfully`,
         null
       );
     })
