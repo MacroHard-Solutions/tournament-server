@@ -15,12 +15,37 @@ const insertAgentAddress = async (ipAddress, portNum) => {
   });
 };
 
+exports.bindAgentTournament = async (req, res) => {
+  const clientInput = req.body.data;
+  const INSERT_AGENT_TOURNAMENT = `CALL insert_agent_tournament("${clientInput.agentID}", "${clientInput.tournamentID}")`;
+
+  await db
+    .execute(INSERT_AGENT_TOURNAMENT)
+    .then((result) => {
+      return responseHandler.returnSuccess(
+        res,
+        201,
+        'Binded agent to tournament successfully',
+        null
+      );
+    })
+    .catch((err) => {
+      return responseHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to save agent-tournament binding'
+      );
+    });
+};
+
+// TODO: List the tournaments with their ids when retrieving agents
 exports.getUserAgents = async (req, res) => {
   const clientInput = req.body.data;
   let stmt, message;
   if (!clientInput.agentID) {
     stmt = `CALL get_user_agents("${clientInput.userID}")`;
-    message = "THe user's agents have been retrieved";
+    message = "The user's agents have been retrieved";
   } else if (!clientInput.userID) {
     stmt = `CALL get_agent("${clientInput.agentID}")`;
     message = 'The agent has eben retrieved';
@@ -123,9 +148,7 @@ exports.insertAgent = async (req, res) => {
 
   const INSERT_AGENT = `CALL insert_agent ("${
     !clientInput.agentName ? '' : clientInput.agentName
-  }", "${clientInput.userID}", "${newAddressID}", "${
-    clientInput.tournamentID
-  }");`;
+  }", "${clientInput.userID}", "${newAddressID}");`;
 
   await db
     .execute(INSERT_AGENT)

@@ -69,6 +69,7 @@ exports.processFilter = (req, res, next) => {
 };
 
 exports.getFilteredMatches = async (req, res) => {
+  // NOTE: SHOULD I RATHER PROVIDE A MIN AND MAX, CAUSE EQUALITY BASED ON TIME IS AN ISSUE?
   const clientInput = req.body.data;
   console.log(clientInput.filter);
   const GET_ALL_MATCH_RESULTS = `CALL get_match_results('${clientInput.filter}');`;
@@ -94,6 +95,9 @@ exports.getFilteredMatches = async (req, res) => {
 };
 
 exports.insertMatch = async (req, res) => {
+  // TODO: IMPLEMENT TRANSACTIONS FOR THIS ONE... THERE'S MULTIPLE INSERTS
+  // TODO: CHECK IF THE AGENT_ID IS PAIRED WITH THE TOURNAENT_ID
+  // TODO: RETURN THE MATCH_LOG_ID
   const clientInput = req.body.data;
   const agentResults = clientInput.agentResults;
   let insertCount = 0;
@@ -107,7 +111,7 @@ exports.insertMatch = async (req, res) => {
       clientInput.gameLog
     );
   } catch (err) {
-    resultHandler.returnError(res, 502, err, 'Unable to insert matchlog data');
+    return resultHandler.returnError(res, 502, err, 'Unable to insert matchlog data');
   }
 
   agentCount = agentResults.length;
@@ -121,14 +125,14 @@ exports.insertMatch = async (req, res) => {
   });
 
   if (insertCount === agentCount)
-    resultHandler.returnSuccess(
+    return resultHandler.returnSuccess(
       res,
       201,
       `Successfully entered all ${insertCount} out of ${agentCount} agent results`,
       null
     );
   else
-    resultHandler.returnError(
+    return resultHandler.returnError(
       res,
       417,
       `${insertCount} out of ${agentCount} agent result(s) have been successfully entered`
