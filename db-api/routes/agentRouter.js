@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(agentController.getUserAgents)
+  .post(agentController.getAgents)
   .put(agentController.insertAgent)
   .delete(agentController.deleteAgent)
   .patch(agentController.updateAgent);
