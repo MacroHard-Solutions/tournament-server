@@ -2,7 +2,10 @@ openapi: 3.0.0
 info:
   title: DB API
   version: 3.0.0
-  description: Any requests containing a request body need to be made according to the template.
+  description: |
+    Any requests containing a request body need to be made according to the template.
+    
+    Results with indicies as properties indicate that the object is an array
     
     The `signal` property is not mandatory but as it is used as a workaround for the frontend to the user.
 servers:
