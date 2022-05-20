@@ -51,16 +51,16 @@ exports.processFilter = (req, res, next) => {
       `(U1.USERNAME LIKE "%${clientInput.username}%" OR U2.USERNAME LIKE "%${clientInput.username}%")`
     );
 
-  if (
-    !clientInput.date ||
-    clientInput.date.comparator === '' ||
-    clientInput.date.val === ''
-  ) {
-    // skip
-  } else
-    query.push(
-      `(MATCH_LOG_TIMESTAMP ${clientInput.date.comparator} \"${clientInput.date.val}\")`
-    );
+  if (clientInput.date && clientInput.date.comparator && clientInput.date.val) {
+    if (clientInput.date.comparator === '=')
+      query.push(
+        `MATCH_LOG_TIMESTAMP >= DATE("${clientInput.date.val}") AND MATCH_LOG_TIMESTAMP < DATE_ADD(DATE("${clientInput.date.val}"), INTERVAL 1 DAY)`
+      );
+    else
+      query.push(
+        `(MATCH_LOG_TIMESTAMP ${clientInput.date.comparator} "${clientInput.date.val}")`
+      );
+  }
 
   if (query.length === 0) clientInput.filter = 'true';
   else clientInput.filter = query.join(' AND ');
@@ -111,7 +111,12 @@ exports.insertMatch = async (req, res) => {
       clientInput.gameLog
     );
   } catch (err) {
-    return resultHandler.returnError(res, 502, err, 'Unable to insert matchlog data');
+    return resultHandler.returnError(
+      res,
+      502,
+      err,
+      'Unable to insert matchlog data'
+    );
   }
 
   agentCount = agentResults.length;

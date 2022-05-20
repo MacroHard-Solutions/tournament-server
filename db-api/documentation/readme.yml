@@ -25,7 +25,6 @@ insertAgent:
   AGENT_NAME: myAgent
   ADDRESS_IP: 192.168.0.0.1
   ADDRESS_PORT: 8000
-  AGENT_ELO: 600
   AGENT_STATUS: -1
 insertAgentReq:
   agentName: myAgent
@@ -77,7 +76,7 @@ agentGreg:
   ipAddress: 00000000
   portNum: 1
   agentELO: 600
-agentTemplate1:
+userAgentTemplate1:
   AGENT_ID: e2474139-8d71-45f4-a7c8-5a69329a1ebe
   AGENT_NAME: 
   ADDRESS_IP: 90.242.93.51
@@ -89,7 +88,7 @@ agentTemplate1:
   AGENT_STATUS: -1
   TOURNAMENT_ID: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
   TOURNAMENT_NAME: Tic-Tac-Toe-Tourney
-agentTemplate2:
+userAgentTemplate2:
   AGENT_ID: e8955372-ce0e-11ec-8a34-0ea680fee648
   AGENT_NAME: Magnus_Carlson
   ADDRESS_IP: 54.157.20.63
@@ -101,11 +100,28 @@ agentTemplate2:
   AGENT_STATUS: -1
   TOURNAMENT_ID: 22531f29-cd83-11ec-8a34-0ea680fee648
   TOURNAMENT_NAME: Gregs Tic-Tac-Toe Tournament
+agentTemplate1:
+  AGENT_ID: e8955372-ce0e-11ec-8a34-0ea680fee648
+  AGENT_NAME: Magnus_Carlson
+  USER_ID: lordGregorious
+  USERNAME: lordGregorious
+  ADDRESS_IP: 54.157.20.63
+  ADDRESS_PORT: 8000
+  AGENT_STATUS: -1
+agentTemplate2:
+  AGENT_ID: 1aea2e2e-be8a-4aaa-8c43-5fe4bb60467e
+  AGENT_NAME: ""
+  USER_ID: lordGregorious
+  USERNAME: Lover Boy
+  ADDRESS_IP: 25.206.139.193
+  ADDRESS_PORT: 6817
+  AGENT_STATUS: -1
 agentTournament:
   TOURNAMENT_ID: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505
   TOURNAMENT_NAME: Rock-Paper-Scissors-Lizard-Spock Tourney
   GAME_ID: b772386d-c6f5-11ec-a02e-0ab3cd6d5505
   GAME_NAME: Rock-Paper-Scissors-Lizard-Spock
+  AGENT_ELO: 630
 gameTemplate1:
   GAME_ID: 886edf86-c6f5-11ec-a02e-0ab3cd6d5505
   GAME_NAME: Tic-Tac-Toe
@@ -648,8 +664,8 @@ paths:
               status: success
               message: The agent(s) have been retrieved
               resultData:
-                - $ref: '#/agentTemplate1'
-                - $ref: '#/agentTemplate2'
+                - $ref: '#/userAgentTemplate1'
+                - $ref: '#/userAgentTemplate2'
 
             given_agentID: 
               status: success
@@ -826,8 +842,8 @@ paths:
                     example: Retrieved the agent pair successfully
                   resultData:
                     example:
-                      - $ref: '#/agentThabo'
-                      - $ref: '#/agentGreg'
+                      - $ref: '#/agentTemplate1'
+                      - $ref: '#/agentTemplate2'
               
         '502':
             description: Failed
