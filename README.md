@@ -36,7 +36,12 @@ The body of the POST request should be a JSON object of the following format:
 
 ### Responses
 * Status Code 200: <br>
-  The rendering was successful. The response body is a JSON array containing the image URIs for the rendered images.
+  The rendering was successful. The response body is a JSON object containing a JSON array containing the image URIs for the rendered images.
+  ```JSON
+  {
+  	"imageURIs": ["images/game1/0.jpg", "images/game1/1.jpg", "images/game1/2.jpg", "images/game1/3.jpg", "images/game1/4.jpg"]
+  }
+  ```
 * Status Code 400: <br>
   The rendering was unsuccesful. The response body is one of the following error messages: <br>
   "Game name is not recognised. Cannot process render request."
