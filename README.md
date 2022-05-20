@@ -15,9 +15,10 @@ The following is a brief outline of the functions of the back-end server:
 [![codecov](https://codecov.io/gh/MacroHard-Solutions/tournament-server/branch/code-cov/graph/badge.svg?token=X67KO80SL5)](https://codecov.io/gh/MacroHard-Solutions/tournament-server)
 
 
-## Requests
+# Requests
 
-### Render Request
+## Render Request
+### Description
 The render request is an http POST request, made by the front-end, where a game-log is given and the server renders the images of that game.
 The body of the POST request should be a JSON object of the following format:
 ```JSON
@@ -35,10 +36,10 @@ The body of the POST request should be a JSON object of the following format:
 
 The back-end server then sends an http response message with a 200 status code if the rendering was successful, and a JSON array containing the image URIs for the rendered images.
 
-### GET Request
+## GET Request
 A rendered image can be downloaded using its URI in an http GET request. 
 
-### Challenge Request
+## Challenge Request
 The challenge request is an http POST request, made by the fron-end, where user agent IDs are given and a game is started between those agents. 
 The body of the POST request should be a JSON object of the following format:
 ```JSON
