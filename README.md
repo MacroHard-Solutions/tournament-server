@@ -38,7 +38,7 @@ The body of the POST request should be a JSON object of the following format:
 * Status Code 200: <br>
   The rendering was successful. The response body is a JSON array containing the image URIs for the rendered images.
 * Status Code 400: <br>
-  The rendering was unsuccesful. The response body is one of the following error messages:
+  The rendering was unsuccesful. The response body is one of the following error messages: <br>
   "Game name is not recognised. Cannot process render request."
 
 ## GET Request
