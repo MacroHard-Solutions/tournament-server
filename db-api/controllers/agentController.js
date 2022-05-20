@@ -87,7 +87,7 @@ exports.bindAgentTournament = async (req, res) => {
       return responseHandler.returnSuccess(
         res,
         201,
-        'Binded agent to tournament successfully',
+        'Bound agent to tournament successfully',
         null
       );
     })
@@ -268,7 +268,7 @@ exports.deleteAgent = async (req, res) => {
 
 exports.updateAgent = async (req, res) => {
   const clientInput = req.body.data;
-  const UPDATE_AGENT = `CALL update_agent("${clientInput.agentID}",${clientInput.agentELO})`;
+  const UPDATE_AGENT = `CALL update_agent("${clientInput.agentID}", "${clientInput.tournamentID}",${clientInput.agentELO})`;
 
   await db
     .execute(UPDATE_AGENT)

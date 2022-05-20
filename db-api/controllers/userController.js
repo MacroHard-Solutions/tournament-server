@@ -108,7 +108,7 @@ exports.insertUser = async (req, res) => {
         res,
         201,
         'The user has been stored successfully',
-        rows[0]
+        rows[0][0]
       );
     })
     .catch((err) => {
@@ -129,12 +129,13 @@ exports.getUser = async (req, res) => {
     .execute(RETRIEVE_USER)
     .then(([rows, fields]) => {
       if (rows[0].length > 0)
-        return resultHandler.returnSuccess(res, 200, 'User retrieved', rows[0]);
+        return resultHandler.returnSuccess(res, 200, 'User retrieved', rows[0][0]);
       else return resultHandler.returnError(res, 404, 'User not found');
     })
     .catch((err) => {
       return resultHandler.returnError(
         res,
+        502,
         err,
         'Unable to retrieve user from the database'
       );
