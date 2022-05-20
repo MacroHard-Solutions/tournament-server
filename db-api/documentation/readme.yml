@@ -110,7 +110,7 @@ agentTemplate1:
   AGENT_STATUS: -1
 agentTemplate2:
   AGENT_ID: 1aea2e2e-be8a-4aaa-8c43-5fe4bb60467e
-  AGENT_NAME: ""
+  AGENT_NAME: 
   USER_ID: lordGregorious
   USERNAME: Lover Boy
   ADDRESS_IP: 25.206.139.193
@@ -172,6 +172,18 @@ matchTemplate2:
   U2_USERNAME: lordGregorious
   R2_AGENT_ID: e8955372-ce0e-11ec-8a34-0ea680fee648
   R2_RANKING: 0
+insertedOfflineMatchTemplate: 
+  MATCH_LOG_ID: 97c4e381-d841-11ec-8a34-0ea680fee648
+  TOURNAMENT_ID: e38e7597-d6ee-11ec-8a34-0ea680fee648
+  MATCH_LOG_DATA: '|1 1 X|1 0 O|0 2 X|2 1 O|2 0 X|'
+  MATCH_LOG_TIMESTAMP: '2022-05-20T11:34:37.000Z'
+  MATCH_LOG_IN_PROGRESS: 0
+insertedLiveMatchTemplate: 
+  MATCH_LOG_ID: adac85d6-d841-11ec-8a34-0ea680fee648
+  TOURNAMENT_ID: e38e7597-d6ee-11ec-8a34-0ea680fee648
+  MATCH_LOG_DATA: ''
+  MATCH_LOG_TIMESTAMP: '2022-05-20T11:35:13.000Z'
+  MATCH_LOG_IN_PROGRESS: 1
 
 paths:
   /:
@@ -1105,13 +1117,15 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: Successfully recorded the match
+                    example: success
                   message:
                     type: string
-                    example: The match has been recorded successfully
+                    example: Successfully recorded the match. 2 out of 2 agent result(s) have been successfully entered
                   resultData:
                     type: string 
                     example: 
+                      $ref: '#/insertedOfflineMatchTemplate'
+                      
 
         '502':
           description: Failed
@@ -1130,6 +1144,7 @@ paths:
       summary: Record the match results
       tags:
         - Match
+  
     post:
       description: |
         - Retrieves match results from the database
@@ -1138,7 +1153,7 @@ paths:
         - Leaving either the `date comparator` or `date value blank` will nullify the date filter
         - Date comparisons also cater for equality
        
-      operationId: 'get-https:--tournament-server.herokuapp.com-api-v2-match'
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-match'
       requestBody:
         required: false
         content:
@@ -1211,3 +1226,124 @@ paths:
       summary: 'Get all match results'
       tags: 
         - Match
+
+  /match/live:
+     put:
+      description: 'Adds a live match to the database'
+      operationId: 'put-https:--tournament-server.herokuapp.com-api-v2-match-live'
+      requestBody: 
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    tournamentID: 
+                      type: string
+                      example: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505
+                signal:
+                  type: object
+      responses:
+        '201':
+          description: An object of the live match is returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: The live match has been inserted
+                  resultData:
+                    type: string 
+                    example: 
+                      $ref: '#/insertedLiveMatchTemplate'
+                      
+
+        '502':
+          description: Failed
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                  logError:
+                    type: string
+      summary: Insert a live match
+      tags:
+        - Match
+     patch:
+      description: 'Updates the live match as completed'
+      operationId: 'patch-https:--tournament-server.herokuapp.com-api-v2-match-live'
+      requestBody: 
+        required: true
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    matchLogID: 
+                      type: string
+                      example: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505
+                    matchLogData: 
+                      example: 
+                        '|1 1 X|1 0 O|0 2 X|2 1 O|2 0 X|'
+                    agentResults:
+                      example: 
+                        - $ref: '#/agentRanking1'
+                        - $ref: '#/agentRanking2'
+                signal:
+                  type: object
+      responses:
+        '201':
+          description: An object of the live match is returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: The live match has been inserted
+                  resultData:
+                    type: string 
+                    example: 
+                      $ref: '#/insertedOfflineMatchTemplate'
+                      
+
+        '502':
+          description: Failed
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                  logError:
+                    type: string
+      summary: Update live match to end
+      tags:
+        - Match
+  
+
