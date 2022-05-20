@@ -1,13 +1,13 @@
 const db = require('../util/db');
 const resultHandler = require('../util/responseHandler');
 
-const insertMatchLog = async (tournamentID, matchLogTime, gameLog) => {
-  const INSERT_MATCH_LOG = `CALL insert_match_log("${tournamentID}", "${matchLogTime}", "${gameLog}")`;
+const insertMatchLog = async (tournamentID, matchLog) => {
+  const INSERT_MATCH_LOG = `CALL insert_match_log("${tournamentID}", "${matchLog}")`;
 
   return new Promise((resolve, reject) => {
     db.execute(INSERT_MATCH_LOG)
       .then(([rows, fields]) => {
-        resolve(rows[0][0]['MATCH_LOG_ID']);
+        resolve(rows[0][0]);
       })
       .catch((err) => reject(err));
   });
@@ -94,21 +94,16 @@ exports.getFilteredMatches = async (req, res) => {
     });
 };
 
-exports.insertMatch = async (req, res) => {
+exports.insertMatch = async (req, res, next) => {
   // TODO: IMPLEMENT TRANSACTIONS FOR THIS ONE... THERE'S MULTIPLE INSERTS
   // TODO: CHECK IF THE AGENT_ID IS PAIRED WITH THE TOURNAENT_ID
   // TODO: RETURN THE MATCH_LOG_ID
   const clientInput = req.body.data;
-  const agentResults = clientInput.agentResults;
-  let insertCount = 0;
-  let errors = [];
-  let matchLogID, agentCount;
 
   try {
-    matchLogID = await insertMatchLog(
+    clientInput.newMatch = await insertMatchLog(
       clientInput.tournamentID,
-      clientInput.matchLogTime,
-      clientInput.gameLog
+      clientInput.matchLog
     );
   } catch (err) {
     return resultHandler.returnError(
@@ -119,8 +114,62 @@ exports.insertMatch = async (req, res) => {
     );
   }
 
-  agentCount = agentResults.length;
-  agentResults.forEach(async (agent) => {
+  clientInput.message = 'Successfully recorded the match';
+  next();
+};
+
+exports.startLiveMatch = async (req, res) => {
+  const clientInput = req.body.data;
+  const START_LIVE_MATCH = `CALL start_live_match('${clientInput.tournamentID}');`;
+
+  await db
+    .execute(START_LIVE_MATCH)
+    .then(([rows, fields]) => {
+      resultHandler.returnSuccess(
+        res,
+        201,
+        'The live match has been inserted',
+        rows[0]
+      );
+    })
+    .catch((err) => {
+      resultHandler.returnError(res, 502, err, 'Unable to insert live match');
+    });
+};
+
+exports.endLiveMatch = async (req, res, next) => {
+  const clientInput = req.body.data;
+  const END_LIVE_MATCH = `CALL end_live_match('${clientInput.matchLogID}','${clientInput.matchLogData}');`;
+
+  await db
+    .execute(END_LIVE_MATCH)
+    .then(([rows, fields]) => {
+      clientInput.newMatch = rows[0][0];
+      clientInput.message = 'The live match has ended and been logged';
+    })
+    .catch((err) => {
+      resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to end and log live match'
+      );
+    });
+
+  next();
+};
+
+exports.insertAgentResults = async (req, res) => {
+  const clientInput = req.body.data;
+  const agentResults = clientInput.agentResults;
+  const agentCount = agentResults.length;
+  const newMatch = clientInput.newMatch;
+
+  const matchLogID = newMatch['MATCH_LOG_ID'];
+  let insertCount = 0;
+  let errors = [];
+
+  agentResults.forEach((agent) => {
     try {
       insertAgentResult(matchLogID, agent.agentID, agent.ranking);
       ++insertCount;
@@ -129,17 +178,18 @@ exports.insertMatch = async (req, res) => {
     }
   });
 
-  if (insertCount === agentCount)
-    return resultHandler.returnSuccess(
-      res,
-      201,
-      `Successfully entered all ${insertCount} out of ${agentCount} agent results`,
-      null
-    );
-  else
+  if (insertCount !== agentCount)
     return resultHandler.returnError(
       res,
       417,
-      `${insertCount} out of ${agentCount} agent result(s) have been successfully entered`
+      errors,
+      `${clientInput.message}. ${insertCount} out of ${agentCount} agent result(s) have been successfully entered`
+    );
+  else
+    return resultHandler.returnSuccess(
+      res,
+      201,
+      `${clientInput.message}. ${insertCount} out of ${agentCount} agent result(s) have been successfully entered`,
+      clientInput.newMatch
     );
 };
