@@ -34,7 +34,12 @@ The body of the POST request should be a JSON object of the following format:
 * The "game" field specifies the name of the game which is being rendered (taken from the database).
 * The "moves" field contains the game-log as a JSON array (also taken from the database).
 
-The back-end server then sends an http response message with a 200 status code if the rendering was successful, and a JSON array containing the image URIs for the rendered images.
+### Responses
+* Status Code 200:
+  The rendering was successful. The response body is a JSON array containing the image URIs for the rendered images.
+* Status Code 400:
+  The rendering was unsuccesful. The response body is one of the following error messages:
+  "Game name is not recognised. Cannot process render request."
 
 ## GET Request
 A rendered image can be downloaded using its URI in an http GET request. 
