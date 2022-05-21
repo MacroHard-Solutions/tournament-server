@@ -148,7 +148,7 @@ exports.endLiveMatch = async (req, res, next) => {
       clientInput.message = 'The live match has ended and been logged';
     })
     .catch((err) => {
-      resultHandler.returnError(
+      return resultHandler.returnError(
         res,
         502,
         err,
@@ -156,13 +156,13 @@ exports.endLiveMatch = async (req, res, next) => {
       );
     });
 
-    if (!clientInput.newMatch)
-        return resultHandler.returnError(
-          res,
-          404,
-          new Error('Live match not found'),
-          'There is no live match corresponding to the given ID'
-        );
+  if (!clientInput.newMatch)
+    return resultHandler.returnError(
+      res,
+      404,
+      new Error('Live match not found'),
+      'There is no live match corresponding to the given ID'
+    );
 
   next();
 };
@@ -201,4 +201,31 @@ exports.insertAgentResults = async (req, res) => {
       `${clientInput.message}. ${insertCount} out of ${agentCount} agent result(s) have been successfully entered`,
       clientInput.newMatch
     );
+};
+
+exports.getLiveMatches = async (req, res) => {
+  let tournamentID = req.params.tournamentID;
+
+  if (!tournamentID) tournamentID = '';
+
+  const GET_LIVE_MATCHES = `CALL get_live_matches('${tournamentID}')`;
+
+  await db
+    .execute(GET_LIVE_MATCHES)
+    .then(([rows, fields]) => {
+      return resultHandler.returnSuccess(
+        res,
+        200,
+        'Successfully retrieved live matches',
+        rows[0]
+      );
+    })
+    .catch((err) => {
+      return resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to check for live matches'
+      );
+    });
 };

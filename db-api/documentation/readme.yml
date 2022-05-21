@@ -920,6 +920,42 @@ paths:
         - Match
 
   /match/live:
+     get:
+      description: 'Retrieves any live matches, if not given a tournamentID'
+      operationId:  'get-https:--tournament-server.herokuapp.com-api-v2-match-live-tournamentID'
+      summary: Get all agents of tournament
+      tags:
+        - Live Match
+      
+      parameters:
+        - in: path
+          name: tournamentID
+          required: false
+          schema:
+            type: string
+          description: The tournament ID
+      
+      responses:
+        '200':
+          description: 'An array of live match log objects is returned'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Retrieved all agents of the specified tournament, in descending order of ELO
+                  resultData:
+                    example:
+                      $ref: '#/component/liveMatchInsert'
+
+        '502':
+          $ref: '#/component/failedResponse'
+
      put:
       description: 'Adds a live match to the database'
       operationId: 'put-https:--tournament-server.herokuapp.com-api-v2-match-live'
@@ -954,14 +990,14 @@ paths:
                     example: The live match has been inserted
                   resultData:
                     example:
-                      $ref: '#/component/liveMatchInsert'
+                      $ref: '#/component/liveMatchInsert/0'
                       
 
         '502':
           $ref: '#/component/failedResponse'
       summary: Insert a live match
       tags:
-        - Match
+        - Live Match
      patch:
       description: 'Updates the live match as completed'
       operationId: 'patch-https:--tournament-server.herokuapp.com-api-v2-match-live'
@@ -1009,7 +1045,7 @@ paths:
           $ref: '#/component/failedResponse'
       summary: Update live match to end
       tags:
-        - Match
+        - Live Match
   
 component:
   failedResponse:
@@ -1222,10 +1258,17 @@ component:
     MATCH_LOG_TIMESTAMP: '2022-05-20T11:34:37.000Z'
     MATCH_LOG_IN_PROGRESS: 0
   liveMatchInsert: 
-    MATCH_LOG_ID: adac85d6-d841-11ec-8a34-0ea680fee648
-    TOURNAMENT_ID: e38e7597-d6ee-11ec-8a34-0ea680fee648
-    MATCH_LOG_DATA: ''
-    MATCH_LOG_TIMESTAMP: '2022-05-20T11:35:13.000Z'
-    MATCH_LOG_IN_PROGRESS: 1
+    -
+      MATCH_LOG_ID: adac85d6-d841-11ec-8a34-0ea680fee648
+      TOURNAMENT_ID: e38e7597-d6ee-11ec-8a34-0ea680fee648
+      MATCH_LOG_DATA: ''
+      MATCH_LOG_TIMESTAMP: '2022-05-20T11:35:13.000Z'
+      MATCH_LOG_IN_PROGRESS: 1
+    -
+      MATCH_LOG_ID: 4ac6ad0e-d8a3-11ec-8a34-0ea680fee648
+      TOURNAMENT_ID: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505
+      MATCH_LOG_DATA: ''
+      MATCH_LOG_TIMESTAMP: '2022-05-20T23:13:58.000Z'
+      MATCH_LOG_IN_PROGRESS: 1
 
 
