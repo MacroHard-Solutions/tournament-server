@@ -77,7 +77,8 @@ The body of the POST request should be a JSON object of the following format:
 * Status Code 400: <br>
   The match was not started because an error occurred. The response body is one of the following error messages: <br>
   "Unable to start match" <br>
-  "Unable to set up match between agents"
+  "Unable to set up match between agents" <br>
+  "Server could not reach agent. Unable to start match"
   
 ## Poll Request
 ### Description
