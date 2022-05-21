@@ -17,7 +17,7 @@ The following is a brief outline of the functions of the back-end server:
 
 # Requests
 
-## Render Request
+## 1. Render Request
 ### Description
 The render request is an http POST request, made by the front-end, where a game-log is given and the server renders the images of that game.
 The body of the POST request should be a JSON object of the following format:
@@ -48,7 +48,7 @@ The body of the POST request should be a JSON object of the following format:
   "Unable to process render request" <br>
   "Game name is not recognised. Unable to process render request" 
 
-## Match Request
+## 2. Match Request
 ### Description
 The match request is an http POST request, made by the front-end, where user agent IDs are given and a match is started between those agents. 
 The body of the POST request should be a JSON object of the following format:
@@ -77,7 +77,7 @@ The body of the POST request should be a JSON object of the following format:
   "Unable to set up match between agents" <br>
   "Server could not reach agent. Unable to start match"
   
-## Poll Request
+## 3. Poll Request
 ### Description
 The poll request is an http POST request, made by the front-end, where a match log ID is given and the server returns the imageURIs of the match states that have passed.
 The body of the POST request should be a JSON object of the following format:
