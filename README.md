@@ -52,6 +52,7 @@ The body of the POST request should be a JSON object of the following format:
 A rendered image can be downloaded using its URI in an http GET request. 
 
 ## Match Request
+### Description
 The match request is an http POST request, made by the front-end, where user agent IDs are given and a match is started between those agents. 
 The body of the POST request should be a JSON object of the following format:
 ```JSON
@@ -77,3 +78,32 @@ The body of the POST request should be a JSON object of the following format:
   The match was not started because an error occurred. The response body is one of the following error messages: <br>
   "Unable to start match" <br>
   "Unable to set up match between agents"
+  
+## Poll Request
+### Description
+The poll request is an http POST request, made by the front-end, where a match log ID is given and the server returns the imageURIs of the match states that have passed.
+The body of the POST request should be a JSON object of the following format:
+```JSON
+{
+	"data": {
+		"type": "poll",
+		"matchLogID": "455befa3-d94d-11ec-8a34-0ea680fee648"
+		},
+	"signal": {}
+}
+```
+* The "type" field specifies the request type, in this case it is a poll request.
+* The "matchLogID" field specifies the match log ID of the live match.
+
+### Responses
+* Status Code 200: <br>
+  The poll was successful. The response body is a JSON object containing the number of states (images) which have occurred and a JSON array containing the image URIs for the rendered images. 
+  ```JSON
+  {
+  	"numberOfStates": 4 
+  	"imageURIs": ["liveMatches/game1/0.jpg", "liveMatches/game1/1.jpg", "liveMatches/game1/2.jpg", "liveMatches/game1/3.jpg"]
+  }
+  ```
+* Status Code 400: <br>
+  The poll was unsuccesful. The response body is one of the following error messages: <br>
+  "Match Log ID is not recognised. Unable to process Poll request" <br>
