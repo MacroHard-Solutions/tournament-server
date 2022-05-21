@@ -100,8 +100,8 @@ The body of the POST request should be a JSON object of the following format:
   The poll was successful. The response body is a JSON object containing the number of states (images) which have occurred and a JSON array containing the image URIs for the rendered images. 
   ```JSON
   {
-  	"numberOfStates": 4 
-  	"imageURIs": ["liveMatches/game1/0.jpg", "liveMatches/game1/1.jpg", "liveMatches/game1/2.jpg", "liveMatches/game1/3.jpg"]
+  	"numberOfStates": 3
+  	"imageURIs": ["liveMatches/game1/0.jpg", "liveMatches/game1/1.jpg", "liveMatches/game1/2.jpg"]
   }
   ```
 * Status Code 400: <br>
