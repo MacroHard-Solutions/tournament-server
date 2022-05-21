@@ -18,7 +18,7 @@ The following is a brief outline of the functions of the back-end server:
 # Requests
 
 ## 1. Render Request
-### Description
+### 1.1. Description
 The render request is an http POST request, made by the front-end, where a game-log is given and the server renders the images of that game.
 The body of the POST request should be a JSON object of the following format:
 ```JSON
@@ -35,7 +35,7 @@ The body of the POST request should be a JSON object of the following format:
 * The "game" field specifies the name of the game which is being rendered (taken from the database).
 * The "moves" field contains the game-log as a JSON array (also taken from the database).
 
-### Responses
+### 1.2. Responses
 * Status Code 200: <br>
   The rendering was successful. The response body is a JSON object containing a JSON array containing the image URIs for the rendered images. 
   ```JSON
@@ -49,7 +49,7 @@ The body of the POST request should be a JSON object of the following format:
   "Game name is not recognised. Unable to process render request" 
 
 ## 2. Match Request
-### Description
+### 2.1. Description
 The match request is an http POST request, made by the front-end, where user agent IDs are given and a match is started between those agents. 
 The body of the POST request should be a JSON object of the following format:
 ```JSON
@@ -68,7 +68,7 @@ The body of the POST request should be a JSON object of the following format:
 * The "tournamentID" field specifies which tournament this match is being played under.
 * The "agentsID" contains the IDs of the agents as a JSON array
 
-### Responses
+### 2.2. Responses
 * Status Code 200: <br>
   The match has begun. The response body is the Match Log ID which the front-end will use to make poll requests. 
 * Status Code 400: <br>
@@ -78,7 +78,7 @@ The body of the POST request should be a JSON object of the following format:
   "Server could not reach agent. Unable to start match"
   
 ## 3. Poll Request
-### Description
+### 3.1. Description
 The poll request is an http POST request, made by the front-end, where a match log ID is given and the server returns the imageURIs of the match states that have passed.
 The body of the POST request should be a JSON object of the following format:
 ```JSON
@@ -93,7 +93,7 @@ The body of the POST request should be a JSON object of the following format:
 * The "type" field specifies the request type, in this case it is a poll request.
 * The "matchLogID" field specifies the match log ID of the live match.
 
-### Responses
+### 3.2. Responses
 * Status Code 200: <br>
   The poll was successful. The response body is a JSON object containing the number of states (images) which have occurred and a JSON array containing the image URIs for the rendered images. 
   ```JSON
@@ -107,5 +107,5 @@ The body of the POST request should be a JSON object of the following format:
   "Match Log ID is not recognised. Unable to process Poll request" <br>
 
 
-## GET Request
+## 4. GET Request
 A rendered or live image can be downloaded using its URI in an http GET request. 
