@@ -919,42 +919,44 @@ paths:
       tags: 
         - Match
 
-  /match/live:
-     get:
-      description: 'Retrieves any live matches, if not given a tournamentID'
-      operationId:  'get-https:--tournament-server.herokuapp.com-api-v2-match-live-tournamentID'
-      summary: Get all agents of tournament
-      tags:
-        - Live Match
-      
-      parameters:
-        - in: path
-          name: tournamentID
-          required: false
-          schema:
-            type: string
-          description: The tournament ID
-      
-      responses:
-        '200':
-          description: 'An array of live match log objects is returned'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status: 
-                    type: string
-                    example: success
-                  message:
-                    type: string
-                    example: Retrieved all agents of the specified tournament, in descending order of ELO
-                  resultData:
-                    example:
-                      $ref: '#/component/liveMatchInsert'
+  /match/live/{tournamentID}:
+    get:
+        description: 'Retrieves any live matches, if not given a tournamentID'
+        operationId:  'get-https:--tournament-server.herokuapp.com-api-v2-match-live-tournamentID'
+        summary: Get all agents of tournament
+        tags:
+          - Live Match
+        
+        parameters:
+          - in: path
+            name: tournamentID
+            required: false
+            schema:
+              type: string
+            description: The tournament ID
+        
+        responses:
+          '200':
+            description: 'An array of live match log objects is returned'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status: 
+                      type: string
+                      example: success
+                    message:
+                      type: string
+                      example: Retrieved all live matches
+                    resultData:
+                      example:
+                        $ref: '#/component/liveMatchInsert'
 
-        '502':
-          $ref: '#/component/failedResponse'
+          '502':
+            $ref: '#/component/failedResponse'
+  /match/live:
+     
 
      put:
       description: 'Adds a live match to the database'
