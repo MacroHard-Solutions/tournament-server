@@ -44,7 +44,8 @@ The body of the POST request should be a JSON object of the following format:
   ```
 * Status Code 400: <br>
   The rendering was unsuccesful. The response body is one of the following error messages: <br>
-  "Game name is not recognised. Cannot process render request."
+  "Unable to process render request" <br>
+  "Game name is not recognised. Unable to process render request" 
 
 ## GET Request
 A rendered image can be downloaded using its URI in an http GET request. 
