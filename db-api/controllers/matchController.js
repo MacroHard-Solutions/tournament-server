@@ -156,6 +156,14 @@ exports.endLiveMatch = async (req, res, next) => {
       );
     });
 
+    if (!clientInput.newMatch)
+        return resultHandler.returnError(
+          res,
+          404,
+          new Error('Live match not found'),
+          'There is no live match corresponding to the given ID'
+        );
+
   next();
 };
 
@@ -165,6 +173,7 @@ exports.insertAgentResults = async (req, res) => {
   const agentCount = agentResults.length;
   const newMatch = clientInput.newMatch;
 
+  console.log(newMatch);
   const matchLogID = newMatch['MATCH_LOG_ID'];
   let insertCount = 0;
   let errors = [];

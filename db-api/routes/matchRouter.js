@@ -11,5 +11,5 @@ router
 router
   .route('/live')
   .put(matchController.startLiveMatch)
-  .patch(matchController.endLiveMatch, matchController.insertAgentResults)
+  .patch(matchController.endLiveMatch, matchController.insertAgentResults);
 module.exports = router;
