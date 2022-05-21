@@ -61,7 +61,7 @@ The body of the POST request should be a JSON object of the following format:
     		"tournamentID": "22531f29-cd83-11ec-8a34-0ea680fee648",
     		"agentIDs": ["a0ea49b7-ce11-11ec-8a34-0ea680fee648", "e8955372-ce0e-11ec-8a34-0ea680fee648"]
 	},
-  "signal": {}
+  	"signal": {}
 }
 ```
 * The "type" field specifies the request type, in this case it is a challenge request.
