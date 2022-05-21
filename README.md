@@ -52,7 +52,7 @@ The body of the POST request should be a JSON object of the following format:
 A rendered image can be downloaded using its URI in an http GET request. 
 
 ## Match Request
-The match request is an http POST request, made by the fron-end, where user agent IDs are given and a game is started between those agents. 
+The match request is an http POST request, made by the front-end, where user agent IDs are given and a match is started between those agents. 
 The body of the POST request should be a JSON object of the following format:
 ```JSON
 {
@@ -65,7 +65,15 @@ The body of the POST request should be a JSON object of the following format:
   	"signal": {}
 }
 ```
-* The "type" field specifies the request type, in this case it is a challenge request.
-* The "game" field specifies the name of the game which is being rendered (taken from the database).
-* The "tournamentID" field specifies which tournament this game is being played under.
+* The "type" field specifies the request type, in this case it is a match request.
+* The "game" field specifies the name of the game which is being played (taken from the database).
+* The "tournamentID" field specifies which tournament this match is being played under.
 * The "agentsID" contains the IDs of the agents as a JSON array
+
+### Responses
+* Status Code 200: <br>
+  The match has begun. The response body is the Match Log ID which the front-end will use to make poll requests. 
+* Status Code 400: <br>
+  The match was not started because an error occurred. The response body is one of the following error messages: <br>
+  "Unable to start match" <br>
+  "Unable to set up match between agents"
