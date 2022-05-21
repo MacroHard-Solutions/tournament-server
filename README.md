@@ -26,7 +26,8 @@ The body of the POST request should be a JSON object of the following format:
 	"data": {
 		"type": "render",
 		"game": "Tic-Tac-Toe",
-		"moves": ["0 0 X","1 2 O","2 2 X","1 1 O","1 0 X","2 1 O","2 0 X"]},
+		"moves": ["0 0 X","1 2 O","2 2 X","1 1 O","1 0 X","2 1 O","2 0 X"]
+		},
 	"signal": {}
 }
 ```
