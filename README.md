@@ -48,9 +48,6 @@ The body of the POST request should be a JSON object of the following format:
   "Unable to process render request" <br>
   "Game name is not recognised. Unable to process render request" 
 
-## GET Request
-A rendered image can be downloaded using its URI in an http GET request. 
-
 ## Match Request
 ### Description
 The match request is an http POST request, made by the front-end, where user agent IDs are given and a match is started between those agents. 
@@ -108,3 +105,7 @@ The body of the POST request should be a JSON object of the following format:
 * Status Code 400: <br>
   The poll was unsuccesful. The response body is one of the following error messages: <br>
   "Match Log ID is not recognised. Unable to process Poll request" <br>
+
+
+## GET Request
+A rendered or live image can be downloaded using its URI in an http GET request. 
