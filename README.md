@@ -51,13 +51,13 @@ The body of the POST request should be a JSON object of the following format:
 ## GET Request
 A rendered image can be downloaded using its URI in an http GET request. 
 
-## Challenge Request
-The challenge request is an http POST request, made by the fron-end, where user agent IDs are given and a game is started between those agents. 
+## Match Request
+The match request is an http POST request, made by the fron-end, where user agent IDs are given and a game is started between those agents. 
 The body of the POST request should be a JSON object of the following format:
 ```JSON
 {
 	"data": {
-		"type": "challenge",
+		"type": "match",
     		"game":"Tic-Tac-Toe",
     		"tournamentID": "22531f29-cd83-11ec-8a34-0ea680fee648",
     		"agentIDs": ["a0ea49b7-ce11-11ec-8a34-0ea680fee648", "e8955372-ce0e-11ec-8a34-0ea680fee648"]
