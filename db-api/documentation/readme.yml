@@ -5,7 +5,7 @@ info:
   description: |
     Any requests containing a request body need to be made according to the template.
     
-    Results with indicies as properties indicate that the object is an array
+    `NB!! Results with indicies as properties indicate that the object is an array`
     
     The `signal` property is not mandatory but as it is used as a workaround for the frontend to the user.
 servers:
@@ -516,9 +516,10 @@ paths:
       summary: Delete the user's agent
       tags:
         - Agent
-    patch:
+  /agent/update:
+    post:
       description: Updates the user's agent
-      operationId: 'patch-https:--tournament-server.herokuapp.com-api-v2-agent'
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-agent'
       requestBody: 
         required: true
         content: 
@@ -1000,9 +1001,9 @@ paths:
       summary: Insert a live match
       tags:
         - Live Match
-     patch:
+     post:
       description: 'Updates the live match as completed'
-      operationId: 'patch-https:--tournament-server.herokuapp.com-api-v2-match-live'
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-match-live'
       requestBody: 
         required: true
         content: 

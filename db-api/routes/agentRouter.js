@@ -9,7 +9,9 @@ router
   .post(agentController.getAgents)
   .put(agentController.insertAgent)
   .delete(agentController.deleteAgent)
-  .patch(agentController.updateAgent);
+router
+  .route('/update')
+  .post(agentController.updateAgent);
 router.route('/pair').post(agentController.getAgentPair);
 router.route('/participate').put(agentController.bindAgentTournament);
 router.route('/:tournamentID').get(agentController.getTournamentAgents);

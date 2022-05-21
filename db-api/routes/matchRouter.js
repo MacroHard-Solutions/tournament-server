@@ -11,7 +11,7 @@ router
 router
   .route('/live')
   .put(matchController.startLiveMatch)
-  .patch(matchController.endLiveMatch, matchController.insertAgentResults);
+  .post(matchController.endLiveMatch, matchController.insertAgentResults);
 router
   .route('/live/:tournamentID?')
   .get(matchController.getLiveMatches);
