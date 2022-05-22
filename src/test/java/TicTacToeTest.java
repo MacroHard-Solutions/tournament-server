@@ -1,6 +1,7 @@
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class TicTacToeTest {
     @Test
@@ -40,10 +41,14 @@ public class TicTacToeTest {
         assertTrue(ticTacToe.fullBoard());
     }
 
-    /*@Test
+    @Test
     public void testGameNotOver() {
         TicTacToe ticTacToe = new TicTacToe();
 
-        Agent dummy = new Agent()
-    }*/
+        Agent dummy = new Agent("", "", "", "", "", 0);
+
+        ticTacToe.step(dummy, "1 0 X");
+
+        assertEquals(ticTacToe.asynchronousGameOver, null);
+    }
 }
