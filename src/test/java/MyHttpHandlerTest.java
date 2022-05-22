@@ -5,8 +5,6 @@ import java.io.IOException;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
@@ -55,6 +53,7 @@ public class MyHttpHandlerTest {
         // create JSON request body
         String jsonBody = "{\"data\":{\"type\":\"match\",\"game\":\"Tic-Tac-Toe\",\"tournamentID\":\"e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505\",\"agentIDs\": [\"ab94e34d-d935-11ec-8a34-0ea680fee648\", \"c4139f3e-da0e-11ec-8a34-0ea680fee648\"]},\"signal\":{}}";
 
+        // comment to push again
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setDoOutput(true);
 
@@ -66,5 +65,28 @@ public class MyHttpHandlerTest {
         int responseCode = connection.getResponseCode();
 
         assertEquals(responseCode, 200);
+    }
+
+    @Test
+    public void testFailedPollRequest() throws IOException {
+        URL url = new URL("http://localhost:8001/game-server");
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        connection.setRequestMethod("POST");
+
+        // create JSON request body
+        String jsonBody = "{\"data\":{\"type\":\"poll\",\"matchLogID\":\"0592c0d6-da0f-11ec-8a34-0ea680fee648\"},\"signal\":{}}";
+
+        // comment to push again
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setDoOutput(true);
+
+        try(OutputStream os = connection.getOutputStream()) {
+            byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+
+        int responseCode = connection.getResponseCode();
+
+        assertEquals(responseCode, 400);
     }
 }
