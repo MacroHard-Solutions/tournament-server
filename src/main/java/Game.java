@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public interface Game {
     // Return this in the gameOver methods if the game ends in a draw.
-    Agent draw = new Agent("draw", "", -1);
+    Agent draw = new Agent("", "draw", "draw", "", "", -1);
 
     // returns null if the game is not over, else it returns the winning agent
     default Agent asynchronousGameOver(Agent agent, String move){
@@ -42,14 +42,13 @@ public interface Game {
     }
 
     // returns game log
-    default String[] createAsynchronousGame(ArrayList<Agent> agents){
+    default String[] createAsynchronousGame(ArrayList<Agent> agents, GameServer gameServer, String directory){
         System.out.println("Initialising game...");
         // this is the initial game state before any move has been played (think chess)
-        //TODO save this image to a live game folder, and in synchronous game
         BufferedImage initialGameState = render();
+        Miscellaneous.writeImage(initialGameState, directory + "/" + 0 + ".jpg", "jpg");
         System.out.println("Creating game...");
 
-        GameServer gameServer = new GameServer(agents.get(0), agents.get(1));
         StringBuilder gameLog = new StringBuilder("|");
         String[] result = new String[2];
 
@@ -60,6 +59,7 @@ public interface Game {
         }
 
         Agent winner = null;
+        int stateCounter = 1;
 
         System.out.println("Starting game... ");
 
@@ -77,8 +77,9 @@ public interface Game {
             broadcastMove(agents, currAgent, move, gameServer);
             step(currAgent, move);
 
-            //TODO save this image to a live game folder, and in synchronous game
             BufferedImage gameState = render();
+            Miscellaneous.writeImage(gameState, directory + "/" + stateCounter + ".jpg", "jpg");
+            stateCounter ++;
 
             winner = asynchronousGameOver(currAgent, move);
         }
@@ -111,11 +112,11 @@ public interface Game {
         return result;
     }
 
-    default void createSynchronousGame(ArrayList<Agent> agents){
+    //TODO save images to a live game folder
+    default void createSynchronousGame(ArrayList<Agent> agents, GameServer gameServer){
         System.out.println("Initialising game...");
         System.out.println("Creating game...");
 
-        GameServer gameServer = new GameServer(agents.get(0), agents.get(1));
         StringBuilder gameLog = new StringBuilder("|");
 
         if (!gameServer.active){

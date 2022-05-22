@@ -39,4 +39,11 @@ public class TicTacToeTest {
 
         assertTrue(ticTacToe.fullBoard());
     }
+
+    /*@Test
+    public void testGameNotOver() {
+        TicTacToe ticTacToe = new TicTacToe();
+
+        Agent dummy = new Agent()
+    }*/
 }

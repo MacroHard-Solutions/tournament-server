@@ -15,7 +15,16 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class MyHttpHandler implements HttpHandler {
-    int renderNumber = 0;
+    private int renderNumber = 0;
+    private int liveMatchNumber = 0;
+    private String[] liveMatchIDs = new String[]{"", "", "", "", "", "", "", "", "", ""};
+    private final String unrecognisedGameError = "Game name is not recognised. Unable to process render request";
+    private final String renderRequestError = "Unable to process render request";
+    private final String matchRequestError = "Unable to start match";
+    private final String matchSetupError = "Unable to set up match between agents";
+    private final String unrecognisedMatchLogID = "Match Log ID is not recognised. Unable to process Poll request";
+    private final String offlineAgentError = "Server could not reach agent. Unable to start match";
+    private final String agentDoesNotExist = "Agent data could not be retrieved. Either the agent does not exist or the database server is down";
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -31,12 +40,10 @@ public class MyHttpHandler implements HttpHandler {
             }
         }
         else if ("OPTIONS".equals(exchange.getRequestMethod())){
-            System.out.println("OPTIONS request");
             handleOPTIONSRequest(exchange);
         }
         else {
-            //TODO log error
-            System.out.println("Error");
+            Miscellaneous.logError("Undefined request");
         }
     }
 
@@ -83,23 +90,27 @@ public class MyHttpHandler implements HttpHandler {
         if (type.equals("render")){
             handleRenderRequest(httpExchange, data);
         }
-        else if (type.equals("challenge")){
-            handleChallengeRequest(httpExchange, data);
+        else if (type.equals("match")){
+            handleLiveMatchRequest(httpExchange, data);
+        }
+        else if (type.equals("poll")){
+            handlePollRequest(httpExchange, data);
         }
     }
 
     private void handleRenderRequest(HttpExchange httpExchange, JSONObject jsonObject) throws IOException, ParseException {
         String gameName = (String) jsonObject.get("game");
-        // flag used for synchronous game
-        boolean flag = false;
-        //TODO sync this properly with the database
-        if (gameName.equals("Tic-Tac-Toe"))
-            gameName = "TicTacToe";
-        if (gameName.equals("Rock-Paper-Scissors-Lizard-Spock")) {
-            gameName = "RockPaperScissorsLizardSpock";
-            //Todo need to get the moves stored in a smarter way
-            flag = true;
+        String fileName = Miscellaneous.getGameFileName(gameName);
+
+        if (fileName == null) {
+            Miscellaneous.logError("Unable to recognise the game by the name of \"" + gameName + "\"");
+            handleRequestError(httpExchange, unrecognisedGameError);
+            return;
         }
+
+        // flag used for synchronous game
+        //Todo need to get the moves stored in a smarter way
+        boolean flag = gameName.equals("Rock-Paper-Scissors-Lizard-Spock");
 
         JSONArray gameLog = (JSONArray) jsonObject.get("moves");
         String directory = "images/game" + renderNumber;
@@ -107,36 +118,40 @@ public class MyHttpHandler implements HttpHandler {
 
         // clear folder of previous game images
         File[] files = folder.listFiles();
-        if(files != null) {  //some JVMs return null for empty dirs
+        if(files != null) {  // some JVMs return null for empty dirs
             for(File f: files) {
-                f.delete();
+                if (!f.delete())
+                    Miscellaneous.logError("Could not delete file " + f.getName());
             }
         }
 
-        Constructor constructor = null;
+        Constructor constructor;
 
         // code to load the user-defined class dynamically
         try {
-            Class dynamicClass = Miscellaneous.loadGameClass(gameName);
+            Class dynamicClass = Miscellaneous.loadGameClass(fileName);
             constructor = dynamicClass.getDeclaredConstructor();
         }
         catch (Exception e) {
-            System.out.println(e);
+            Miscellaneous.logError("Unable to load constructor of " + fileName + ".class");
+            Miscellaneous.logError(e.getMessage());
+            handleRequestError(httpExchange, renderRequestError);
+            return;
         }
 
-        // create dummy players to instantiate a new TicTacToe object
+        // create dummy players to instantiate a new Game object
         ArrayList<Agent> dummyAgents = new ArrayList<>();
-        dummyAgents.add(new Agent("Jimbo", "", 69));
-        dummyAgents.add(new Agent("Timbo", "", 4));
-        Game game = null;
+        dummyAgents.add(new Agent("1234", "Dummy 1", "Jimbo","1234", "", 69));
+        dummyAgents.add(new Agent("12345", "Dummy 2", "Timbo", "12345", "", 4));
+        Game game;
 
         try {
-            assert constructor != null;
             game = (Game) constructor.newInstance();
         }
         catch (Exception e) {
-            System.out.println(e);
-            handleInvalidGame(httpExchange);
+            Miscellaneous.logError("Unable to construct instance of " + fileName + ".class");
+            Miscellaneous.logError(e.getMessage());
+            handleRequestError(httpExchange, renderRequestError);
             return;
         }
 
@@ -168,40 +183,140 @@ public class MyHttpHandler implements HttpHandler {
 
         renderNumber = (renderNumber + 1) % 100;
 
-        String jsonArrayString = asJsonArray(imageLocations);
+        String jsonResponse = asJsonArray(imageLocations, false);
         // this line is a must
-        httpExchange.sendResponseHeaders(200, jsonArrayString.length());
+        httpExchange.sendResponseHeaders(200, jsonResponse.length());
 
         OutputStream outputStream = httpExchange.getResponseBody();
-        outputStream.write(jsonArrayString.getBytes(StandardCharsets.UTF_8));
+        outputStream.write(jsonResponse.getBytes(StandardCharsets.UTF_8));
         outputStream.close();
     }
 
-    private void handleChallengeRequest(HttpExchange httpExchange, JSONObject jsonObject) throws Exception {
+    private void handleLiveMatchRequest(HttpExchange httpExchange, JSONObject jsonObject) throws Exception {
         String gameName = (String) jsonObject.get("game");
-        //TODO sync this properly with the database
-        if (gameName.equals("Tic-Tac-Toe"))
-            gameName = "TicTacToe";
-
         String tournamentID = (String) jsonObject.get("tournamentID");
         JSONArray agentIDs = (JSONArray) jsonObject.get("agentIDs");
-        //TODO return message earlier
+        String agent1ID = (String) agentIDs.get(0);
+        String agent2ID = (String) agentIDs.get(1);
 
-        boolean gameSuccessful = Miscellaneous.challenge(agentIDs.get(0).toString(), agentIDs.get(1).toString(), gameName, tournamentID);
+        // create match
+        Match match = new Match(agent1ID, agent2ID, gameName, tournamentID);
 
-        //TODO when successful send back gameID for live viewing potential - change return to string
-        if (gameSuccessful)
-            httpExchange.sendResponseHeaders(200, -1);
-        else
-            httpExchange.sendResponseHeaders(502, -1);
+        // won't log error here because it would be done inside the Match class
+        if (match.failed == -1) {
+            handleRequestError(httpExchange, unrecognisedGameError);
+            return;
+        }
+        else if (match.failed == 0) {
+            handleRequestError(httpExchange, agentDoesNotExist);
+            return;
+        }
+
+        int setUpStatus = match.setUpMatch();
+
+        if (setUpStatus == 0) {
+            handleRequestError(httpExchange, matchSetupError);
+            return;
+        }
+        else if (setUpStatus == -1){
+            handleRequestError(httpExchange, offlineAgentError);
+            return;
+        }
+
+        // record new live match in database with live status
+        String matchLogID = DatabaseHelper.recordLiveMatch(tournamentID);
+        if (matchLogID.equals("")){
+            handleRequestError(httpExchange, matchRequestError);
+            return;
+        }
+
+        // respond with match log ID so front end knows the match has begun
+        httpExchange.sendResponseHeaders(200, matchLogID.length());
 
         OutputStream outputStream = httpExchange.getResponseBody();
+        outputStream.write(matchLogID.getBytes(StandardCharsets.UTF_8));
+        outputStream.close();
+
+        // TODO if 10 games are running at once then the next one will override the first element. Need to handle this. Maybe have map of matchLogIDs and Match objets
+        liveMatchIDs[liveMatchNumber] = matchLogID;
+        String directory = "liveMatches/game" + liveMatchNumber;
+        File folder = new File(directory);
+
+        // clear live match folder of previous match images
+        File[] files = folder.listFiles();
+        if(files != null) {  // some JVMs return null for empty dirs
+            for(File f: files) {
+                if (!f.delete())
+                    Miscellaneous.logError("Could not delete file " + f.getName());
+            }
+        }
+
+        if (!match.startMatch(matchLogID, directory))
+            Miscellaneous.logError("Error in closing live match. Match Log ID " + matchLogID);
+
+        // TODO remove MatchLogID in a better way
+        for (int i = 0; i < 10; i++){
+            if (liveMatchIDs[i].equals(matchLogID)) {
+                liveMatchIDs[i] = "";
+                break;
+            }
+        }
+        liveMatchNumber = (liveMatchNumber + 1) % 10;
+    }
+
+    private void handlePollRequest(HttpExchange httpExchange, JSONObject jsonObject) throws IOException {
+        String matchLogID = (String) jsonObject.get("matchLogID");
+
+        // find directory which is being requested
+        int directoryIndex = -1;
+        for (int i = 0; i < 10; i++){
+            if (liveMatchIDs[i].equals(matchLogID)) {
+                directoryIndex = i;
+                break;
+            }
+        }
+
+        // matchLogID not recognised
+        if (directoryIndex == -1){
+            Miscellaneous.logError("Match Log ID " + matchLogID + " not recognised");
+            handleRequestError(httpExchange, unrecognisedMatchLogID);
+            return;
+        }
+
+        String directory = "liveMatches/game" + directoryIndex;
+        File folder = new File(directory);
+        ArrayList<String> imageLocations = new ArrayList<>();
+
+        // load image URIs into arrayList
+        File[] files = folder.listFiles();
+        if (files != null) {  // some JVMs return null for empty dirs
+            int i = 0;
+            for (File f: files) {
+                String imageLocation = directory + "/" + i + ".jpg";
+                imageLocations.add(imageLocation);
+                i++;
+            }
+        }
+
+        String jsonResponse = asJsonArray(imageLocations, true);
+        // this line is a must
+        httpExchange.sendResponseHeaders(200, jsonResponse.length());
+
+        OutputStream outputStream = httpExchange.getResponseBody();
+        outputStream.write(jsonResponse.getBytes(StandardCharsets.UTF_8));
         outputStream.close();
     }
 
     // used to return the image locations as a json array in the http response
-    private String asJsonArray(ArrayList<String> list){
-        StringBuilder output = new StringBuilder("{\"imageURIs\":[");
+    private String asJsonArray(ArrayList<String> list, boolean live){
+        StringBuilder output;
+        if (live){
+            output = new StringBuilder("{\"numberOfStates\":" + list.size() + ",\"imageURIs\":[");
+        }
+        else {
+            output = new StringBuilder("{\"imageURIs\":[");
+        }
+
         for (String s: list){
             output.append('"').append(s).append('"').append(",");
         }
@@ -213,12 +328,11 @@ public class MyHttpHandler implements HttpHandler {
         return output.toString();
     }
 
-    private void handleInvalidGame(HttpExchange httpExchange) throws IOException {
-        String errorMessage = "Invalid Game. Cannot process render request";
-        httpExchange.sendResponseHeaders(400, errorMessage.length());
+    public void handleRequestError(HttpExchange httpExchange, String errorMsg) throws IOException {
+        httpExchange.sendResponseHeaders(400, errorMsg.length());
 
         OutputStream outputStream = httpExchange.getResponseBody();
-        outputStream.write(errorMessage.getBytes(StandardCharsets.UTF_8));
+        outputStream.write(errorMsg.getBytes(StandardCharsets.UTF_8));
         outputStream.close();
     }
 

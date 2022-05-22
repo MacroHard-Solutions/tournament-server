@@ -1,51 +1,50 @@
+import org.json.simple.parser.ParseException;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 public class Miscellaneous {
-    public static boolean challenge(String agent1ID, String agent2ID, String gameName, String tournamentID) throws Exception {
-        ArrayList<Agent> agents = new ArrayList<>();
-        agents.add(DatabaseHelper.getAgent(agent1ID));
-        agents.add(DatabaseHelper.getAgent(agent2ID));
+    public static String getGameFileName(String gameName) throws IOException, ParseException {
+        String fileName = null;
+        if (Program.gameFiles != null)
+            fileName = Program.gameFiles.get(gameName);
 
-        Class dynamicClass = loadGameClass(gameName);
-        Constructor constructor = dynamicClass.getDeclaredConstructor();
+        if (fileName == null){
+            // try updating from database again
+            Program.gameFiles = DatabaseHelper.getGameFileNames();
+            if (Program.gameFiles != null)
+                fileName = Program.gameFiles.get(gameName);
 
-        String dateTime = getCurrentDateTime();
-        Game game = (Game) constructor.newInstance();
-        String[] gameInfo = game.createAsynchronousGame(agents);
-        System.out.println(gameInfo[1]);
-
-        if (gameInfo[0].equals("failed"))
-            return false;
-
-        ArrayList<Integer> rankings = new ArrayList<>();
-        // if gameInfo[0] = "0" then the agent with agent1ID won
-        if (gameInfo[0].equals("0")){
-            rankings.add(0);
-            rankings.add(1);
-        }
-        else if (gameInfo[0].equals("1")){
-            rankings.add(1);
-            rankings.add(0);
-        }
-        else {
-            // draw
-            rankings.add(0);
-            rankings.add(0);
+            if (fileName == null) {
+                return null;
+            }
         }
 
-        ArrayList<String> agentIDs = new ArrayList<>(Arrays.asList(agent1ID, agent2ID));
+        // remove .class file extension
+        fileName = fileName.substring(0, fileName.length() - 5);
+        return fileName;
+    }
 
-        return DatabaseHelper.recordMatch(tournamentID, dateTime, gameInfo[1], agentIDs, rankings);
+
+    public static Class getClassFromFile(File classFile, String fullClassName) throws Exception {
+        // Convert File to a URL
+        URL url = classFile.toURI().toURL();
+        URL[] urls = new URL[]{url};
+        URLClassLoader loader = new URLClassLoader(urls);
+        return loader.loadClass(fullClassName);
+    }
+
+    public static String getCurrentDateTime(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
     }
 
     public static Class loadGameClass(String className) throws Exception {
@@ -72,12 +71,20 @@ public class Miscellaneous {
         return null;
     }
 
-    public static Class getClassFromFile(File classFile, String fullClassName) throws Exception {
-        // Convert File to a URL
-        URL url = classFile.toURI().toURL();
-        URL[] urls = new URL[]{url};
-        URLClassLoader loader = new URLClassLoader(urls);
-        return loader.loadClass(fullClassName);
+    public static void logError(String errorMessage) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        try {
+            FileWriter errorFile = new FileWriter("error_log.txt", true);
+            LocalDateTime now = LocalDateTime.now();
+            errorFile.write(dateTimeFormatter.format(now) + " ");
+            errorFile.write(errorMessage + "\n");
+            errorFile.close();
+        }
+        catch (IOException e){
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -94,11 +101,5 @@ public class Miscellaneous {
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static String getCurrentDateTime(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        return dtf.format(now);
     }
 }

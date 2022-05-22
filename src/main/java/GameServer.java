@@ -19,7 +19,10 @@ public class GameServer {
     public GameServer(Agent agent1, Agent agent2){
         // starts server and waits for a connection
         try {
-            socket1 = new Socket(agent1.ipAddress, agent1.port);
+            socket1 = new Socket();
+            SocketAddress socketAddress = new InetSocketAddress(agent1.ipAddress, agent1.port);
+            // 30 000 milliseconds = 30 seconds
+            socket1.connect(socketAddress, 30*1000);
             in1 = new DataInputStream(new BufferedInputStream(socket1.getInputStream()));
             out1 = new DataOutputStream(socket1.getOutputStream());
             System.out.println("Agent 1 has joined...");
@@ -27,15 +30,18 @@ public class GameServer {
             this.agent1 = agent1;
         }
         catch(IOException i) {
-            System.out.println("An error has occurred:");
-            System.out.println(i);
-            System.out.println("");
-            System.out.println("Unable to connect to player 1. Cancelling game...");
-            cancelGame();
+            Miscellaneous.logError("Unable to connect to agent. Match cancelled. Agent's ID is " + agent1.agentID);
+            Miscellaneous.logError(i.getMessage());
+            System.out.println("Unable to connect to agent 1. Cancelling match...");
+            closeServer();
+            return;
         }
 
         try {
-            socket2 = new Socket(agent2.ipAddress, agent2.port);
+            socket2 = new Socket();
+            SocketAddress socketAddress = new InetSocketAddress(agent2.ipAddress, agent2.port);
+            // 30 000 milliseconds = 30 seconds
+            socket2.connect(socketAddress, 30*1000);
             in2 = new DataInputStream(new BufferedInputStream(socket2.getInputStream()));
             out2 = new DataOutputStream(socket2.getOutputStream());
             System.out.println("Agent 2 has joined...");
@@ -43,11 +49,12 @@ public class GameServer {
             this.agent2 = agent2;
         }
         catch(IOException i) {
-            System.out.println("An error has occurred:");
-            System.out.println(i);
-            System.out.println("");
-            System.out.println("Unable to connect to player 2. Cancelling game...");
-            cancelGame();
+            Miscellaneous.logError("Unable to connect to agent. Match cancelled. Agent's ID is " + agent2.agentID);
+            Miscellaneous.logError(i.getMessage());
+            System.out.println("Unable to connect to agent 2. Cancelling match...");
+            // alert agent 1 that the match is cancelled
+            sendMessage(agent1, "cancel");
+            closeServer();
         }
     }
 
@@ -75,12 +82,13 @@ public class GameServer {
                 }
             }
             else {
-                //TODO use logging instead of println
-                System.out.println("Unknown Agent");
+                Miscellaneous.logError("Unknown agent " + agent.agentID);
             }
         }
         catch(IOException i){
-            System.out.println(i);
+            Miscellaneous.logError("Error in agent communication");
+            Miscellaneous.logError(i.getMessage());
+            return "";
         }
 
         return response.toString();
@@ -106,27 +114,29 @@ public class GameServer {
         System.out.println("Closing connections");
 
         try {
-            socket1.close();
-            in1.close();
-            out1.close();
+            if (socket1 != null)
+                socket1.close();
+            if (in1 != null)
+                in1.close();
+            if (out1 != null)
+                out1.close();
         }
         catch(IOException i){
-            System.out.println(i);
+            Miscellaneous.logError("Error in closing socket connections");
+            Miscellaneous.logError(i.getMessage());
         }
 
         try {
-            socket2.close();
-            in2.close();
-            out2.close();
+            if (socket2 != null)
+                socket2.close();
+            if (in2 != null)
+                in2.close();
+            if (out2 != null)
+                out2.close();
         }
         catch(IOException i){
-            System.out.println(i);
+            Miscellaneous.logError("Error in closing socket connections");
+            Miscellaneous.logError(i.getMessage());
         }
-    }
-
-    public void cancelGame(){
-        sendMessage(agent1, "cancel");
-        sendMessage(agent2, "cancel");
-        closeServer();
     }
 }
