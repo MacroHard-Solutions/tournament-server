@@ -51,4 +51,36 @@ public class TicTacToeTest {
 
         assertNull(testDummy);
     }
+
+    @Test
+    public void testGameNotOver2() {
+        TicTacToe ticTacToe = new TicTacToe();
+
+        Agent dummy = new Agent("", "", "", "", "", 0);
+        ticTacToe.step(dummy, "0 0 O");
+        Agent testDummy = ticTacToe.asynchronousGameOver(dummy, "2 2 X");
+
+        assertNull(testDummy);
+    }
+
+    @Test
+    public void testGameNotOver3() {
+        TicTacToe ticTacToe = new TicTacToe();
+
+        Agent dummy = new Agent("", "", "", "", "", 0);
+        ticTacToe.step(dummy, "0 0 O");
+        Agent testDummy = ticTacToe.asynchronousGameOver(dummy, "2 0 X");
+
+        assertNull(testDummy);
+    }
+
+    @Test
+    public void testValidMove() {
+        TicTacToe ticTacToe = new TicTacToe();
+
+        Agent dummy = new Agent("", "", "", "", "", 0);
+        ticTacToe.step(dummy, "0 0 O");
+
+        assertTrue(ticTacToe.validMove(dummy, "1 1 X"));
+    }
 }
