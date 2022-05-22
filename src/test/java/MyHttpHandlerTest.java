@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNull;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class TicTacToeTest {
+public class MyHttpHandlerTest {
     @Test
     public void testHandleGetRequest() {
         URL url = new URL("http://localhost:8001/game-server/images/game0/0.jpg");
