@@ -1,5 +1,3 @@
-import org.json.simple.parser.ParseException;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -49,15 +47,13 @@ public class Miscellaneous {
     public static Class loadGameClass(String className) throws Exception {
         Miscellaneous m = new Miscellaneous();
         File jarFile = new File(m.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-        File directory = jarFile.getParentFile();
+        File directory = jarFile.getParentFile().getParentFile();
         File[] contents = directory.listFiles();
 
         assert contents != null;
         for (File object: contents){
-            System.out.println(object.getName());
             // this is the folder where uploaded game classes will be stored
             if (object.getName().equals("uploaded-game-classes")){
-                System.out.println("faggot");
                 File[] classes = object.listFiles();
                 assert classes != null;
                 for (File classFile: classes){
