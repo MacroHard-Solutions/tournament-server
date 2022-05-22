@@ -3,7 +3,22 @@ version: 2.1
 orbs:
   maven: circleci/maven@0.0.12
 
+jobs:
+  test:
+    docker:
+      - image: cimg/openjdk:17.0.1
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - run: ./mvnw test
+      - store_artifacts:
+          path: target/site/jacoco/index.html
+
 workflows:
-  maven_test:
+  version: 2
+
+  test-with-store-artifacts:
     jobs:
-      - maven/test # checkout, build, test, and upload test results
+      - test
