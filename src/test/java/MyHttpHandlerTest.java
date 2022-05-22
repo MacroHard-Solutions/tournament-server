@@ -11,6 +11,8 @@ import java.net.URL;
 public class MyHttpHandlerTest {
     @Test
     public void testHandleGetRequest() throws IOException {
+        Program.startServer();
+
         URL url = new URL("http://localhost:8001/game-server/images/game0/0.jpg");
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         connection.setRequestMethod("GET");
