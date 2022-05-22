@@ -1,11 +1,10 @@
-import org.junit.jupiter.api.Test;
-
+import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RockPaperScissorsLizardSpockTest {
+public class RockPaperScissorsLizardSpockTest {
     String fakeAgentID = "012439078124";
     String fakeAgentName = "TicTacToeMaster";
     String fakeUsername = "NoobMaster69";
@@ -26,23 +25,23 @@ class RockPaperScissorsLizardSpockTest {
     RockPaperScissorsLizardSpock fakeRockPaperScissorsLizardSpock = new RockPaperScissorsLizardSpock();
 
     @Test
-    void synchronousGameOver() {
+    public void synchronousGameOver() {
         assertNull(fakeRockPaperScissorsLizardSpock.synchronousGameOver(fakeAgents, fakeAgentMoves));
     }
 
     @Test
-    void getNextPlayer() {
+    public void getNextPlayer() {
         assertEquals(fakeRockPaperScissorsLizardSpock.getNextPlayer(fakeAgents), fakeAgent1);
     }
 
     @Test
-    void step() {
+    public void step() {
         fakeRockPaperScissorsLizardSpock.step(fakeAgent1, "Rock");
         assertEquals(fakeRockPaperScissorsLizardSpock.getStepIndex(), 1);
     }
 
     @Test
-    void validMove() {
+    public void validMove() {
         assertFalse(fakeRockPaperScissorsLizardSpock.validMove(fakeAgent1, "Water"));
         assertTrue(fakeRockPaperScissorsLizardSpock.validMove(fakeAgent1, "Lizard"));
         assertTrue(fakeRockPaperScissorsLizardSpock.validMove(fakeAgent1, "Rock"));
