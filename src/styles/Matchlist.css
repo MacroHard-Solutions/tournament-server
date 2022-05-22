@@ -7,8 +7,9 @@
 
 
 .matchList {
-    display: flex;
-    flex-flow: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px 5px;
     width: 100%;
     justify-content: space-evenly;
     border: 1px solid black;

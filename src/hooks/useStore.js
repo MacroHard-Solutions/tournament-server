@@ -6,6 +6,8 @@ let store = (set) => ({
     setUserobj: (obj) => set((state) => ({ userObj: obj })),
     arbTourney: '',
     setArbtourney: (tourney) => set((state) => ({ arbTourney: tourney })),
+    TournamentID: '',
+    setTournamentID: (tournID) => set((state) => ({ TournamentID: tournID })),
     gameplay: '',
     setGameplay: (gameData) => set((state) => ({ gameplay: gameData })),
     p1: '',
@@ -19,7 +21,11 @@ let store = (set) => ({
     game: '',
     setGame: (g) => set((state) => ({ game: g })),
     rend: false,
-    setRend: (b) => set((state) => ({ rend: b }))
+    setRend: (b) => set((state) => ({ rend: b })),
+    liveGame: false,
+    setLiveGame: (b) => set((state) => ({ liveGame: b })),
+    matchID: '',
+    setMatchID: (id) => set((state) => ({ matchID: id }))
 });
 
 store = devtools(store);

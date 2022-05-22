@@ -7,11 +7,12 @@ import Matchlist from '../components/Matchlist';
 import useStore from '../hooks/useStore';
 
 //TODO fix UI error with DatePicker Component
+//TODO fix elo with musa
 
 function Watch() {
 
     //pull necessary info from state
-    const { arbUser, tourney, setGameplay, setP1, setP2, setP1_agent, setP2_agent, setGame } = useStore(state => ({
+    const { setMatchID, setLiveGame, arbUser, tourney, setGameplay, setP1, setP2, setP1_agent, setP2_agent, setGame } = useStore(state => ({
         arbUser: state.userObj ? state.userObj.USERNAME : '',
         tourney: state.arbTourney,
         setGameplay: state.setGameplay,
@@ -20,6 +21,8 @@ function Watch() {
         setP1_agent: state.setP1_agent,
         setP2_agent: state.setP2_agent,
         setGame: state.setGame,
+        setLiveGame: state.setLiveGame,
+        setMatchID: state.setMatchID,
     }));
 
 
@@ -90,7 +93,7 @@ function Watch() {
             </div>
             <div className='gamesBox'>
                 <h1><u>Available Games to Watch:</u></h1>
-                <span className='watchInfo'>Click on a match to Watch the Playback!</span>
+                <span className='watchInfo'>Click on a match to Watch the Playback! (Live games are highlighted in Crimson)</span>
                 <Matchlist
                     user={user}
                     tourney={tournament}
@@ -103,6 +106,8 @@ function Watch() {
                     setP1_agent={setP1_agent}
                     setP2_agent={setP2_agent}
                     setGame={setGame}
+                    setLive={setLiveGame}
+                    setMatchID={setMatchID}
                 />
             </div>
         </div>

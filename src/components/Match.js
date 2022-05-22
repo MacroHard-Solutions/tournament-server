@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/Match.css';
 import { useHistory } from 'react-router-dom';
 
-function Match({ game, p1, p2, winner, dt, setGame, data, p1_agent, p2_agent, setGameplay, setP1, setP2, setP1_agent, setP2_agent }) {
+function Match({ setMatchID, setLive, match_id, live, game, p1, p2, winner, dt, setGame, data, p1_agent, p2_agent, setGameplay, setP1, setP2, setP1_agent, setP2_agent }) {
 
     //hook for routing app
     const history = useHistory();
@@ -15,12 +15,14 @@ function Match({ game, p1, p2, winner, dt, setGame, data, p1_agent, p2_agent, se
         setP1_agent(p1_agent);
         setP2_agent(p2_agent);
         setGame(game);
+        setLive(live);
+        setMatchID(match_id);
         //take user to watch page
         history.push('/watch');
     }
 
     return (
-        <div className="matchHolder" onClick={handleClick}>
+        <div className={live ? "liveMatchHolder" : "matchHolder"} onClick={handleClick}>
             <h5 className="title">{game}</h5>
             <h5 className="title">{p1}</h5>
             <h5 className="title">{p2}</h5>

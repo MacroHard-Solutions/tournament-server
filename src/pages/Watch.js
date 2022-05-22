@@ -9,17 +9,20 @@ import useAxiosFunction from '../hooks/useAxiosFunction';
 import gameAxios from '../apis/GamingAPI';
 import useStore from '../hooks/useStore';
 import useForceUpdate from 'use-force-update';
+import Leaderboard from '../components/Leaderboard';
 
 function Watch() {
 
     //pull from store
-    const { gameplay, p1, p2, p1_agent, p2_agent, game } = useStore(state => ({
+    const { liveGame, tournamentID, gameplay, p1, p2, p1_agent, p2_agent, game } = useStore(state => ({
         gameplay: state.gameplay,
         p1: state.p1,
         p2: state.p2,
         p1_agent: state.p1_agent,
         p2_agent: state.p2_agent,
         game: state.game,
+        liveGame: state.liveGame,
+        tournamentID: state.TournamentID,
     }));
 
     //setup state to hold retrieved agent data
@@ -30,7 +33,7 @@ function Watch() {
     const [currImage, setCurrimage] = useState(0);
     const [img, setImg] = useState('https://wpamelia.com/wp-content/uploads/2019/06/loading1.jpg');
     const [playing, setPlaying] = useState(false);
-    // const [playInterval, setPlayinterval] = useState(0);
+    const [pollInterval, setPollInterval] = useState(0);
     const forceUpdate = useForceUpdate();
 
     let currplayImage = 0;
@@ -59,7 +62,8 @@ function Watch() {
         requestConfig: {
             data: {
                 agentA: p1_agent,
-                agentB: p2_agent
+                agentB: p2_agent,
+                'tournamentID': tournamentID,
             }
         }
     });
@@ -87,24 +91,31 @@ function Watch() {
 
     //function to setup gameplay for internet request
     const formatGameplay = () => {
-        const Arr = gameplay.split("|");
-        return (Arr.slice(1, Arr.length - 1));
+        if (gameplay) {
+            const Arr = gameplay.split("|");
+            return (Arr.slice(1, Arr.length - 1));
+        }
     }
 
 
     //useEffect to detect response
     useEffect(() => {
+        //set gameMoves
+        setMoves(formatGameplay());
         const result = Array.isArray(response);
-        if (response && !result) {
+
+        //TODO make use of agent_elo
+
+        if (response && !result && !liveGame) {
             console.log('Agent Pair Retreived');
-            //set gameMoves
-            setMoves(formatGameplay());
             if (response.status === "success") {
                 //store pair of agent objects in array
                 let agentsArr = Array.from(response.resultData);
                 //assign retreived data
-                setEuser1ELO(agentsArr[0].AGENT_ELO);
-                setEuser2ELO(agentsArr[1].AGENT_ELO);
+                if (agentsArr) {
+                    setEuser1ELO(agentsArr[0].AGENT_ELO);
+                    setEuser2ELO(agentsArr[1].AGENT_ELO);
+                }
             }
         }
     }, [response]);
@@ -139,7 +150,6 @@ function Watch() {
         setPlaying(false);
         if (currImage < (imgArr.length - 1)) {
             setCurrimage(currImage + 1);
-            console.log(currImage);
         } else {
             clearInterval(playInterval);
             setPlayinterval(0);
@@ -156,7 +166,6 @@ function Watch() {
             if (currplayImage < (imgArr.length - 1)) {
                 setCurrplayimage(currplayImage + 1);
                 setImg(`${imgArr[currplayImage]}`);
-                console.log(currplayImage);
             } else {
                 clearInterval(playInterval);
                 setPlayinterval(0);
@@ -179,6 +188,15 @@ function Watch() {
         }
     }, [playing])
 
+    //useEffect to check if game is live
+    useEffect(() => {
+        //poll requests to render live game
+        if (liveGame) {
+            //if we're streaming a game
+            console.log('LIveGame');
+        }
+    })
+
     return (
         <div className="watch">
             {loading && <Loading caption='Retreiving Agent Data...' />}
@@ -200,8 +218,9 @@ function Watch() {
                 </div>
             </div>
 
-            <div className='playbackControls'>
+            <div className={liveGame ? 'hidePlayback' : 'playbackControls'}>
                 <h2 style={{ height: "fit-content" }}>Playback Controls</h2>
+                <h4>Move Count: {playing ? currplayImage : currImage}</h4>
                 <div className="plbckbtns">
                     <button onClick={(e) => {
                         e.preventDefault();
@@ -226,6 +245,7 @@ function Watch() {
             <div className='leaderboardandButtons'>
                 <div className='Leaderboard'>
                     <h2>Leaderboard</h2>
+                    <Leaderboard />
                 </div>
                 <div className='pgc'>
                     <button className='watchbtns' onClick={forceUpdate}>Play</button>

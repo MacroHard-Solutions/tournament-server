@@ -54,8 +54,10 @@ function Profile() {
         const result = Array.isArray(response);
         if (response && !result) {
             if (response.status === "success") {
-                setTopagent(response.resultData.topAgentTournament);
-                setNumagent(response.resultData.numAgents)
+                if (response.resultData) {
+                    setTopagent(response.resultData.topAgentTournament);
+                    setNumagent(response.resultData.numAgents)
+                }
             }
         }
     }, [response])

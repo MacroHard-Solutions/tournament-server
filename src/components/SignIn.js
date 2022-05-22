@@ -58,7 +58,7 @@ function SignIn({ userObj, setuserObj }) {
         if (response && !result) {
             console.log('User Found');
             if (response.status === "success") {
-                setuserObj(response.resultData[0]);
+                setuserObj(response.resultData);
                 history.push('profile');
             }
         }

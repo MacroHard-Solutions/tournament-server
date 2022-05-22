@@ -2,14 +2,20 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import '../styles/GameTile.css';
 import { useHistory } from 'react-router-dom';
-import { MdOutlinePlayArrow, MdVideoLabel } from 'react-icons/md'
+import { MdOutlinePlayArrow, MdVideoLabel } from 'react-icons/md';
+import useStore from '../hooks/useStore';
 
 //TODO smooth out hover animation using css
 
-function GameTile({ title, key, imageurl, game_id, arbTourney, setArbtourney }) {
+function GameTile({ title, key, imageurl, game_id, arbTourney, setArbtourney, tournament_id }) {
 
     const [hovering, setHovering] = useState(false);
 
+    //TODO make use of tournamentID
+    //pull function to set tournamentID in app state
+    const { setTournamentID } = useStore(state => ({
+        setTournamentID: state.setTournamentID,
+    }))
 
     const history = useHistory();
 
@@ -19,6 +25,7 @@ function GameTile({ title, key, imageurl, game_id, arbTourney, setArbtourney }) 
 
     const pushWatch = () => {
         setArbtourney(title);
+        setTournamentID(tournament_id);
         history.push('/gamepage');
     }
 

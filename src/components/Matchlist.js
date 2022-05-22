@@ -6,7 +6,7 @@ import axios from '../apis/TourneyServerAPI';
 import { useState, useEffect } from 'react';
 import Loading from '../components/Loading';
 
-function Matchlist({ user, tourney, dt, dtcomp, req, setGame, setGameplay, setP1, setP2, setP1_agent, setP2_agent }) {
+function Matchlist({ setMatchID, setLive, user, tourney, dt, dtcomp, req, setGame, setGameplay, setP1, setP2, setP1_agent, setP2_agent }) {
 
     const [matchArr, setMatcharr] = useState([]);
     const [display, setDisplay] = useState(false);
@@ -21,7 +21,6 @@ function Matchlist({ user, tourney, dt, dtcomp, req, setGame, setGameplay, setP1
                 username: user,
                 tournamentName: tourney,
                 gameName: "",
-                inProgress: 0,
                 date: {
                     comparator: dtcomp,
                     val: dt
@@ -30,9 +29,10 @@ function Matchlist({ user, tourney, dt, dtcomp, req, setGame, setGameplay, setP1
         }
     });
 
+    //TODO tweak refetch to be used by a function
     // //useEffect to refectch when object is mounted
     // useEffect(() => {
-    //     refetch(); //TODO tweak refetch to be used by a function
+    //     refetch(); 
     // }, []);
 
     //useEffect to detect a response from the server
@@ -88,6 +88,7 @@ function Matchlist({ user, tourney, dt, dtcomp, req, setGame, setGameplay, setP1
                                 winner={findWinner(match)}
                                 dt={match.MATCH_LOG_TIMESTAMP}
                                 key={match.MATCH_LOG_ID}
+                                match_id={match.MATCH_LOG_ID}
                                 data={match.MATCH_LOG_DATA}
                                 setGameplay={setGameplay}
                                 setP1={setP1}
@@ -95,6 +96,9 @@ function Matchlist({ user, tourney, dt, dtcomp, req, setGame, setGameplay, setP1
                                 setP1_agent={setP1_agent}
                                 setP2_agent={setP2_agent}
                                 setGame={setGame}
+                                live={match.MATCH_LOG_IN_PROGRESS}
+                                setLive={setLive}
+                                setMatchID={setMatchID}
                             />
                         )
                     })
