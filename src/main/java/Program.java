@@ -40,5 +40,13 @@ public class Program {
         server.setExecutor(threadPoolExecutor);
         server.start();
         System.out.println("Server started on port 8001");
+
+        System.out.println("Getting game file data...");
+        gameFiles = DatabaseHelper.getGameFileNames();
+
+        if (gameFiles != null)
+            System.out.println("Successfully retrieved game file data");
+        else
+            System.out.println("Unable to retrieve game file data");
     }
 }

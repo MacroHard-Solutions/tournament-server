@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
 public class Miscellaneous {
-    public static String getGameFileName(String gameName) throws IOException, ParseException {
+    public static String getGameFileName(String gameName) throws IOException {
         String fileName = null;
         if (Program.gameFiles != null)
             fileName = Program.gameFiles.get(gameName);
@@ -54,8 +54,10 @@ public class Miscellaneous {
 
         assert contents != null;
         for (File object: contents){
+            System.out.println(object.getName());
             // this is the folder where uploaded game classes will be stored
             if (object.getName().equals("uploaded-game-classes")){
+                System.out.println("faggot");
                 File[] classes = object.listFiles();
                 assert classes != null;
                 for (File classFile: classes){
