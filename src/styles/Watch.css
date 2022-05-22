@@ -36,6 +36,10 @@
     margin: 0 5em;
 }
 
+.liveGame {
+    color: red;
+}
+
 .userELO {
     display: flex;
     flex-direction: column;

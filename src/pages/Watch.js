@@ -14,7 +14,7 @@ import Leaderboard from '../components/Leaderboard';
 function Watch() {
 
     //pull from store
-    const { liveGame, tournamentID, gameplay, p1, p2, p1_agent, p2_agent, game } = useStore(state => ({
+    const { matchID, liveGame, tournamentID, gameplay, p1, p2, p1_agent, p2_agent, game } = useStore(state => ({
         gameplay: state.gameplay,
         p1: state.p1,
         p2: state.p2,
@@ -23,6 +23,7 @@ function Watch() {
         game: state.game,
         liveGame: state.liveGame,
         tournamentID: state.TournamentID,
+        matchID: state.matchID,
     }));
 
     //setup state to hold retrieved agent data
@@ -32,8 +33,9 @@ function Watch() {
     const [imgArr, setImgarr] = useState([]);
     const [currImage, setCurrimage] = useState(0);
     const [img, setImg] = useState('https://wpamelia.com/wp-content/uploads/2019/06/loading1.jpg');
-    const [playing, setPlaying] = useState(false);
-    const [pollInterval, setPollInterval] = useState(0);
+    const [playing, setPlaying] = useState(true);
+    const [streaming, setStreaming] = useState(false);
+    const [info, setInfo] = useState('Live Stream...');
     const forceUpdate = useForceUpdate();
 
     let currplayImage = 0;
@@ -47,6 +49,67 @@ function Watch() {
             currplayImage = 0;
             setCurrimage(0);
         }
+    }
+
+    let pollInterval = 0;
+    const setPollInterval = (interval) => {
+        pollInterval = interval;
+        if (interval === 0) {
+            currplayImage = 0;
+            setCurrimage(0);
+        }
+    }
+
+    let liveArr = [];
+    const setLiveArr = (arr) => {
+        //save images as they come in
+        liveArr = arr;
+    }
+
+    //handle live game playack
+    if (liveGame && !streaming) {
+        console.log("starting Poll");
+        setStreaming(true);
+        //if we're streaming a game
+        setPollInterval(
+            setInterval(() => {
+                //poll requests to retreive latest move
+                const options = {
+                    method: 'POST',
+                    url: 'http://54.197.128.13:8001/game-server',
+                    headers: { 'Content-Type': 'application/json' },
+                    data: {
+                        data: {
+                            type: 'poll',
+                            matchLogID: matchID,
+                        },
+                        signal: {}
+                    }
+                };
+
+                axios.request(options).then(function (response) {
+                    let n = response.data.numberOfStates;
+                    if ((currplayImage + 1) != n) {
+                        setCurrplayimage(n - 1);
+                        let tempArr = Array.from(response.data.imageURIs).map((img) => {
+                            return (`http://54.197.128.13:8001/game-server/${img}`);
+                        });
+                        setImg(tempArr[currplayImage]);
+                        console.log('New Move');
+                        forceUpdate();
+                    }
+                    if (response.data == "Match Log ID is not recognised. Unable to process Poll request") {
+                        clearInterval(pollInterval);
+                        console.log("Match Over");
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                    clearInterval(pollInterval);
+                    setInfo('Game Concluded');
+                    console.log("Close Poll");
+                });
+            }, 1500)
+        );
     }
 
     //hook to use axios to make requests to backend
@@ -71,20 +134,22 @@ function Watch() {
     //useEffect hook to detect when moves are formatted
     useEffect(() => {
         //check if moves are available
-        if (moves.length > 0) {
-            //request gameplay from gaming server
-            axiosFetch({
-                axiosInstance: gameAxios,
-                method: 'POST',
-                url: '',
-                requestConfig: {
-                    data: {
-                        type: "render",
-                        "game": game,
-                        "moves": moves
+        if (!liveGame) {
+            if (moves.length > 0) {
+                //request gameplay from gaming server
+                axiosFetch({
+                    axiosInstance: gameAxios,
+                    method: 'POST',
+                    url: '',
+                    requestConfig: {
+                        data: {
+                            type: "render",
+                            "game": game,
+                            "moves": moves
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     }, [moves])
 
@@ -96,7 +161,6 @@ function Watch() {
             return (Arr.slice(1, Arr.length - 1));
         }
     }
-
 
     //useEffect to detect response
     useEffect(() => {
@@ -112,7 +176,7 @@ function Watch() {
                 //store pair of agent objects in array
                 let agentsArr = Array.from(response.resultData);
                 //assign retreived data
-                if (agentsArr) {
+                if (agentsArr.length > 0) {
                     setEuser1ELO(agentsArr[0].AGENT_ELO);
                     setEuser2ELO(agentsArr[1].AGENT_ELO);
                 }
@@ -188,15 +252,6 @@ function Watch() {
         }
     }, [playing])
 
-    //useEffect to check if game is live
-    useEffect(() => {
-        //poll requests to render live game
-        if (liveGame) {
-            //if we're streaming a game
-            console.log('LIveGame');
-        }
-    })
-
     return (
         <div className="watch">
             {loading && <Loading caption='Retreiving Agent Data...' />}
@@ -207,7 +262,7 @@ function Watch() {
                         <h2><u>{p1}</u></h2>
                         <h2>{user1ELO}</h2>
                     </div>
-                    <h2 className='vs'>VS</h2>
+                    <h2 className={liveGame ? 'liveGame' : 'vs'}>{liveGame ? info : 'VS'}</h2>
                     <div className='userELO'>
                         <h2><u>{p2}</u></h2>
                         <h2>{user2ELO}</h2>
