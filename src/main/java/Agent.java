@@ -14,4 +14,29 @@ public class Agent {
         this.ipAddress = ipAddress;
         this.port = port;
     }
+
+    public String getAgentID() {
+        return agentID;
+    }
+
+    public String getAgentName() {
+        return agentName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public int getPort() {
+        return port;
+    }
 }
+
