@@ -48,7 +48,8 @@ public class TicTacToeTest {
         Agent dummy = new Agent("", "", "", "", "", 0);
 
         ticTacToe.step(dummy, "1 0 X");
+        Agent testDummy = ticTacToe.asynchronousGameOver();
 
-        assertNull(ticTacToe.asynchronousGameOver());
+        assertNull(testDummy);
     }
 }
