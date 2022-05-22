@@ -105,7 +105,7 @@ The body of the POST request should be a JSON object of the following format:
 * Status Code 400: <br>
   The poll was unsuccesful. The response body is one of the following error messages: <br>
   "Match Log ID is not recognised. Unable to process Poll request" <br>
-
+  "Agent data could not be retrieved. Either the agent does not exist or the database server is down"
 
 ## 4. GET Request
 A rendered or live image can be downloaded using its URI in an http GET request. 
