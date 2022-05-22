@@ -24,6 +24,6 @@ jobs:
 workflows:
   version: 2
 
-  test-with-store-artifacts:
+  build:
     jobs:
       - test
