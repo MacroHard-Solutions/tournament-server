@@ -12,7 +12,7 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
-      - run: ./mvnw test
+      - run: maven/test
       - store_artifacts:
           path: target/site/jacoco/index.html
 
