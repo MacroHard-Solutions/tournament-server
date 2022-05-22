@@ -60,12 +60,6 @@ function Watch() {
         }
     }
 
-    let liveArr = [];
-    const setLiveArr = (arr) => {
-        //save images as they come in
-        liveArr = arr;
-    }
-
     //handle live game playack
     if (liveGame && !streaming) {
         console.log("starting Poll");
@@ -89,6 +83,7 @@ function Watch() {
 
                 axios.request(options).then(function (response) {
                     let n = response.data.numberOfStates;
+                    //eslint-disable-next-line
                     if ((currplayImage + 1) != n) {
                         setCurrplayimage(n - 1);
                         let tempArr = Array.from(response.data.imageURIs).map((img) => {
@@ -98,6 +93,7 @@ function Watch() {
                         console.log('New Move');
                         forceUpdate();
                     }
+                    //eslint-disable-next-line
                     if (response.data == "Match Log ID is not recognised. Unable to process Poll request") {
                         clearInterval(pollInterval);
                         console.log("Match Over");

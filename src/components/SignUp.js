@@ -53,6 +53,7 @@ function SignUp({ userObj, setuserObj }) {
                 createUser();
             }
         }).catch(function (error) {
+            //eslint-disable-next-line
             if (error.response.status == "400") {
                 //show username is taken
                 setUsername("");
