@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Miscellaneous {
     public static String getGameFileName(String gameName) throws IOException {
         String fileName = null;
+
         if (Program.gameFiles != null)
             fileName = Program.gameFiles.get(gameName);
 
@@ -69,12 +70,10 @@ public class Miscellaneous {
     }
 
     public static void logError(String errorMessage) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-
         try {
             FileWriter errorFile = new FileWriter("error_log.txt", true);
-            LocalDateTime now = LocalDateTime.now();
-            errorFile.write(dateTimeFormatter.format(now) + " ");
+            String currentDateTime = getCurrentDateTime();
+            errorFile.write(currentDateTime + " ");
             errorFile.write(errorMessage + "\n");
             errorFile.close();
         }
