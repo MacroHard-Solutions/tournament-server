@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@0.0.12
+  codecov: codecov/codecov@3.2.2
 
 jobs:
   test:
@@ -15,8 +16,8 @@ jobs:
       - run: mvn test
       - store_artifacts:
           path: target/site/jacoco/index.html
-    after_success:
-      - run: <(curl -s https://codecov.io/bash)
+      -run codecov/upload
+
 workflows:
   version: 2
 
