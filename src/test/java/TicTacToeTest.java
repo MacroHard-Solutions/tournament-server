@@ -1,7 +1,7 @@
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 public class TicTacToeTest {
     @Test
@@ -49,6 +49,6 @@ public class TicTacToeTest {
 
         ticTacToe.step(dummy, "1 0 X");
 
-        assertEquals(ticTacToe.asynchronousGameOver, null);
+        assertNull(ticTacToe.asynchronousGameOver);
     }
 }
