@@ -98,4 +98,12 @@ public class RockPaperScissorsLizardSpock implements Game{
         g.dispose();
         return backgroundImage;
     }
+
+    public int getNextPlayerIndex() {
+        return nextPlayerIndex;
+    }
+
+    public int getStepIndex() {
+        return stepIndex;
+    }
 }
