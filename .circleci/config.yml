@@ -13,6 +13,9 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
+      - run:
+            name: Setup custom environment variables
+            command: echo 'export CODECOV_TOKEN="a0e970a4-2e77-47e5-96ad-3c7534f83949"' >> $BASH_ENV
       - run: mvn test
       - store_artifacts:
           path: target/site/jacoco/index.html
