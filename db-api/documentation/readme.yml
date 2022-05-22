@@ -280,7 +280,7 @@ paths:
                     example: success
                   message:
                     type: string
-                    example: Retrieved all agents of the specified tournament, in descending order of ELO
+                    example: Retrieved all agents of the specified tournament in descending order of ELO
                   resultData:
                     example:
                       $ref: '#/component/tournamentAgents'
@@ -408,7 +408,7 @@ paths:
         '200':
           description: |
             - An array of the user's agents is returned
-            - Or the specified agent object, with the tournaments it is involved in, is returned
+            - Or the specified agent object with the tournaments it is involved in is returned
             - `AGENT_STATUS` -> -1:offline 0:inactive 1:active
             
             - `Note the various response types for each case`
@@ -593,10 +593,13 @@ paths:
                   properties:
                     agentA: 
                       type: string
-                      example: 0fbe7dd3-20b4-400a-ad28-53d86dd36cd2
+                      example: 0e852e78-207e-4bc8-bb9d-215ab10cc385
                     agentB: 
                       type: string
-                      example: 0e852e78-207e-4bc8-bb9d-215ab10cc385
+                      example: 6cb7eb05-7012-44a5-945d-ac10a6782999
+                    tournamentID:
+                      type: string
+                      example: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
                 signal:
                   type: object
       responses:
@@ -854,7 +857,7 @@ paths:
     post:
       description: |
         - Retrieves match results from the database
-        - Each filter below is `optional`, either enter an empty string or leave it as undefined
+        - Each filter below is `optional` either enter an empty string or leave it as undefined
         - Leave all attributes as undefined if there is no filter required
         - Leaving either the `date comparator` or `date value blank` will nullify the date filter
         - Date comparisons also cater for equality
@@ -922,7 +925,7 @@ paths:
 
   /match/live/{tournamentID}:
     get:
-        description: 'Retrieves any live matches, if not given a tournamentID'
+        description: 'Retrieves any live matches if not given a tournamentID'
         operationId:  'get-https:--tournament-server.herokuapp.com-api-v2-match-live-tournamentID'
         summary: Get all agents of tournament
         tags:
@@ -1177,20 +1180,22 @@ component:
     
   agents:
     -
-      AGENT_ID: e8955372-ce0e-11ec-8a34-0ea680fee648
-      AGENT_NAME: Magnus_Carlson
-      USER_ID: lordGregorious
-      USERNAME: lordGregorious
-      ADDRESS_IP: 54.157.20.63
-      ADDRESS_PORT: 8000
+      AGENT_ID: 0e852e78-207e-4bc8-bb9d-215ab10cc385
+      AGENT_NAME: 
+      USER_ID: ef368c5d-b01e-48c6-81bd-33e15f27bb2f
+      USERNAME: Zizi
+      ADDRESS_IP: 206.126.0.27
+      ADDRESS_PORT: 1031
+      AGENT_ELO: 600
       AGENT_STATUS: -1
     -
-      AGENT_ID: 1aea2e2e-be8a-4aaa-8c43-5fe4bb60467e
+      AGENT_ID: 6cb7eb05-7012-44a5-945d-ac10a6782999
       AGENT_NAME: 
-      USER_ID: lordGregorious
-      USERNAME: Lover Boy
-      ADDRESS_IP: 25.206.139.193
-      ADDRESS_PORT: 6817
+      USER_ID: b79d39e9-9f8d-4534-b842-564b39e7cbb7
+      USERNAME: Elementrix
+      ADDRESS_IP: 110.56.21.232
+      ADDRESS_PORT: 5699
+      AGENT_ELO: 615
       AGENT_STATUS: -1
   agentTournament:
     TOURNAMENT_ID: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505

@@ -153,7 +153,7 @@ exports.getAgents = async (req, res) => {
 
 exports.getAgentPair = async (req, res) => {
   const clientInput = req.body.data;
-  const GET_AGENT_PAIR = `CALL get_agent_pair('${clientInput.agentA}', '${clientInput.agentB}')`;
+  const GET_AGENT_PAIR = `CALL get_agent_pair('${clientInput.agentA}', '${clientInput.agentB}', '${clientInput.tournamentID}')`;
 
   await db
     .execute(GET_AGENT_PAIR)

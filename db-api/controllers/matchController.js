@@ -129,7 +129,7 @@ exports.startLiveMatch = async (req, res) => {
         res,
         201,
         'The live match has been inserted',
-        rows[0]
+        rows[0][0]
       );
     })
     .catch((err) => {
