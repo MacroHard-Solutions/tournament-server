@@ -11,7 +11,7 @@ public class Program {
 
     public static void main(String[] args) throws Exception {
         // Backlogging value set to 100 meaning the server can queue up to 100 requests 8001
-        HttpServer server = HttpServer.create(new InetSocketAddress("172.31.24.197", 8001), 100);
+        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8001), 100);
 
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
