@@ -927,7 +927,7 @@ paths:
     get:
         description: 'Retrieves any live matches if not given a tournamentID'
         operationId:  'get-https:--tournament-server.herokuapp.com-api-v2-match-live-tournamentID'
-        summary: Get all agents of tournament
+        summary: Get all live matches of tournament
         tags:
           - Live Match
         
