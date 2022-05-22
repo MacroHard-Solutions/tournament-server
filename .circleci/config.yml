@@ -16,7 +16,7 @@ jobs:
       - run: mvn test
       - store_artifacts:
           path: target/site/jacoco/index.html
-      -run codecov/upload
+      - run codecov/upload
 
 workflows:
   version: 2
