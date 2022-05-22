@@ -11,7 +11,7 @@ public class TicTacToeTest {
         String fakeIpAddress = "127.0.0.1";
         int fakePort = 6666;
 
-        Agent fakePlayer = new Agent(fakeUsername, fakeIpAddress, fakePort);
+        Agent fakePlayer = new Agent(fakeUsername, fakeIpAddress, "", "", "", fakePort);
         TicTacToe ticTacToe = new TicTacToe();
 
         // Act
