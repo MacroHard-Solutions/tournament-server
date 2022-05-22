@@ -16,7 +16,7 @@ jobs:
       - store_artifacts:
           path: target/site/jacoco/index.html
     after_success:
-      - bash <(curl -s https://codecov.io/bash)
+      - run: <(curl -s https://codecov.io/bash)
 workflows:
   version: 2
 
