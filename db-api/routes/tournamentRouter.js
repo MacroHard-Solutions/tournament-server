@@ -6,8 +6,13 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(tournamentController.getTournaments)
+  .post(
+    tournamentController.filterTournaments,
+    tournamentController.getTournaments
+  )
   .put(tournamentController.insertTournament)
   .delete(tournamentController.deleteTournament);
+router.route('/open').post(tournamentController.openTournament);
+router.route('/close').post(tournamentController.closeTournament);
 
 module.exports = router;

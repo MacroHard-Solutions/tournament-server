@@ -3,6 +3,14 @@ info:
   title: DB API
   version: 3.0.0
   description: |
+    # CHANGES
+    
+      - Entering a starting live game needs a list of agentIDs
+      - Live games will include agent details in match retrieval
+      - Retrieving tournaments needs a ~GET~ POST request, it also has a new attribute
+    
+      ---
+    
     Any requests containing a request body need to be made according to the template.
     
     `NB!! Results with indicies as properties indicate that the object is an array`
@@ -147,7 +155,7 @@ paths:
       summary: User logs in
       tags:
         - User
-  
+
   /user/signupCheck:
     post:
       description: 'Checks if the user can sign up with the given username'
@@ -258,7 +266,7 @@ paths:
       summary: Get all agents of tournament
       tags:
         - Agent
-      
+
       parameters:
         - in: path
           name: tournamentID
@@ -266,7 +274,7 @@ paths:
           schema:
             type: string
           description: The tournament ID
-      
+
       responses:
         '200':
           description: 'An array of agent objects is returned'
@@ -379,7 +387,7 @@ paths:
       summary: Inserts the user's agent
       tags:
         - Agent
-    
+
     post:
       description: |
         - Retrieves either the given user's agents from the database given by the userID field
@@ -414,7 +422,7 @@ paths:
             - `Note the various response types for each case`
 
           content:
-            
+
             userAgents:
               example:
                 status: success
@@ -470,7 +478,7 @@ paths:
                       GAME_ID: 886edf86-c6f5-11ec-a02e-0ab3cd6d5505
                       GAME_NAME: Tic-Tac-Toe
                       AGENT_ELO: 510
-        
+
         '502':
           $ref: '#/component/failedResponse'
       summary: Retrieve an agent or the user's agents
@@ -519,7 +527,7 @@ paths:
   /agent/update:
     post:
       description: Updates the user's agent
-      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-agent'
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-agent-update'
       requestBody:
         required: true
         content:
@@ -575,7 +583,7 @@ paths:
       summary: Update user agent
       tags:
         - Agent
-  
+
   /agent/pair:
     post:
       description: |
@@ -641,7 +649,7 @@ paths:
       tags:
         - Agent
 
-  
+
   /game:
     get:
       description: 'Retrieves all games from the database'
@@ -714,9 +722,29 @@ paths:
         - Game
 
   /tournament:
-    get:
-      description: Retrieves all tournaments
-      operationId: 'get-https:--tournament-server.herokuapp.com-api-v2-tournament'
+    post:
+      description: |
+        - Retrieves all tournaments
+        
+        - `isOpen` is optional, indicating whether one would like to view open or closed tournaments.
+          - Leave it undefined to include all tournaments
+
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-tournament'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    isOpen:
+                      type: boolean
+                      example: false
+                signal:
+                  type: object
       responses:
         '200':
           description: All tournaments are retrieved from the database
@@ -733,7 +761,8 @@ paths:
                     example: The match has been recorded successfully
                   resultData:
                     example:
-                      $ref: '#/component/tournamentTemplate'
+                      - $ref: '#/component/tournamentTemplate/0'
+                      - $ref: '#/component/tournamentTemplate/1'
 
         '502':
           $ref: '#/component/failedResponse'
@@ -787,6 +816,93 @@ paths:
       summary: Insert a new tournament
       tags:
         - Tournament
+  /tournament/open:
+    post:
+      description: 'Opens the tournament for agent entry'
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-tournament-open'
+      summary: 'Open tournament'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    tournamentID:
+                      type: string
+                      example: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505
+                signal:
+                  type: object
+                  example:
+      responses:
+        '200':
+          description: Tournament status is updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Tournament has been opened successfully
+                  resultData:
+                    type: string
+                    example:
+
+
+        '502':
+          $ref: '#/component/failedResponse'
+
+      tags:
+        - Tournament
+  /tournament/close:
+    post:
+      description: 'Closes the tournament'
+      operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-tournament-close'
+      summary: 'Close tournament'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    tournamentID:
+                      type: string
+                      example: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505
+                signal:
+                  type: object
+                  example:
+      responses:
+        '200':
+          description: Tournament status is updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Tournament has been closed successfully
+                  resultData:
+                    type: string
+                    example:
+        '502':
+          $ref: '#/component/failedResponse'
+      tags:
+        - Tournament
 
 
   /match:
@@ -837,19 +953,7 @@ paths:
 
 
         '502':
-          description: Failed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: failed
-                  message:
-                    type: string
-                  logError:
-                    type: string
+          $ref: '#/component/failedResponse'
       summary: Record a past match result
       tags:
         - Match
@@ -859,7 +963,7 @@ paths:
         - Retrieves match results from the database
         - Each filter below is `optional` either enter an empty string or leave it as undefined
         - Leave all attributes as undefined if there is no filter required
-        - Leaving either the `date comparator` or `date value blank` will nullify the date filter
+        - Leaving either the `date comparator` or `date value` blank will nullify the date filter
         - Date comparisons also cater for equality
 
       operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-match'
@@ -1237,12 +1341,14 @@ component:
       GAME_ID: 886edf86-c6f5-11ec-a02e-0ab3cd6d5505
       GAME_NAME: Tic-Tac-Toe
       TOURNAMENT_DP: https://i.imgur.com/spnXm7y.jpg
+      TOURNAMENT_IS_OPEN: 1
     -
       TOURNAMENT_ID: 01934c61-c6f6-11ec-a02e-0ab3cd6d5505
       TOURNAMENT_NAME: Rock-Paper-Scissors-Lizard-Spock Tourney
       GAME_ID: b772386d-c6f5-11ec-a02e-0ab3cd6d5505
       GAME_NAME: Rock-Paper-Scissors-Lizard-Spock
       TOURNAMENT_DP: https://i.imgur.com/1mSPLpW.png
+      TOURNAMENT_IS_OPEN: 0
   agentResults:
     -
       agentID: 0e852e78-207e-4bc8-bb9d-215ab10cc385
