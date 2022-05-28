@@ -1,7 +1,6 @@
 const express = require('express'); // Framework for node
 const morgan = require('morgan'); // HTTP request logger
 const cors = require('cors'); // CORS middleware
-const fs = require('fs');
 
 const app = express();
 
@@ -9,7 +8,7 @@ const app = express();
 /// Middleware for nonexistent endpoints
 ////////////////////////////////
 const notfoundHandler = async (req, res, next) => {
-  let errorMsg = `<h1>Could not find the page you were looking for</h1>
+  const errorMsg = `<h1>Could not find the page you were looking for</h1>
                   <p>Please check the <a href="/">docs</a> for the available links and try again.</p>`;
   res.status(404).send(errorMsg);
 
@@ -58,6 +57,6 @@ app.use('/api/v2/match', matchRouter);
 app.use('/', express.static(`${__dirname}/public`));
 app.use('/api/v2', express.static(`${__dirname}/public`));
 
-app.use(notfoundHandler); // When the a call to a nonexistent endpoint is made, the user needs to be informed
+app.use(notfoundHandler); // When a call to a nonexistent endpoint is made, the user needs to be informed
 
 module.exports = app;

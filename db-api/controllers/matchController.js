@@ -21,11 +21,24 @@ const insertAgentResult = async (matchLogID, agentID, ranking) => {
       .catch((err) => reject(err));
   });
 };
+const updateAgentResult = async (matchLogID, agentID, ranking) => {
+  const UPDATE_AGENT_RESULT = `CALL update_agent_result("${matchLogID}","${agentID}",${ranking})`;
+
+  return new Promise((resolve, reject) => {
+    db.execute(UPDATE_AGENT_RESULT)
+      .then(resolve())
+      .catch((err) => reject(err));
+  });
+};
 
 exports.processFilter = (req, res, next) => {
   const clientInput = req.body.data;
 
-  let query = [];
+  const query = [];
+
+  if (!clientInput.matchLogID || clientInput.matchLogID === '') {
+    // skip
+  } else query.push(`M.MATCH_LOG_ID LIKE "%${clientInput.matchLogID}%"`);
 
   if (!clientInput.tournamentName || clientInput.tournamentName === '') {
     // skip
@@ -40,7 +53,7 @@ exports.processFilter = (req, res, next) => {
   } else
     query.push(
       `MATCH_LOG_IN_PROGRESS = ${
-        clientInput.inProgress == 'true' || clientInput.inProgress ? 1 : 0
+        clientInput.inProgress === 'true' || clientInput.inProgress ? 1 : 0
       }`
     );
 
@@ -96,8 +109,8 @@ exports.getFilteredMatches = async (req, res) => {
 
 exports.insertMatch = async (req, res, next) => {
   // TODO: IMPLEMENT TRANSACTIONS FOR THIS ONE... THERE'S MULTIPLE INSERTS
-  // TODO: CHECK IF THE AGENT_ID IS PAIRED WITH THE TOURNAENT_ID
-  // TODO: RETURN THE MATCH_LOG_ID
+  // TODO: CHECK IF THE AGENT_ID IS PAIRED WITH THE TOURNAMENT_ID
+
   const clientInput = req.body.data;
 
   try {
@@ -118,23 +131,27 @@ exports.insertMatch = async (req, res, next) => {
   next();
 };
 
-exports.startLiveMatch = async (req, res) => {
+exports.startLiveMatch = async (req, res, next) => {
   const clientInput = req.body.data;
   const START_LIVE_MATCH = `CALL start_live_match('${clientInput.tournamentID}');`;
-
+  //TODO CHANGE START_LIVE_MATCH
+  //TODO RETRIEVE MATCH_LOG_ID
   await db
     .execute(START_LIVE_MATCH)
     .then(([rows, fields]) => {
-      resultHandler.returnSuccess(
-        res,
-        201,
-        'The live match has been inserted',
-        rows[0][0]
-      );
+      clientInput.newMatch = rows[0][0];
+      clientInput.message = 'The live match has started and been logged';
     })
     .catch((err) => {
-      resultHandler.returnError(res, 502, err, 'Unable to insert live match');
+      return resultHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to insert live match'
+      );
     });
+
+  next();
 };
 
 exports.endLiveMatch = async (req, res, next) => {
@@ -147,14 +164,14 @@ exports.endLiveMatch = async (req, res, next) => {
       clientInput.newMatch = rows[0][0];
       clientInput.message = 'The live match has ended and been logged';
     })
-    .catch((err) => {
-      return resultHandler.returnError(
+    .catch((err) =>
+      resultHandler.returnError(
         res,
         502,
         err,
         'Unable to end and log live match'
-      );
-    });
+      )
+    );
 
   if (!clientInput.newMatch)
     return resultHandler.returnError(
@@ -167,20 +184,21 @@ exports.endLiveMatch = async (req, res, next) => {
   next();
 };
 
-exports.insertAgentResults = async (req, res) => {
+exports.updateAgentResults = async (req, res) => {
   const clientInput = req.body.data;
-  const agentResults = clientInput.agentResults;
-  const agentCount = agentResults.length;
-  const newMatch = clientInput.newMatch;
+  const { agentResults } = clientInput; // Contains an array of agent objects, having an ID and ranking
+  const { newMatch } = clientInput;
+  const matchLogID = newMatch.MATCH_LOG_ID;
+  const errors = [];
 
-  console.log(newMatch);
-  const matchLogID = newMatch['MATCH_LOG_ID'];
-  let insertCount = 0;
-  let errors = [];
+  let insertCount = 0,
+    agentCount;
+
+  agentCount = agentResults.length;
 
   agentResults.forEach((agent) => {
     try {
-      insertAgentResult(matchLogID, agent.agentID, agent.ranking);
+      updateAgentResult(matchLogID, agent.agentID, agent.ranking);
       ++insertCount;
     } catch (err) {
       errors.push(err);
@@ -194,17 +212,68 @@ exports.insertAgentResults = async (req, res) => {
       errors,
       `${clientInput.message}. ${insertCount} out of ${agentCount} agent result(s) have been successfully entered`
     );
-  else
-    return resultHandler.returnSuccess(
+
+  return resultHandler.returnSuccess(
+    res,
+    201,
+    `${clientInput.message}. ${insertCount} out of ${agentCount} agent result(s) have been successfully entered`,
+    clientInput.newMatch
+  );
+};
+
+exports.insertAgentResults = async (req, res) => {
+  const clientInput = req.body.data;
+  const { agentResults } = clientInput; // Contains an array of agent objects, having an ID and ranking
+  const { participatingAgents } = clientInput; // Only contains an array of agentIDs
+  const { newMatch } = clientInput;
+  const matchLogID = newMatch.MATCH_LOG_ID;
+  const errors = [];
+
+  let insertCount = 0,
+    agentCount;
+
+  // Either we're entering agentIDs for a match recorded in the past
+  // or we're entering the live match that has started and setting default values
+  if (!agentResults) {
+    agentCount = participatingAgents.length;
+    participatingAgents.forEach((agentID) => {
+      try {
+        insertAgentResult(matchLogID, agentID, -1);
+        ++insertCount;
+      } catch (err) {
+        errors.push(err);
+      }
+    });
+  } else {
+    agentCount = agentResults.length;
+    agentResults.forEach((agent) => {
+      try {
+        insertAgentResult(matchLogID, agent.agentID, agent.ranking);
+        ++insertCount;
+      } catch (err) {
+        errors.push(err);
+      }
+    });
+  }
+
+  if (insertCount !== agentCount)
+    return resultHandler.returnError(
       res,
-      201,
-      `${clientInput.message}. ${insertCount} out of ${agentCount} agent result(s) have been successfully entered`,
-      clientInput.newMatch
+      417,
+      errors,
+      `${clientInput.message}. ${insertCount} out of ${agentCount} agent result(s) have been successfully entered`
     );
+
+  return resultHandler.returnSuccess(
+    res,
+    201,
+    `${clientInput.message}. ${insertCount} out of ${agentCount} agent result(s) have been successfully entered`,
+    clientInput.newMatch
+  );
 };
 
 exports.getLiveMatches = async (req, res) => {
-  let tournamentID = req.params.tournamentID;
+  let { tournamentID } = req.params;
 
   if (!tournamentID) tournamentID = '';
 
@@ -212,20 +281,20 @@ exports.getLiveMatches = async (req, res) => {
 
   await db
     .execute(GET_LIVE_MATCHES)
-    .then(([rows, fields]) => {
-      return resultHandler.returnSuccess(
+    .then(([rows, fields]) =>
+      resultHandler.returnSuccess(
         res,
         200,
         'Successfully retrieved live matches',
         rows[0]
-      );
-    })
-    .catch((err) => {
-      return resultHandler.returnError(
+      )
+    )
+    .catch((err) =>
+      resultHandler.returnError(
         res,
         502,
         err,
         'Unable to check for live matches'
-      );
-    });
+      )
+    );
 };

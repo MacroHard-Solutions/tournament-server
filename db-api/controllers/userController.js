@@ -2,13 +2,13 @@ const db = require('../util/db');
 const resultHandler = require('../util/responseHandler');
 
 exports.checkLogin = async (req, res, next) => {
-  clientInput = req.body.data;
+  const clientInput = req.body.data;
 
   if (!clientInput.username_email || clientInput.username_email === '') {
     return resultHandler.returnError(
       res,
       400,
-      err,
+      new Error('username_email is the incorrect format'),
       'Missing username/email required'
     );
   }
@@ -18,11 +18,15 @@ exports.checkLogin = async (req, res, next) => {
 
 // Debugging for frontend
 exports.checkReqBody = async (req, res, next) => {
+  const clientInput = req.body.data;
 
-  clientInput = req.body.data;
-
-  if (!clientInput.fName || clientInput.fName == '') {
-    return resultHandler.returnError(res, 400, err, 'Missing fName required');
+  if (!clientInput.fName || clientInput.fName === '') {
+    return resultHandler.returnError(
+      res,
+      400,
+      new Error('fName is incorrect'),
+      'Missing fName required'
+    );
   }
 
   next();
@@ -35,28 +39,27 @@ exports.checkUsername = async (req, res) => {
   await db
     .execute(CHECK_IF_USERNAME_EXISTS)
     .then(([rows, fields]) => {
-      if (rows[0][0]['USER_COUNT'] === 0)
+      if (rows[0][0].USER_COUNT === 0)
         return resultHandler.returnSuccess(
           res,
           202,
           'You may use this username',
           null
         );
-      else
-        return resultHandler.returnError(
-          res,
-          400,
-          null,
-          'There is an existing user with this username'
-        );
-    })
-    .catch((err) => {
       return resultHandler.returnError(
+        res,
+        400,
+        null,
+        'There is an existing user with this username'
+      );
+    })
+    .catch((err) =>
+      resultHandler.returnError(
         res,
         err,
         "Error when checking for the username's existence"
-      );
-    });
+      )
+    );
 };
 
 exports.getAllUsers = async (req, res) => {
@@ -64,22 +67,17 @@ exports.getAllUsers = async (req, res) => {
 
   await db
     .execute(RETRIEVE_USERS)
-    .then(([rows, fields]) => {
-      return resultHandler.returnSuccess(
+    .then(([rows, fields]) =>
+      resultHandler.returnSuccess(
         res,
         200,
         'The users have been successfully retrieved',
         rows
-      );
-    })
-    .catch((err) => {
-      return resultHandler.returnError(
-        res,
-        502,
-        err,
-        'Unable to retrieve users'
-      );
-    });
+      )
+    )
+    .catch((err) =>
+      resultHandler.returnError(res, 502, err, 'Unable to retrieve users')
+    );
 };
 
 exports.insertUser = async (req, res) => {
@@ -101,24 +99,24 @@ exports.insertUser = async (req, res) => {
 
   await db
     .execute(INSERT_USER)
-    .then(([rows, fields]) => {
+    .then(([rows, fields]) =>
       // console.log(rows[0]);
 
-      return resultHandler.returnSuccess(
+      resultHandler.returnSuccess(
         res,
         201,
         'The user has been stored successfully',
         rows[0][0]
-      );
-    })
-    .catch((err) => {
-      return resultHandler.returnError(
+      )
+    )
+    .catch((err) =>
+      resultHandler.returnError(
         res,
         502,
         err,
         'Unable to add new user to the database'
-      );
-    });
+      )
+    );
 };
 
 exports.getUser = async (req, res) => {
@@ -129,19 +127,23 @@ exports.getUser = async (req, res) => {
     .execute(RETRIEVE_USER)
     .then(([rows, fields]) => {
       if (rows[0].length > 0)
-        return resultHandler.returnSuccess(res, 200, 'User retrieved', rows[0][0]);
-      else return resultHandler.returnError(res, 404, 'User not found');
+        return resultHandler.returnSuccess(
+          res,
+          200,
+          'User retrieved',
+          rows[0][0]
+        );
+      return resultHandler.returnError(res, 404, 'User not found');
     })
-    .catch((err) => {
-      return resultHandler.returnError(
+    .catch((err) =>
+      resultHandler.returnError(
         res,
         502,
         err,
         'Unable to retrieve user from the database'
-      );
-    });
+      )
+    );
 };
-
 
 exports.updateUser = async (req, res) => {
   const clientInput = req.body.data;

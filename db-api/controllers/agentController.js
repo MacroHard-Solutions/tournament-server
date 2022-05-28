@@ -1,24 +1,24 @@
 const db = require('../util/db');
 const responseHandler = require('../util/responseHandler');
 
-const insertAgentAddress = async (ipAddress, portNum) => {
-  return new Promise((resolve, reject) => {
+const insertAgentAddress = async (ipAddress, portNum) =>
+  new Promise((resolve, reject) => {
     const INSERT_AGENT_ADDRESS = `CALL insert_agent_address("${ipAddress}", ${portNum} )`;
 
     db.execute(INSERT_AGENT_ADDRESS)
       .then(([rows, fields]) => {
-        resolve(rows[0][0]['ADDRESS_ID']);
+        resolve(rows[0][0].ADDRESS_ID);
       })
       .catch((err) => {
         reject(err);
       });
   });
-};
 
 const getSpecificAgent = async (agentID) => {
   const GET_AGENT = `CALL get_agent("${agentID}")`;
 
-  let errorResult, agentResult;
+  let errorResult;
+  let agentResult;
 
   await db
     .execute(GET_AGENT)
@@ -38,10 +38,12 @@ const getSpecificAgent = async (agentID) => {
 const getAgentTournaments = async (agentID) => {
   const GET_TOURNAMENT_AGENTS = `CALL get_agent_tournaments("${agentID}")`;
 
-  let errorResult, tournamentSet;
+  let errorResult;
+  let tournamentSet;
 
   await db
     .execute(GET_TOURNAMENT_AGENTS)
+    // eslint-disable-next-line
     .then(([rows, fields]) => {
       tournamentSet = rows[0];
     })
@@ -59,7 +61,8 @@ const getAgentTournaments = async (agentID) => {
 const getUserAgents = async (userID) => {
   const GET_USER_AGENTS = `CALL get_user_agents("${userID}")`;
 
-  let errorResult, agentsSet;
+  let errorResult;
+  let agentsSet;
 
   await db
     .execute(GET_USER_AGENTS)
@@ -83,28 +86,31 @@ exports.bindAgentTournament = async (req, res) => {
 
   await db
     .execute(INSERT_AGENT_TOURNAMENT)
-    .then((result) => {
-      return responseHandler.returnSuccess(
+    .then((result) =>
+      responseHandler.returnSuccess(
         res,
         201,
         'Bound agent to tournament successfully',
         null
-      );
-    })
-    .catch((err) => {
-      return responseHandler.returnError(
+      )
+    )
+    .catch((err) =>
+      responseHandler.returnError(
         res,
         502,
         err,
         'Unable to save agent-tournament binding'
-      );
-    });
+      )
+    );
 };
 
 exports.getAgents = async (req, res) => {
   const clientInput = req.body.data;
   let successResult;
-  let agentResult, message, tournamentsList;
+  let agentResult;
+  let message;
+  let tournamentsList;
+  let errorResult;
 
   try {
     if (clientInput.userID) {
@@ -114,8 +120,7 @@ exports.getAgents = async (req, res) => {
     } else if (clientInput.agentID) {
       agentResult = await getSpecificAgent(clientInput.agentID);
 
-      if (agentResult)
-      {
+      if (agentResult) {
         tournamentsList = await getAgentTournaments(clientInput.agentID);
 
         successResult = {
@@ -123,15 +128,12 @@ exports.getAgents = async (req, res) => {
           involvedTournaments: tournamentsList,
         };
         message = 'The agent has been retrieved';
-      }
-      else{
+      } else {
         message = 'No agent exists';
       }
-        
-
     } else {
-      err = new Error('Invalid request made. Please enter a valid ID');
-      err.code = 400;
+      errorResult = new Error('Invalid request made. Please enter a valid ID');
+      errorResult.code = 400;
     }
   } catch (err) {
     console.log(err);
@@ -143,12 +145,7 @@ exports.getAgents = async (req, res) => {
     );
   }
 
-  return responseHandler.returnSuccess(
-    res,
-    200,
-    message,
-    successResult
-  );
+  return responseHandler.returnSuccess(res, 200, message, successResult);
 };
 
 exports.getAgentPair = async (req, res) => {
@@ -176,7 +173,7 @@ exports.getAgentPair = async (req, res) => {
 };
 
 exports.getTournamentAgents = async (req, res) => {
-  const tournamentID = req.params.tournamentID;
+  const { tournamentID } = req.params;
   const GET_TOURNAMENT_AGENTS = `CALL get_agents_from_tournament('${tournamentID}')`;
 
   await db
@@ -224,22 +221,22 @@ exports.insertAgent = async (req, res) => {
 
   await db
     .execute(INSERT_AGENT)
-    .then(([rows, fields]) => {
-      return responseHandler.returnSuccess(
+    .then(([rows, fields]) =>
+      responseHandler.returnSuccess(
         res,
         201,
         "The user's agent has been inserted successfully",
         rows[0][0]
-      );
-    })
-    .catch((err) => {
-      return responseHandler.returnError(
+      )
+    )
+    .catch((err) =>
+      responseHandler.returnError(
         res,
         502,
         err,
         'Unable to add new agent to the database'
-      );
-    });
+      )
+    );
 };
 
 exports.deleteAgent = async (req, res) => {
@@ -248,22 +245,17 @@ exports.deleteAgent = async (req, res) => {
 
   await db
     .execute(REMOVE_AGENT)
-    .then(([rows, fields]) => {
-      return responseHandler.returnSuccess(
+    .then(([rows, fields]) =>
+      responseHandler.returnSuccess(
         res,
         200,
-        `${rows[0][0]['count']} agent(s) have been removed successfully`,
+        `${rows[0][0].count} agent(s) have been removed successfully`,
         null
-      );
-    })
-    .catch((err) => {
-      return responseHandler.returnError(
-        res,
-        502,
-        err,
-        'Unable to delete agent'
-      );
-    });
+      )
+    )
+    .catch((err) =>
+      responseHandler.returnError(res, 502, err, 'Unable to delete agent')
+    );
 };
 
 exports.updateAgent = async (req, res) => {
