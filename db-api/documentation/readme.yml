@@ -4,6 +4,8 @@ info:
   version: 3.0.0
   description: |
     # CHANGES
+      - Updating an agent
+    
     
       - Entering a starting live game needs a list of agentIDs
       - Live games will include agent details in match retrieval
@@ -526,7 +528,11 @@ paths:
         - Agent
   /agent/update:
     post:
-      description: Updates the user's agent
+      description: |
+        - Updates the user's agent
+        - `NB` To update the `agentELO`, you need to provide a `tournamentID`
+        - To update other attributes, simply define them
+        - To leave attributes unchanged, leave them undefined
       operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-agent-update'
       requestBody:
         required: true
@@ -540,16 +546,31 @@ paths:
                   properties:
                     agentID:
                       type: string
-                      example: 0e852e78-207e-4bc8-bb9d-215ab10cc385
+                      example: e2474139-8d71-45f4-a7c8-5a69329a1ebe
                     tournamentID:
                       type: string
                       example: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
                     agentELO:
                       type: number
-                      example: 600
+                      example: 610
+                    ipAddress:
+                      type: string
+                      example: 0.0.0.0
+                    portNum:
+                      type: integer
+                      example: 9456
+                    status:
+                      type: integer
+                      example: 0
+                    agentName:
+                      type: string
+                      example: mooseFin
       responses:
         '200':
-          description: The update was successful
+          description: |
+            - The update was successful
+            - If a `tournamentID` was not provided, the agent's first 
+                associated tournament's ID will be returned
           content:
             application/json:
               schema:
@@ -564,6 +585,7 @@ paths:
                   resultData:
                     type: string
                     example:
+                      $ref: '#/component/agentUpdate'
         '502':
           description: Failed
           content:
@@ -1405,6 +1427,16 @@ component:
   participatingAgents:
     - a0ea49b7-ce11-11ec-8a34-0ea680fee648
     - e8955372-ce0e-11ec-8a34-0ea680fee648
+  agentUpdate:
+    AGENT_ID: e2474139-8d71-45f4-a7c8-5a69329a1ebe
+    AGENT_NAME: mooseFin
+    USER_ID: 68c9c890-2c4d-4fde-ae53-ce20c9151f49
+    ADDRESS_ID: b2e6418d-6b45-453b-afc2-6c5e833e79e4
+    AGENT_STATUS: 0
+    TOURNAMENT_ID: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
+    AGENT_ELO: 610
+    ADDRESS_IP: 0.0.0.0
+    ADDRESS_PORT: 9456
 schema:
   match:
     type: object

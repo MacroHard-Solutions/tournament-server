@@ -11,6 +11,6 @@ router
   .post(userController.checkLogin, userController.getUser);
 
 router.route('/signupCheck').post(userController.checkUsername);
-router.route('/update').patch(userController.updateUser); // FIXME: this
+router.route('/update').patch(userController.updateUser);
 
 module.exports = router;

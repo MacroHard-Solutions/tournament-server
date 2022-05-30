@@ -86,12 +86,12 @@ exports.bindAgentTournament = async (req, res) => {
 
   await db
     .execute(INSERT_AGENT_TOURNAMENT)
-    .then((result) =>
+    .then(([rows, fields]) =>
       responseHandler.returnSuccess(
         res,
         201,
         'Bound agent to tournament successfully',
-        null
+        rows[0][0]
       )
     )
     .catch((err) =>
@@ -258,18 +258,67 @@ exports.deleteAgent = async (req, res) => {
     );
 };
 
+exports.updateSettings = async (req, res, next) => {
+  const clientInput = req.body.data;
+  let whereCondition = [];
+  let retrievalWhereCondition = [];
+  let setClause = [];
+
+  // Set options
+  if (clientInput.ipAddress !== undefined)
+    setClause.push(`ADDRESS_IP = '${clientInput.ipAddress}'`);
+  if (clientInput.portNum !== undefined)
+    setClause.push(`ADDRESS_PORT = ${clientInput.portNum}`);
+  if (clientInput.status !== undefined)
+    setClause.push(`AGENT_STATUS = ${clientInput.status}`);
+  if (clientInput.agentName !== undefined)
+    setClause.push(`AGENT_NAME = '${clientInput.agentName}'`);
+
+  // The agent's specific tournament ELO should be updated
+  // so both conditions should be checked to avoid updating all ELOs
+  // relating to an agent
+  if (
+    clientInput.agentELO !== undefined &&
+    clientInput.tournamentID !== undefined
+  )
+    setClause.push(`AGENT_ELO = ${clientInput.agentELO}`);
+
+  // Where conditionals
+  if (clientInput.agentID !== undefined) {
+    whereCondition.push(`A.AGENT_ID = '${clientInput.agentID}'`);
+    retrievalWhereCondition.push(`A.AGENT_ID = '${clientInput.agentID}'`);
+  }
+  if (clientInput.tournamentID !== undefined) {
+    whereCondition.push(`TOURNAMENT_ID = '${clientInput.tournamentID}'`);
+    retrievalWhereCondition.push(
+      `TOURNAMENT_ID = '${clientInput.tournamentID}'`
+    );
+  }
+
+  clientInput.setClause = 'SET ' + setClause.join(', ');
+  clientInput.whereCondition = 'WHERE ' + whereCondition.join(' AND ');
+  clientInput.retrievalWhereCondition =
+    'WHERE ' + retrievalWhereCondition.join(' AND ');
+
+  next();
+};
+
 exports.updateAgent = async (req, res) => {
   const clientInput = req.body.data;
-  const UPDATE_AGENT = `CALL update_agent("${clientInput.agentID}", "${clientInput.tournamentID}",${clientInput.agentELO})`;
+  const UPDATE_AGENT = `CALL update_agent("${clientInput.setClause}", "${clientInput.whereCondition}", "${clientInput.retrievalWhereCondition}")`;
+
+  console.log(clientInput.setClause);
+  console.log(clientInput.whereCondition);
+  console.log(clientInput.retrievalWhereCondition);
 
   await db
     .execute(UPDATE_AGENT)
-    .then((result) => {
+    .then(([rows, fields]) => {
       responseHandler.returnSuccess(
         res,
         200,
         'Successfully updated the agent',
-        null
+        rows[0][0]
       );
     })
     .catch((err) => {

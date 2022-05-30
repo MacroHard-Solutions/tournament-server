@@ -45,6 +45,10 @@ app.use((req, res, next) => {
 ////////////////////////////////
 /// Routes
 ////////////////////////////////
+// TODO Divide users and admins
+// TODO Don't show inactive tournaments to users, how do we know it's inactive????? frontend???
+// TODO User's agent management console
+// TODO Admin's tournament management console
 
 app.use('/api/v2/user', userRouter);
 app.use('/api/v2/profile', profileRouter);
