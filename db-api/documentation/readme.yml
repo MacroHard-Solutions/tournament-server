@@ -334,8 +334,17 @@ paths:
                     type: string
                     example: Bound agent to tournament successfully
                   resultData:
-                    type: string
-                    example:
+                    type: object
+                    properties:
+                      AGENT_ID:
+                        type: string
+                        example: 8a2adda8-e091-11ec-8a34-0ea680fee648
+                      TOURNAMENT_ID:
+                        type: string
+                        example: 22531f29-cd83-11ec-8a34-0ea680fee648
+                      AGENT_ELO:
+                        type: integer
+                        example: 600
 
         '502':
           $ref: '#/component/failedResponse'
@@ -746,10 +755,11 @@ paths:
   /tournament:
     post:
       description: |
-        - Retrieves all tournaments
+        - Retrieves tournaments
         
         - `isOpen` is optional, indicating whether one would like to view open or closed tournaments.
           - Leave it undefined to include all tournaments
+      summary: Retrieves tournaments
 
       operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-tournament'
       requestBody:
@@ -788,7 +798,6 @@ paths:
 
         '502':
           $ref: '#/component/failedResponse'
-      summary: Retrieve all tournamets
       tags:
         - Tournament
     put:
@@ -1067,7 +1076,7 @@ paths:
       parameters:
         - in: path
           name: tournamentID
-          required: false
+          required: true
           schema:
             type: string
           description: The tournament ID
