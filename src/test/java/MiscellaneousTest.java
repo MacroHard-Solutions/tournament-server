@@ -13,12 +13,8 @@ public class MiscellaneousTest {
 
     @Test
     public void getGameFileName() {
-        try {
-            String fakeGameFileName = "TicTacToe";
-            assertNull(Miscellaneous.getGameFileName(fakeGameFileName));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String fakeGameFileName = "TicTacToe";
+        assertNull(Miscellaneous.getGameFileName(fakeGameFileName));
     }
 
     @Test

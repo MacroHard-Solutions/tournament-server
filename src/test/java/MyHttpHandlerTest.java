@@ -51,7 +51,7 @@ public class MyHttpHandlerTest {
         connection.setRequestMethod("POST");
 
         // create JSON request body
-        String jsonBody = "{\"data\":{\"type\":\"match\",\"game\":\"Tic-Tac-Toe\",\"tournamentID\":\"e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505\",\"agentIDs\": [\"ab94e34d-d935-11ec-8a34-0ea680fee648\", \"c4139f3e-da0e-11ec-8a34-0ea680fee648\"]},\"signal\":{}}";
+        String jsonBody = "{\"data\":{\"type\":\"match\",\"game\":\"Tic-Tac-Toe\",\"tournamentID\":\"22531f29-cd83-11ec-8a34-0ea680fee648\",\"agentIDs\": [\"46b0666c-e3e8-11ec-8a34-0ea680fee648\", \"84c51800-e3e8-11ec-8a34-0ea680fee648\"]},\"signal\":{}}";
 
         // comment to push again
         connection.setRequestProperty("Content-Type", "application/json");

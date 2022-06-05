@@ -30,6 +30,11 @@ public class Miscellaneous {
         return fileName;
     }
 
+    public static String getCurrentDateTime(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
 
     public static Class getClassFromFile(File classFile, String fullClassName) {
         try {
