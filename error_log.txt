@@ -1,0 +1,65 @@
+23/05/2022 00:18:27 Unable to load constructor of TTT.class
+23/05/2022 00:18:27 null
+23/05/2022 00:21:12 Unable to load constructor of TTT.class
+23/05/2022 00:21:12 null
+23/05/2022 00:22:20 Unable to load constructor of TTT.class
+23/05/2022 00:22:20 null
+23/05/2022 00:28:47 Unable to load constructor of TTT.class
+23/05/2022 00:28:47 null
+23/05/2022 00:34:07 Unable to load constructor of TTT.class
+23/05/2022 00:34:07 null
+23/05/2022 00:35:49 Unable to load constructor of TTT.class
+23/05/2022 00:35:49 null
+23/05/2022 00:38:58 Unable to load constructor of TTT.class
+23/05/2022 00:38:58 null
+23/05/2022 00:43:08 Unable to load constructor of TTT.class
+23/05/2022 00:43:08 null
+23/05/2022 00:45:18 Unable to load constructor of TTT.class
+23/05/2022 00:45:18 null
+23/05/2022 00:46:41 Unable to load constructor of TTT.class
+23/05/2022 00:46:41 null
+23/05/2022 01:11:26 The /match/live PUT request made to the database failed with a status code 502
+23/05/2022 01:15:19 Unable to connect to agent. Match cancelled. Agent's ID is ab94e34d-d935-11ec-8a34-0ea680fee648
+23/05/2022 01:15:19 Connection refused: connect
+05/06/2022 20:38:28 Incorrect input format
+05/06/2022 20:38:37 Unable to connect to agent. Match cancelled. Agent's ID is 84c51800-e3e8-11ec-8a34-0ea680fee648
+05/06/2022 20:38:37 Connection refused: connect
+05/06/2022 20:38:37 Unable to load constructor of TTT.class
+05/06/2022 20:38:37 null
+05/06/2022 20:38:37 Match Log ID 0592c0d6-da0f-11ec-8a34-0ea680fee648 not recognised
+05/06/2022 20:43:02 Incorrect input format
+05/06/2022 20:43:03 Error when handling a GET request request
+05/06/2022 20:43:03 images\game0\0.jpg
+05/06/2022 20:43:09 Unable to connect to agent. Match cancelled. Agent's ID is 84c51800-e3e8-11ec-8a34-0ea680fee648
+05/06/2022 20:43:09 Connection refused: connect
+05/06/2022 20:43:09 Unable to load constructor of TTT.class
+05/06/2022 20:43:09 null
+05/06/2022 20:43:09 Match Log ID 0592c0d6-da0f-11ec-8a34-0ea680fee648 not recognised
+05/06/2022 20:44:39 Incorrect input format
+05/06/2022 20:44:45 Unable to connect to agent. Match cancelled. Agent's ID is 84c51800-e3e8-11ec-8a34-0ea680fee648
+05/06/2022 20:44:45 Connection refused: connect
+05/06/2022 20:44:45 Match Log ID 0592c0d6-da0f-11ec-8a34-0ea680fee648 not recognised
+05/06/2022 20:44:45 Unable to load constructor of TTT.class
+05/06/2022 20:44:45 null
+05/06/2022 20:46:47 Incorrect input format
+05/06/2022 20:46:52 Error when handling a GET request request
+05/06/2022 20:46:52 images\game0\0.jpg
+05/06/2022 20:46:56 Unable to load constructor of TTT.class
+05/06/2022 20:46:56 null
+05/06/2022 20:46:56 Error when parsing input stream to JSON object
+05/06/2022 20:46:56 null
+05/06/2022 20:48:50 Incorrect input format
+05/06/2022 20:48:53 Match Log ID 0592c0d6-da0f-11ec-8a34-0ea680fee648 not recognised
+05/06/2022 20:48:53 Unable to load constructor of TTT.class
+05/06/2022 20:48:53 null
+05/06/2022 20:49:31 Incorrect input format
+05/06/2022 20:49:34 Error when handling a GET request request
+05/06/2022 20:49:34 images\game0\0.jpg
+05/06/2022 20:49:34 Unable to load constructor of TTT.class
+05/06/2022 20:49:34 null
+05/06/2022 20:49:34 Match Log ID 0592c0d6-da0f-11ec-8a34-0ea680fee648 not recognised
+05/06/2022 20:51:28 Incorrect input format
+05/06/2022 20:51:39 Unable to load constructor of TTT.class
+05/06/2022 20:51:39 null
+05/06/2022 20:51:39 Error when parsing input stream to JSON object
+05/06/2022 20:51:39 null

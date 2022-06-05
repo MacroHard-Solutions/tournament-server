@@ -41,7 +41,7 @@ public class MyHttpHandlerTest {
 
         int responseCode = connection.getResponseCode();
 
-        assertEquals(responseCode, 200);
+        assertEquals(responseCode, 400);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class MyHttpHandlerTest {
 
         int responseCode = connection.getResponseCode();
 
-        assertEquals(responseCode, 200);
+        assertEquals(responseCode, 400);
     }
 
     @Test
