@@ -18,7 +18,9 @@ jobs:
       - run: mvn test
       - store_artifacts:
           path: target/site/jacoco/index.html
-      - codecov/upload
+      - codecov/upload:
+          file: './coverage/cover.xml'
+          token: a0e970a4-2e77-47e5-96ad-3c7534f83949
 
 workflows:
   version: 2
