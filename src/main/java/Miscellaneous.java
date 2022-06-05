@@ -9,9 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
 public class Miscellaneous {
-    public static String getGameFileName(String gameName) throws IOException {
+    public static String getGameFileName(String gameName) {
         String fileName = null;
-
         if (Program.gameFiles != null)
             fileName = Program.gameFiles.get(gameName);
 
@@ -26,59 +25,78 @@ public class Miscellaneous {
             }
         }
 
+        // remove .class file extension
         fileName = fileName.substring(0, fileName.length() - 5);
         return fileName;
     }
 
-
-    public static Class getClassFromFile(File classFile, String fullClassName) throws Exception {
-        // Convert File to a URL
-        URL url = classFile.toURI().toURL();
-        URL[] urls = new URL[]{url};
-        URLClassLoader loader = new URLClassLoader(urls);
-        return loader.loadClass(fullClassName);
-    }
-
     public static String getCurrentDateTime(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
 
-    public static Class loadGameClass(String className) throws Exception {
-        Miscellaneous m = new Miscellaneous();
-        File jarFile = new File(m.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-        File directory = jarFile.getParentFile().getParentFile();
-        File[] contents = directory.listFiles();
+    public static Class getClassFromFile(File classFile, String fullClassName) {
+        try {
+            // Convert File to a URL
+            URL url = classFile.toURI().toURL();
+            URL[] urls = new URL[]{url};
+            URLClassLoader loader = new URLClassLoader(urls);
+            return loader.loadClass(fullClassName);
+        }
+        catch (Exception e) {
+            logError("Error when converting .class file to programmatic java class");
+            logError(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-        assert contents != null;
-        for (File object: contents){
-            // this is the folder where uploaded game classes will be stored
-            if (object.getName().equals("uploaded-game-classes")){
-                File[] classes = object.listFiles();
-                assert classes != null;
-                for (File classFile: classes){
-                    if (classFile.getName().equals(className + ".class")){
-                        Class dynamicClass = getClassFromFile(object, className);
-                        return dynamicClass;
+    public static Class loadGameClass(String className) {
+        try {
+            Miscellaneous m = new Miscellaneous();
+            File jarFile = new File(m.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+            File directory = jarFile.getParentFile();
+            File[] contents = directory.listFiles();
+
+            assert contents != null;
+            for (File object : contents) {
+                // this is the folder where uploaded game classes will be stored
+                if (object.getName().equals("uploaded-game-classes")) {
+                    File[] classes = object.listFiles();
+                    assert classes != null;
+                    for (File classFile : classes) {
+                        if (classFile.getName().equals(className + ".class")) {
+                            Class dynamicClass = getClassFromFile(object, className);
+                            return dynamicClass;
+                        }
                     }
                 }
             }
+            // couldn't find the class
+            return null;
         }
-        // couldn't find the class
-        return null;
+        catch (Exception e) {
+            logError("Error when loading java class into memory");
+            logError(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void logError(String errorMessage) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
         try {
             FileWriter errorFile = new FileWriter("error_log.txt", true);
-            String currentDateTime = getCurrentDateTime();
-            errorFile.write(currentDateTime + " ");
+            LocalDateTime now = LocalDateTime.now();
+            errorFile.write(dateTimeFormatter.format(now) + " ");
             errorFile.write(errorMessage + "\n");
             errorFile.close();
         }
         catch (IOException e){
-            System.out.println("An error occurred.");
+            // an error when trying to log an error. Is that irony?
+            System.out.println("An error occurred when trying to log an error.");
             e.printStackTrace();
         }
     }

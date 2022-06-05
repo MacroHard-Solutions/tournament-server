@@ -22,7 +22,7 @@ public class GameServer {
             socket1 = new Socket();
             SocketAddress socketAddress = new InetSocketAddress(agent1.ipAddress, agent1.port);
             // 30 000 milliseconds = 30 seconds
-            socket1.connect(socketAddress, 30*1000);
+            socket1.connect(socketAddress, 30 * 1000);
             in1 = new DataInputStream(new BufferedInputStream(socket1.getInputStream()));
             out1 = new DataOutputStream(socket1.getOutputStream());
             System.out.println("Agent 1 has joined...");
@@ -41,7 +41,7 @@ public class GameServer {
             socket2 = new Socket();
             SocketAddress socketAddress = new InetSocketAddress(agent2.ipAddress, agent2.port);
             // 30 000 milliseconds = 30 seconds
-            socket2.connect(socketAddress, 30*1000);
+            socket2.connect(socketAddress, 30 * 1000);
             in2 = new DataInputStream(new BufferedInputStream(socket2.getInputStream()));
             out2 = new DataOutputStream(socket2.getOutputStream());
             System.out.println("Agent 2 has joined...");
