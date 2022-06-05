@@ -10,7 +10,6 @@ The following is a brief outline of the functions of the back-end server:
 
 ## CircleCI Badge
 [![CircleCI](https://circleci.com/gh/MacroHard-Solutions/tournament-server.svg?style=svg&circle-token=689cedba0802f91837c71ca9770d92f0f10b15bf)](https://app.circleci.com/pipelines/github/MacroHard-Solutions/tournament-server)
-
 ## Code-Cov Badge
 [![codecov](https://codecov.io/gh/MacroHard-Solutions/tournament-server/branch/code-cov/graph/badge.svg?token=X67KO80SL5)](https://codecov.io/gh/MacroHard-Solutions/tournament-server)
 
