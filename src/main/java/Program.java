@@ -1,6 +1,5 @@
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +11,7 @@ public class Program {
 
     public static void main(String[] args) throws Exception {
         // Backlogging value set to 100 meaning the server can queue up to 100 requests 8001
-        HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", 8001), 100);
+        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8001), 100);
 
         // up to 10 threads, each new request is handled on a new thread so if there is a crash on a thread the server should remain up
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);

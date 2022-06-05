@@ -19,7 +19,7 @@ public class MiscellaneousTest {
 
     @Test
     public void getCurrentDateTime() {
-        DateTimeFormatter testDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        DateTimeFormatter testDate = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String testDateOutput = testDate.format(now);
         assertEquals(Miscellaneous.getCurrentDateTime(), testDateOutput);
