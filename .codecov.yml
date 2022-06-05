@@ -1,5 +1,32 @@
 codecov:
   require_ci_to_pass: true
 
-ignore:
-  - "src/main/java/"
+comment:
+  behavior: default
+  layout: reach,diff,flags,files,footer
+  require_changes: false
+  show_carryforward_flags: false
+
+coverage:
+  precision: 2
+  range:
+    - 70.0
+    - 100.0
+  round: down
+  status:
+    changes: false
+    default_rules:
+      flag_coverage_not_uploaded_behavior: include
+    patch: true
+    project: true
+
+github_checks:
+  annotations: true
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: true
+      loop: true
+      macro: false
+      method: false
