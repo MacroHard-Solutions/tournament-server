@@ -47,6 +47,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        *.java
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
