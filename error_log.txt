@@ -63,3 +63,17 @@
 05/06/2022 20:51:39 null
 05/06/2022 20:51:39 Error when parsing input stream to JSON object
 05/06/2022 20:51:39 null
+05/06/2022 23:56:38 Unable to load constructor of TTT.class
+05/06/2022 23:56:38 null
+05/06/2022 23:56:38 Match Log ID 0592c0d6-da0f-11ec-8a34-0ea680fee648 not recognised
+05/06/2022 23:56:38 Incorrect input format
+05/06/2022 23:57:14 Error when handling a GET request request
+05/06/2022 23:57:14 images/game0/0.jpg
+05/06/2022 23:57:18 Unable to load constructor of TTT.class
+05/06/2022 23:57:18 null
+05/06/2022 23:57:18 Error when parsing input stream to JSON object
+05/06/2022 23:57:18 null
+05/06/2022 23:57:18 Unable to load constructor of TTT.class
+05/06/2022 23:57:18 null
+05/06/2022 23:57:18 Match Log ID 0592c0d6-da0f-11ec-8a34-0ea680fee648 not recognised
+05/06/2022 23:57:18 Incorrect input format
