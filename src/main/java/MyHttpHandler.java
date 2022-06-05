@@ -4,7 +4,6 @@ import com.sun.net.httpserver.HttpHandler;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -18,16 +17,9 @@ public class MyHttpHandler implements HttpHandler {
     private int renderNumber = 0;
     private int liveMatchNumber = 0;
     private String[] liveMatchIDs = new String[]{"", "", "", "", "", "", "", "", "", ""};
-    private final String unrecognisedGameError = "Game name is not recognised. Unable to process render request";
-    private final String renderRequestError = "Unable to process render request";
-    private final String matchRequestError = "Unable to start match";
-    private final String matchSetupError = "Unable to set up match between agents";
-    private final String unrecognisedMatchLogID = "Match Log ID is not recognised. Unable to process Poll request";
-    private final String offlineAgentError = "Server could not reach agent. Unable to start match";
-    private final String agentDoesNotExist = "Agent data could not be retrieved. Either the agent does not exist or the database server is down";
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void handle(HttpExchange exchange) {
         if ("GET".equals(exchange.getRequestMethod())){
             handleGETRequest(exchange);
         }
@@ -47,14 +39,21 @@ public class MyHttpHandler implements HttpHandler {
         }
     }
 
-    private void handleOPTIONSRequest(HttpExchange httpExchange) throws IOException {
-        setHttpExchangeResponseHeaders(httpExchange);
-        httpExchange.sendResponseHeaders(204, -1); // -1 means no content-body is being sent
-        OutputStream outputStream = httpExchange.getResponseBody();
-        outputStream.close();
+    private void handleOPTIONSRequest(HttpExchange httpExchange) {
+        try {
+            setHttpExchangeResponseHeaders(httpExchange);
+            httpExchange.sendResponseHeaders(204, -1); // -1 means no content-body is being sent
+            OutputStream outputStream = httpExchange.getResponseBody();
+            outputStream.close();
+        }
+        catch (Exception e) {
+            Miscellaneous.logError("Error when handling an OPTIONS request");
+            Miscellaneous.logError(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    private void handleGETRequest(HttpExchange httpExchange) throws IOException {
+    private void handleGETRequest(HttpExchange httpExchange) {
         URI requestURI = httpExchange.getRequestURI();
         String uri = requestURI.toString();
         // remove "/game-server/" from uri
@@ -68,43 +67,57 @@ public class MyHttpHandler implements HttpHandler {
         responseHeaders.put("Content-Type", contentType);
         setHttpExchangeResponseHeaders(httpExchange);
 
-        File image = new File(uri);
-        httpExchange.sendResponseHeaders(200, image.length());
-        OutputStream outputStream = httpExchange.getResponseBody();
+        try {
+            File image = new File(uri);
+            httpExchange.sendResponseHeaders(200, image.length());
+            OutputStream outputStream = httpExchange.getResponseBody();
 
-        Files.copy(image.toPath(), outputStream);
-        outputStream.close();
-    }
-
-    private void handlePOSTRequest(HttpExchange httpExchange) throws Exception {
-        InputStream inputStream = httpExchange.getRequestBody();
-
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-
-        // this is how Kian wants his requests to be
-        JSONObject data = (JSONObject) jsonObject.get("data");
-        String type = (String) data.get("type");
-
-        setHttpExchangeResponseHeaders(httpExchange);
-        if (type.equals("render")){
-            handleRenderRequest(httpExchange, data);
+            Files.copy(image.toPath(), outputStream);
+            outputStream.close();
         }
-        else if (type.equals("match")){
-            handleLiveMatchRequest(httpExchange, data);
-        }
-        else if (type.equals("poll")){
-            handlePollRequest(httpExchange, data);
+        catch (IOException e) {
+            Miscellaneous.logError("Error when handling a GET request request");
+            Miscellaneous.logError(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    private void handleRenderRequest(HttpExchange httpExchange, JSONObject jsonObject) throws IOException, ParseException {
+    private void handlePOSTRequest(HttpExchange httpExchange) {
+        try {
+            InputStream inputStream = httpExchange.getRequestBody();
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+
+            // this is how Kian wants his requests to be
+            JSONObject data = (JSONObject) jsonObject.get("data");
+            String type = (String) data.get("type");
+
+            setHttpExchangeResponseHeaders(httpExchange);
+            if (type.equals("render")){
+                handleRenderRequest(httpExchange, data);
+            }
+            else if (type.equals("match")){
+                handleLiveMatchRequest(httpExchange, data);
+            }
+            else if (type.equals("poll")){
+                handlePollRequest(httpExchange, data);
+            }
+        }
+        catch (Exception e) {
+            Miscellaneous.logError("Error when parsing input stream to JSON object");
+            Miscellaneous.logError(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void handleRenderRequest(HttpExchange httpExchange, JSONObject jsonObject) {
         String gameName = (String) jsonObject.get("game");
         String fileName = Miscellaneous.getGameFileName(gameName);
 
         if (fileName == null) {
             Miscellaneous.logError("Unable to recognise the game by the name of \"" + gameName + "\"");
-            handleRequestError(httpExchange, unrecognisedGameError);
+            handleRequestError(httpExchange, "Game name is not recognised. Unable to process render request");
             return;
         }
 
@@ -118,8 +131,8 @@ public class MyHttpHandler implements HttpHandler {
 
         // clear folder of previous game images
         File[] files = folder.listFiles();
-        if(files != null) {  // some JVMs return null for empty dirs
-            for(File f: files) {
+        if (files != null) {  // some JVMs return null for empty dirs
+            for (File f: files) {
                 if (!f.delete())
                     Miscellaneous.logError("Could not delete file " + f.getName());
             }
@@ -135,7 +148,7 @@ public class MyHttpHandler implements HttpHandler {
         catch (Exception e) {
             Miscellaneous.logError("Unable to load constructor of " + fileName + ".class");
             Miscellaneous.logError(e.getMessage());
-            handleRequestError(httpExchange, renderRequestError);
+            handleRequestError(httpExchange, "Unable to process render request");
             return;
         }
 
@@ -151,7 +164,7 @@ public class MyHttpHandler implements HttpHandler {
         catch (Exception e) {
             Miscellaneous.logError("Unable to construct instance of " + fileName + ".class");
             Miscellaneous.logError(e.getMessage());
-            handleRequestError(httpExchange, renderRequestError);
+            handleRequestError(httpExchange, "Unable to process render request");
             return;
         }
 
@@ -183,16 +196,23 @@ public class MyHttpHandler implements HttpHandler {
 
         renderNumber = (renderNumber + 1) % 100;
 
-        String jsonResponse = asJsonArray(imageLocations, false);
-        // this line is a must
-        httpExchange.sendResponseHeaders(200, jsonResponse.length());
+        try {
+            String jsonResponse = asJsonArray(imageLocations, false);
+            // this line is a must
+            httpExchange.sendResponseHeaders(200, jsonResponse.length());
 
-        OutputStream outputStream = httpExchange.getResponseBody();
-        outputStream.write(jsonResponse.getBytes(StandardCharsets.UTF_8));
-        outputStream.close();
+            OutputStream outputStream = httpExchange.getResponseBody();
+            outputStream.write(jsonResponse.getBytes(StandardCharsets.UTF_8));
+            outputStream.close();
+        }
+        catch (Exception e) {
+            Miscellaneous.logError("Error when sending response to Render request");
+            Miscellaneous.logError(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    private void handleLiveMatchRequest(HttpExchange httpExchange, JSONObject jsonObject) throws Exception {
+    private void handleLiveMatchRequest(HttpExchange httpExchange, JSONObject jsonObject) {
         String gameName = (String) jsonObject.get("game");
         String tournamentID = (String) jsonObject.get("tournamentID");
         JSONArray agentIDs = (JSONArray) jsonObject.get("agentIDs");
@@ -204,38 +224,45 @@ public class MyHttpHandler implements HttpHandler {
 
         // won't log error here because it would be done inside the Match class
         if (match.failed == -1) {
-            handleRequestError(httpExchange, unrecognisedGameError);
+            handleRequestError(httpExchange, "Game name is not recognised. Unable to process Live Match request");
             return;
         }
         else if (match.failed == 0) {
-            handleRequestError(httpExchange, agentDoesNotExist);
+            handleRequestError(httpExchange, "Agent data could not be retrieved. Either the agent does not exist or the database server is down");
             return;
         }
 
         int setUpStatus = match.setUpMatch();
 
         if (setUpStatus == 0) {
-            handleRequestError(httpExchange, matchSetupError);
+            handleRequestError(httpExchange, "Unable to set up match between agents");
             return;
         }
         else if (setUpStatus == -1){
-            handleRequestError(httpExchange, offlineAgentError);
+            handleRequestError(httpExchange, "Server could not reach agent. Unable to start match");
             return;
         }
 
         // record new live match in database with live status
-        String matchLogID = DatabaseHelper.recordLiveMatch(tournamentID);
-        if (matchLogID.equals("")){
-            handleRequestError(httpExchange, matchRequestError);
+        String matchLogID = DatabaseHelper.recordLiveMatch(tournamentID, agent1ID, agent2ID);
+        if (matchLogID == null){
+            handleRequestError(httpExchange, "Unable to start match");
             return;
         }
 
-        // respond with match log ID so front end knows the match has begun
-        httpExchange.sendResponseHeaders(200, matchLogID.length());
+        try {
+            // respond with match log ID so front end knows the match has begun
+            httpExchange.sendResponseHeaders(200, matchLogID.length());
 
-        OutputStream outputStream = httpExchange.getResponseBody();
-        outputStream.write(matchLogID.getBytes(StandardCharsets.UTF_8));
-        outputStream.close();
+            OutputStream outputStream = httpExchange.getResponseBody();
+            outputStream.write(matchLogID.getBytes(StandardCharsets.UTF_8));
+            outputStream.close();
+        }
+        catch (IOException e) {
+            Miscellaneous.logError("Error when sending response to Live Match request");
+            Miscellaneous.logError(e.getMessage());
+            e.printStackTrace();
+        }
 
         // TODO if 10 games are running at once then the next one will override the first element. Need to handle this. Maybe have map of matchLogIDs and Match objets
         liveMatchIDs[liveMatchNumber] = matchLogID;
@@ -244,8 +271,8 @@ public class MyHttpHandler implements HttpHandler {
 
         // clear live match folder of previous match images
         File[] files = folder.listFiles();
-        if(files != null) {  // some JVMs return null for empty dirs
-            for(File f: files) {
+        if (files != null) {  // some JVMs return null for empty dirs
+            for (File f: files) {
                 if (!f.delete())
                     Miscellaneous.logError("Could not delete file " + f.getName());
             }
@@ -264,7 +291,7 @@ public class MyHttpHandler implements HttpHandler {
         liveMatchNumber = (liveMatchNumber + 1) % 10;
     }
 
-    private void handlePollRequest(HttpExchange httpExchange, JSONObject jsonObject) throws IOException {
+    private void handlePollRequest(HttpExchange httpExchange, JSONObject jsonObject) {
         String matchLogID = (String) jsonObject.get("matchLogID");
 
         // find directory which is being requested
@@ -279,6 +306,7 @@ public class MyHttpHandler implements HttpHandler {
         // matchLogID not recognised
         if (directoryIndex == -1){
             Miscellaneous.logError("Match Log ID " + matchLogID + " not recognised");
+            String unrecognisedMatchLogID = "Match Log ID is not recognised. Unable to process Poll request";
             handleRequestError(httpExchange, unrecognisedMatchLogID);
             return;
         }
@@ -298,13 +326,20 @@ public class MyHttpHandler implements HttpHandler {
             }
         }
 
-        String jsonResponse = asJsonArray(imageLocations, true);
-        // this line is a must
-        httpExchange.sendResponseHeaders(200, jsonResponse.length());
+        try {
+            String jsonResponse = asJsonArray(imageLocations, true);
+            // this line is a must
+            httpExchange.sendResponseHeaders(200, jsonResponse.length());
 
-        OutputStream outputStream = httpExchange.getResponseBody();
-        outputStream.write(jsonResponse.getBytes(StandardCharsets.UTF_8));
-        outputStream.close();
+            OutputStream outputStream = httpExchange.getResponseBody();
+            outputStream.write(jsonResponse.getBytes(StandardCharsets.UTF_8));
+            outputStream.close();
+        }
+        catch (IOException e) {
+            Miscellaneous.logError("Error when sending response to Poll request");
+            Miscellaneous.logError(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     // used to return the image locations as a json array in the http response
@@ -328,12 +363,19 @@ public class MyHttpHandler implements HttpHandler {
         return output.toString();
     }
 
-    public void handleRequestError(HttpExchange httpExchange, String errorMsg) throws IOException {
-        httpExchange.sendResponseHeaders(400, errorMsg.length());
+    public void handleRequestError(HttpExchange httpExchange, String errorMsg) {
+        try {
+            httpExchange.sendResponseHeaders(400, errorMsg.length());
 
-        OutputStream outputStream = httpExchange.getResponseBody();
-        outputStream.write(errorMsg.getBytes(StandardCharsets.UTF_8));
-        outputStream.close();
+            OutputStream outputStream = httpExchange.getResponseBody();
+            outputStream.write(errorMsg.getBytes(StandardCharsets.UTF_8));
+            outputStream.close();
+        }
+        catch (IOException e) {
+            Miscellaneous.logError("Error when handling a request error");
+            Miscellaneous.logError(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private static void setHttpExchangeResponseHeaders(HttpExchange httpExchange) {
