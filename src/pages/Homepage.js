@@ -21,8 +21,13 @@ function Homepage({ arbTourney, setArbtourney }) {
     //eslint-disable-next-line
     const [response, error, loading, refetch] = useAxios({
         axiosInstance: axios,
-        method: 'GET',
-        url: '/tournament'
+        method: 'POST',
+        url: '/tournament',
+        requestConfig: {
+            data: {
+                isOpen: true,
+            }
+        }
     });
 
     //useEffect to detect a response from the server
