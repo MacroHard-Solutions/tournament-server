@@ -247,6 +247,7 @@ function Watch() {
             setCurrimage(currplayImage);
         }
     }, [playing])
+    
 
     return (
         <div className="watch">
@@ -296,7 +297,11 @@ function Watch() {
             <div className='leaderboardandButtons'>
                 <div className='Leaderboard'>
                     <h2>Leaderboard</h2>
-                    <Leaderboard />
+                    <div className='ldbheader'>
+                        <h3><b>Username</b></h3>
+                        <h3><b>ELO</b></h3>
+                    </div>
+                    <Leaderboard tournamentID={tournamentID} />
                 </div>
                 <div className='pgc'>
                     <button className='watchbtns' onClick={forceUpdate}>Play</button>

@@ -70,12 +70,19 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
     width: 25vw;
-    height: 70vh;
+    height: 68vh;
     background: white;
     padding: 1.25em;
     display: flex;
     flex-flow: column;
     text-align: center;
+    overflow-y: scroll;
+}
+
+.ldbheader{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 0.5px solid black;
 }
 
 .pgc {

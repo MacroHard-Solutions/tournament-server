@@ -1,0 +1,10 @@
+.entry{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 0.5px solid black;
+}
+
+.entry:hover{
+    cursor: pointer;
+    background-color: firebrick;
+}
