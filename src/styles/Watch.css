@@ -101,12 +101,13 @@
 
 .watchbtns {
     padding: 1em 3em;
+    margin: 1em 2em;
     width: 8em;
 }
 
 .plbckbtns {
     height: fit-content;
-    margin: 5em 0;
+    margin: 2em 0;
     display: flex;
     justify-content: space-evenly;
 }

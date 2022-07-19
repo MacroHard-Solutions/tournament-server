@@ -8,9 +8,9 @@
 
 .filterBox {
     text-align: center;
-    min-height: 30vh;
+    min-height: 50vh;
     min-width: 25vw;
-    max-height: 40vh;
+    max-height: 65vh;
     max-width: 30vw;
     border: 0.3em solid rgb(0, 123, 195);
     padding: 1em;
@@ -25,7 +25,7 @@
 }
 
 .gamesBox {
-    height: 75vh;
+    height: 78vh;
     width: 85vw;
     text-align: center;
     border: 0.3em solid rgb(0, 123, 195);
