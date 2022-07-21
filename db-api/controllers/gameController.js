@@ -26,7 +26,9 @@ exports.getAllGames = async (req, res) => {
 
 exports.addNewGame = async (req, res) => {
   const clientInput = req.body.data;
-  const INSERT_GAME = `CALL insert_game("${clientInput.gameName}", "${clientInput.fileName}");`;
+  const INSERT_GAME = `CALL insert_game("${clientInput.gameName}", "${
+    clientInput.fileName
+  }", ${clientInput.isSync ? 1 : 0})`;
 
   await db
     .execute(INSERT_GAME)
@@ -39,7 +41,12 @@ exports.addNewGame = async (req, res) => {
       );
     })
     .catch((err) => {
-      responseHandler.returnError(res, 502, err, 'Unable to insert and/or retire the game');
+      responseHandler.returnError(
+        res,
+        502,
+        err,
+        'Unable to insert and/or retire the game'
+      );
     });
 };
 

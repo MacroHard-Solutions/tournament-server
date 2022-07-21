@@ -723,10 +723,13 @@ paths:
                   properties:
                     gameName:
                       type: string
-                      example: 0fbe7dd3-20b4-400a-ad28-53d86dd36cd2
+                      example: Rock Paper Scissors
                     fileName:
                       type: string
-                      example: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
+                      example: RPS.cpp
+                    isSync:
+                      type: boolean
+                      example: true
                 signal:
                   type: object
       responses:
@@ -1361,10 +1364,12 @@ component:
       GAME_ID: 886edf86-c6f5-11ec-a02e-0ab3cd6d5505
       GAME_NAME: Tic-Tac-Toe
       FILE_NAME: TTT.java
+      GAME_SYNCHRONOUS: 0
     -
       GAME_ID: b772386d-c6f5-11ec-a02e-0ab3cd6d5505
       GAME_NAME: Rock-Paper-Scissors-Lizard-Spock
       FILE_NAME: RPSLS.java
+      GAME_SYNCHRONOUS: 1
   tournamentTemplate:
     -
       TOURNAMENT_ID: e9e26b2a-c6f5-11ec-a02e-0ab3cd6d5505
