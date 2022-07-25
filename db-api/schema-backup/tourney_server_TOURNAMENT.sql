@@ -24,6 +24,27 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
 
 --
+-- Table structure for table `TOURNAMENT`
+--
+
+DROP TABLE IF EXISTS `TOURNAMENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TOURNAMENT` (
+  `TOURNAMENT_ID` varchar(45) NOT NULL COMMENT 'The UUID of the tournament',
+  `TOURNAMENT_NAME` varchar(100) NOT NULL,
+  `GAME_ID` varchar(45) NOT NULL COMMENT 'The UUID of the game this tournament falls under',
+  `TOURNAMENT_DP` varchar(100) NOT NULL DEFAULT 'https://i.imgur.com/1RiwbPp.png',
+  `TOURNAMENT_IS_OPEN` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`TOURNAMENT_ID`),
+  UNIQUE KEY `TOURNAMENT_ID_UNIQUE` (`TOURNAMENT_ID`),
+  UNIQUE KEY `TOURNAMENT_NAME_UNIQUE` (`TOURNAMENT_NAME`),
+  KEY `GAME_ID_idx` (`GAME_ID`),
+  CONSTRAINT `GAME_ID_TOURNAMENT` FOREIGN KEY (`GAME_ID`) REFERENCES `GAME` (`GAME_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `TOURNAMENT`
 --
 
@@ -43,4 +64,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-06 11:32:01
+-- Dump completed on 2022-07-25 22:43:56

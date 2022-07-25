@@ -24,6 +24,24 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
 
 --
+-- Table structure for table `AGENT_ARCHIVE`
+--
+
+DROP TABLE IF EXISTS `AGENT_ARCHIVE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `AGENT_ARCHIVE` (
+  `AGENT_ID` varchar(45) NOT NULL COMMENT 'UUID of the player''s agent',
+  `AGENT_NAME` varchar(100) NOT NULL,
+  `USER_ID` varchar(45) NOT NULL COMMENT 'The player''s UUID',
+  PRIMARY KEY (`AGENT_ID`),
+  UNIQUE KEY `AGENT_ID_UNIQUE` (`AGENT_ID`),
+  KEY `USER_ID_idx` (`USER_ID`),
+  CONSTRAINT `USER_ID_USER` FOREIGN KEY (`USER_ID`) REFERENCES `USER` (`USER_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `AGENT_ARCHIVE`
 --
 
@@ -43,4 +61,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-06 11:31:48
+-- Dump completed on 2022-07-25 22:44:11

@@ -24,12 +24,31 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
 
 --
+-- Table structure for table `GAME`
+--
+
+DROP TABLE IF EXISTS `GAME`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `GAME` (
+  `GAME_ID` varchar(45) NOT NULL COMMENT 'The UUID of the game',
+  `GAME_NAME` varchar(100) NOT NULL,
+  `FILE_NAME` varchar(100) NOT NULL COMMENT 'Location of the game file to be processed, stored in the games directory',
+  `GAME_SYNCHRONUS` tinyint(1) NOT NULL COMMENT 'Whether turns are synchronus',
+  PRIMARY KEY (`GAME_ID`),
+  UNIQUE KEY `GAME_ID_UNIQUE` (`GAME_ID`),
+  UNIQUE KEY `GAME_NAME_UNIQUE` (`GAME_NAME`),
+  UNIQUE KEY `FILE_NAME_UNIQUE` (`FILE_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `GAME`
 --
 
 LOCK TABLES `GAME` WRITE;
 /*!40000 ALTER TABLE `GAME` DISABLE KEYS */;
-INSERT INTO `GAME` VALUES ('886edf86-c6f5-11ec-a02e-0ab3cd6d5505','Tic-Tac-Toe','TTT.java'),('b772386d-c6f5-11ec-a02e-0ab3cd6d5505','Rock-Paper-Scissors-Lizard-Spock','RPSLS.java'),('c81a407b-d88c-11ec-8a34-0ea680fee648','quisquam-sunt-non','http://margarett.com');
+INSERT INTO `GAME` VALUES ('886edf86-c6f5-11ec-a02e-0ab3cd6d5505','Tic-Tac-Toe','TTT.class',0),('b772386d-c6f5-11ec-a02e-0ab3cd6d5505','Rock-Paper-Scissors-Lizard-Spock','RPSLS.class',1);
 /*!40000 ALTER TABLE `GAME` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
@@ -43,4 +62,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-06 11:32:03
+-- Dump completed on 2022-07-25 22:43:59

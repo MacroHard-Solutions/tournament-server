@@ -24,6 +24,30 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
 
 --
+-- Table structure for table `USER`
+--
+
+DROP TABLE IF EXISTS `USER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `USER` (
+  `USER_ID` varchar(128) NOT NULL COMMENT 'The user''s unique UUID generated each time a new user is registered',
+  `USER_FNAME` varchar(45) NOT NULL,
+  `USER_LNAME` varchar(45) NOT NULL,
+  `USERNAME` varchar(45) NOT NULL COMMENT 'The user''s username',
+  `USER_EMAIL` varchar(45) NOT NULL,
+  `USER_PASSWD` varchar(256) NOT NULL COMMENT 'The user''s password, stored as an SHA-256 hash',
+  `USER_IS_ADMIN` tinyint NOT NULL DEFAULT '0' COMMENT 'Whether the user is a player or administrator',
+  `USER_NOTIFICATIONS` tinyint NOT NULL DEFAULT '0' COMMENT 'Whether the user would like to recieve notifications',
+  `USER_DP` varchar(100) NOT NULL DEFAULT 'https://i.imgur.com/CjnIMqJ.png' COMMENT 'User''s display picture URL',
+  `USER_DESCRIPTION` varchar(100) NOT NULL DEFAULT 'I am a user',
+  PRIMARY KEY (`USER_ID`),
+  UNIQUE KEY `USER_ID_UNIQUE` (`USER_ID`),
+  UNIQUE KEY `USERNAME_UNIQUE` (`USERNAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `USER`
 --
 
@@ -43,4 +67,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-06 11:32:02
+-- Dump completed on 2022-07-25 22:44:13

@@ -24,6 +24,24 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
 
 --
+-- Table structure for table `RANKING_ARCHIVE`
+--
+
+DROP TABLE IF EXISTS `RANKING_ARCHIVE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `RANKING_ARCHIVE` (
+  `MATCH_LOG_ID` varchar(45) NOT NULL COMMENT 'The UUID of the game played',
+  `AGENT_ID` varchar(45) NOT NULL COMMENT 'The UUID of the player''s agent',
+  `RANKING` int NOT NULL DEFAULT '-1' COMMENT 'The agent''s ranking in a match.\\\\\\\\\\\\\\\\n0 indicates an undefined ranking',
+  PRIMARY KEY (`MATCH_LOG_ID`,`AGENT_ID`),
+  KEY `AGENT_ID_idx` (`AGENT_ID`),
+  CONSTRAINT `AGENT_ID_ARCH` FOREIGN KEY (`AGENT_ID`) REFERENCES `AGENT_ARCHIVE` (`AGENT_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `MATCH_LOG_ID_RANKING_ARCH` FOREIGN KEY (`MATCH_LOG_ID`) REFERENCES `MATCH_LOG` (`MATCH_LOG_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `RANKING_ARCHIVE`
 --
 
@@ -43,4 +61,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-06 11:32:00
+-- Dump completed on 2022-07-25 22:44:03
