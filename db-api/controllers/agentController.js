@@ -242,7 +242,7 @@ exports.deleteAgent = async (req, res) => {
       responseHandler.returnSuccess(
         res,
         200,
-        `Agent has been removed with ${rows[0][0].count} matches archived`,
+        `${rows[0][0]['deleteCount']} agent(s) have been removed and any past matches archived`,
         null
       )
     )

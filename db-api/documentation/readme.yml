@@ -402,7 +402,7 @@ paths:
     post:
       description: |
         - Retrieves either the given user's agents from the database given by the userID field
-        - Or retrieves a specific agent from the database with its associated tournaments given by the agentID field
+        - Or retrieves a specific agent from the database with the tournament it is currently associated with
         - `Do not enter both fields choose one`
       operationId: 'post-https:--tournament-server.herokuapp.com-api-v2-agent'
       requestBody:
@@ -526,7 +526,7 @@ paths:
                     example: success
                   message:
                     type: string
-                    example: 1 agent(s) have been removed successfully
+                    example: 1 agent(s) have been removed and any past matches archived
                   resultData:
                     type: string
                     example:
