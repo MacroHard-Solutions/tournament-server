@@ -106,7 +106,6 @@ exports.bindAgentTournament = async (req, res) => {
 
 exports.getAgents = async (req, res) => {
   const clientInput = req.body.data;
-  let successResult;
   let agentResult;
   let message;
   let tournamentsList;
@@ -114,26 +113,20 @@ exports.getAgents = async (req, res) => {
 
   try {
     if (clientInput.userID) {
-      successResult = await getUserAgents(clientInput.userID);
+      agentResult = await getUserAgents(clientInput.userID);
 
       message = `The user's agents have been successfully retrieved`;
     } else if (clientInput.agentID) {
       agentResult = await getSpecificAgent(clientInput.agentID);
 
-      if (agentResult) {
-        tournamentsList = await getAgentTournaments(clientInput.agentID);
-
-        successResult = {
-          agentData: agentResult,
-          involvedTournaments: tournamentsList,
-        };
-        message = 'The agent has been retrieved';
-      } else {
+      if (!agentResult) {
         message = 'No agent exists';
       }
+      ``
     } else {
       errorResult = new Error('Invalid request made. Please enter a valid ID');
       errorResult.code = 400;
+      throw errorResult;
     }
   } catch (err) {
     console.log(err);
@@ -145,7 +138,7 @@ exports.getAgents = async (req, res) => {
     );
   }
 
-  return responseHandler.returnSuccess(res, 200, message, successResult);
+  return responseHandler.returnSuccess(res, 200, message, agentResult);
 };
 
 exports.getAgentPair = async (req, res) => {
